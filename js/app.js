@@ -32,63 +32,46 @@ runopoly.MobileRouter = Backbone.Router.extend({
             return;
         }
         runopoly.mytrackView = new runopoly.views.Track({ template: runopoly.templateLoader.get('track') });
-        var slide = runopoly.slider.slidePage(runopoly.mytrackView.$el).done(function () {
-            runopoly.spinner.show();
-        });
-
-        var call1 = fbWrapper.batch(fb.fetches);
-
-        $.when(slide, call1)
-            .done(function (slideResp, callResp) {
-                runopoly.mytrackView.model = runopoly.getWelcomeMessage();
-                runopoly.mytrackView.render();
-            })
-            .fail(function () {
-                self.showErrorPage();
-            })
-            .always(function () {
-                runopoly.spinner.hide();
-            });
-
+        runopoly.slider.slidePage(runopoly.mytrackView.$el)
     },
 
     history: function () {
-        console.log("Entered Categories");
         var self = this;
-        if (fb.myCategoriesView) {
-            fb.slider.slidePage(fb.myCategoriesView.$el);
-            return;
-        }
-        fb.myCategoriesView = new fb.views.Categories({ template: fb.templateLoader.get('categories') });
-        fb.slider.slidePage(fb.myCategoriesView.$el)
-        fb.myCategoriesView.model = fb.getCategories();
-        fb.myCategoriesView.render();
+        var myHistoryView = new runopoly.views.History({ template: runopoly.templateLoader.get('history') });
+        runopoly.slider.slidePage(myHistoryView.$el)
+        myHistoryView.model = runopoly.getHistory();
+        myHistoryView.render();
     },
 
     tracked: function (id) {
         var self = this;
-        var view = new fb.views.Category({ template: fb.templateLoader.get('category') });
-        fb.slider.slidePage(view.$el);
-        view.model = fb.getLikes(id);
+        var view = new runopoly.views.Tracked({ template: runopoly.templateLoader.get('tracked') });
+        runopoly.slider.slidePage(view.$el);
+        view.model = runopoly.getTrack(id);
         view.render();
     }
 });
 
-document.addEventListener("deviceready", function () {
 
-    runopoly.templateLoader.load(['home', 'network', 'track', 'history', 'tracked'], function () {
-        runopoly.router = new fb.MobileRouter();
+document.addEventListener("deviceready", onDeviceReady, false);
+
+$(document).on('ready', function () {
+
+    runopoly.templateLoader.load(['home', 'track', 'history', 'tracked'], function () {
+        runopoly.router = new runopoly.MobileRouter();
         Backbone.history.start();
+        runopoly.router.navigate("", { trigger: true });
     });
-
+/*
     if (navigator.network.connection.type == Connection.NONE) {
         runopoly.slider.removeCurrentPage();
         runopoly.router.navigate("network", { trigger: true });
     }
 
     else {
-        runopoly.router.navigate("", { trigger: true });
-    }
+*/
+    
+    /*}*/
 });
 
 $(document).on('click', '.button.back', function() {
@@ -96,3 +79,13 @@ $(document).on('click', '.button.back', function() {
     return false;
 });
 
+function onDeviceReady() {
+    document.addEventListener("pause", onPause, false);
+    document.addEventListener("resume", onResume, false);
+}
+
+function onPause() {
+}
+
+function onResume() {
+}

@@ -1,0 +1,26 @@
+<header class="bar-title">
+    <a class="button-prev" href="#">
+        Back
+    </a>
+    <h1 class="title">History</h1>
+</header>
+
+<div class="content">
+
+{{#if .}}
+    <ul class="list">
+        {{#each .}}
+        <li style="clear: both">
+            <a href="#tracked/{{id}}">
+            <div>
+                <span class="item">{{id}}: Tracked <strong>{{traveled}}</strong> km in <strong>{{minutes}}m</strong> and <strong>{{seconds}}s</strong></span>
+            </div>                
+            </a>
+        </li>
+        {{/each}}
+    </ul>
+    {{else}}
+    <span class="empty">No tracked runs</span>
+    {{/if}}
+
+</div>

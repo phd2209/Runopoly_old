@@ -7,26 +7,45 @@ runopoly.views.Home = Backbone.View.extend({
     },
 
     render: function () {
-        this.$el.html(this.options.template());
+        this.$el.html(this.template());
         return this;
     }
 });
 
 runopoly.views.Track = Backbone.View.extend({
 
+    events: {
+        'click .button-positive': 'start',
+        'click .button-negative': 'stop',
+        'click .button': 'pause'
+    },
+
     initialize: function () {
+        var self = this;
+        this.template = runopoly.templateLoader.get('track');
         this.render();
     },
 
     render: function () {
-        this.$el.html(this.options.template(this.model));
+        this.$el.html(this.template());
         return this;
+    },
+    start: function () {
+        runopoly.startTracking();
+    },
+    stop: function () {
+        runopoly.stopTracking();
+    },
+    pause: function () {
+        runopoly.pauseTracking();
     }
 });
+
 
 runopoly.views.History = Backbone.View.extend({
 
-    initialize: function () {
+    initialize: function (options) {
+        this.options = options || {};
         this.render();
     },
 
@@ -34,18 +53,18 @@ runopoly.views.History = Backbone.View.extend({
         this.$el.html(this.options.template(this.model));
         return this;
     }
-
 });
-
 
 runopoly.views.Tracked = Backbone.View.extend({
 
     initialize: function () {
+        var self = this;
+        this.template = runopoly.templateLoader.get('tracked');
         this.render();
     },
 
     render: function () {
-        this.$el.html(this.options.template(this.model));
+        this.$el.html(this.template(this.model));
         return this;
     }
 
