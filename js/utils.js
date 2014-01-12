@@ -32,37 +32,42 @@ var MobileApp = function() {
     
     this.startTracking = function () {
         console.log("Started tracking");
-        var watch = new StopWatch();
-        watch.start();
-        // Start tracking the User
+        var total_km = 0;
         this.watch_id = navigator.geolocation.watchPosition(
-    
             // Success
-            function(position){
+            function (position) {
                 this.tracking_data.push(position);
+
+                for (j = 0; j < this.tracking_data.length; j++) {
+
+                    if (j == (this.tracking_data.length - 1)) {
+                        break;
+                    }
+                    total_km += this.gps_distance(this.tracking_data[j].coords.latitude, this.tracking_data[j].coords.longitude, this.tracking_data[j + 1].coords.latitude, this.tracking_data[j + 1].coords.longitude);
+                }
+                total_km_rounded = total_km.toFixed(2);
+                $("#distance").hhtml(total_km_rounded);
             },
-        
+
             // Error
-            function(error){
+            function (error) {
                 console.log(error);
             },
-        
+
             // Settings
             { frequency: 3000, enableHighAccuracy: true });
+    }
     
         // Tidy up the UI
         this.track_id = new Date();    
-        $("#stopwatch").text(watch.output);
     };
     this.stopTracking = function () {
         console.log("Stopped tracking");
-        var watch = new StopWatch();
-        watch.stop();
         // Stop tracking the user
         navigator.geolocation.clearWatch(this.watch_id);
 
         // Save the tracking data
-        window.localStorage.setItem(this.track_id, JSON.stringify(this.tracking_data));
+        //window.localStorage.setItem(this.track_id, JSON.stringify(this.tracking_data));
 
         // Reset watch_id and tracking_data 
         this.watch_id = null;
@@ -71,8 +76,6 @@ var MobileApp = function() {
     };
     this.pauseTracking = function () {
         // Stop tracking the user
-        var watch = new StopWatch();
-        watch.stop();
         navigator.geolocation.clearWatch(this.watch_id);
 
         // Tidy up the UI
@@ -168,34 +171,3 @@ var MobileApp = function() {
 
      this.initialize();
 }
-
-function StopWatch() {
-    var started = false,
-    time = [[0], [0, 0], [0, 0], [0, 0]];
-
-    this.run = function () {
-        var output,
-            h = time[0],
-            m = time[1],
-            s = time[2],
-            ms = time[3];
-        if (started) {
-            ms[1]++;
-            if (ms[1] > 9) { ms[1] = 0; ms[0]++; }
-            if (ms[0] > 9) { ms[0] = 0; s[1]++; }
-            if (s[1] > 9) { s[1] = 0; s[0]++; }
-            if (s[0] > 5) { s[0] = 0; m[1]++; }
-            if (m[1] > 9) { m[1] = 0; m[0]++; }
-            if (m[0] > 5) { m[0] = 0; h[0]++; }
-            if (h[0] > 23) { ms = [0, 0]; s = [0, 0]; m = [0, 0]; h[0] = 0; }
-        }
-        output = h[0] + ':' + m[0] + m[1] + ':' + s[0] + s[1] + '.' + ms[0] + ms[1];
-        
-    };
-    this.start = function () {
-        started = true;
-    };
-    this.stop = function () {
-        started = false;
-    };
-};
