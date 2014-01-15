@@ -2,6 +2,7 @@ window.addEventListener('load', function () {
     new FastClick(document.body);
 }, false);
 
+var tracking_data = [];
 var runopoly = new MobileApp();
 runopoly.his;
 runopoly.spinner = $("#spinner");
@@ -56,12 +57,13 @@ runopoly.MobileRouter = Backbone.Router.extend({
 document.addEventListener("deviceready", onDeviceReady, false);
 
 $(document).on('ready', function () {
-
+    
     runopoly.templateLoader.load(['home', 'track', 'history', 'tracked'], function () {
         runopoly.router = new runopoly.MobileRouter();
         Backbone.history.start();
         runopoly.router.navigate("", { trigger: true });
     });
+    
 /*
     if (navigator.network.connection.type == Connection.NONE) {
         runopoly.slider.removeCurrentPage();

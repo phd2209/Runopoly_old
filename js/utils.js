@@ -3,7 +3,7 @@ var MobileApp = function() {
     this.initialize = function () {
         this.track_id = "";
         this.watch_id = null;
-        this.tracking_data = {};
+        this.tracking_data = [];
         this.views = {};
         this.templateLoader = new this.TemplateLoader();
     };
@@ -29,60 +29,7 @@ var MobileApp = function() {
             return this.templates[name];
         };
     };
-    
-    this.startTracking = function () {
-        console.log("Started tracking");
-        var total_km = 0;
-        this.watch_id = navigator.geolocation.watchPosition(
-            // Success
-            function (position) {
-                this.tracking_data.push(position);
 
-                for (j = 0; j < this.tracking_data.length; j++) {
-
-                    if (j == (this.tracking_data.length - 1)) {
-                        break;
-                    }
-                    total_km += this.gps_distance(this.tracking_data[j].coords.latitude, this.tracking_data[j].coords.longitude, this.tracking_data[j + 1].coords.latitude, this.tracking_data[j + 1].coords.longitude);
-                }
-                total_km_rounded = total_km.toFixed(2);
-                $("#distance").hhtml(total_km_rounded);
-            },
-
-            // Error
-            function (error) {
-                console.log(error);
-            },
-
-            // Settings
-            { frequency: 3000, enableHighAccuracy: true });
-    }
-    
-        // Tidy up the UI
-        this.track_id = new Date();    
-    };
-    this.stopTracking = function () {
-        console.log("Stopped tracking");
-        // Stop tracking the user
-        navigator.geolocation.clearWatch(this.watch_id);
-
-        // Save the tracking data
-        //window.localStorage.setItem(this.track_id, JSON.stringify(this.tracking_data));
-
-        // Reset watch_id and tracking_data 
-        this.watch_id = null;
-        this.track_id = null;
-        this.tracking_data = {};
-    };
-    this.pauseTracking = function () {
-        // Stop tracking the user
-        navigator.geolocation.clearWatch(this.watch_id);
-
-        // Tidy up the UI
-        //$("#track_id").val("").show();
-
-        //$("#startTracking_status").html("Stopped tracking workout: <strong>" + track_id + "</strong>");
-    };
 
     this.gps_distance = function (lat1, lon1, lat2, lon2) {
         // http://www.movable-type.co.uk/scripts/latlong.html
@@ -98,6 +45,84 @@ var MobileApp = function() {
         var d = R * c;
 
         return d;
+    };
+
+    this.startTracking = function () {
+        console.log("Started tracking");
+        window.localStorage.clear();
+        // Start tracking the User
+        var options = { maximumAge: 3000, timeout: 5000, enableHighAccuracy: true };
+        if (navigator.geolocation) this.watch_id = navigator.geolocation.watchPosition(this.onSuccess, this.onError, options);
+        console.log("started: " + this.watch_id);
+        this.track_id = new Date();
+    };
+
+    this.onSuccess = function (position) {
+        console.log(position.coords.latitude);
+        console.log(position.coords.longitude);
+        window.tracking_data.push(position);
+    };
+
+    this.onError = function(error) {
+        console.log(error.code);
+        console.log(error.message);
+    };
+    /*
+        this.watch_id = navigator.geolocation.watchPosition(
+            
+
+            function (position) {
+                console.log("Watchid: " + this.watch_id);
+                this.tracking_data.push(position);
+
+                //for (j = 0; j < this.tracking_data.length; j++) {
+                //
+                //    if (j == (this.tracking_data.length - 1)) {
+                //        break;
+                //    }
+                //    total_km += this.gps_distance(this.tracking_data[j].coords.latitude, this.tracking_data[j].coords.longitude, this.tracking_data[j + 1].coords.latitude, this.tracking_data[j + 1].coords.longitude);
+                //}
+                //total_km_rounded = total_km.toFixed(2);
+                //$("#distance").hhtml(total_km_rounded);
+            },
+
+            // Error
+            function (error) {
+                console.log(error);
+            },
+
+            // Settings
+            { frequency: 3000, enableHighAccuracy: true });
+
+        // Tidy up the UI
+        this.track_id = new Date();
+    };*/
+
+    this.stopTracking = function () {
+        console.log("Stopped tracking");
+        // Stop tracking the user
+        navigator.geolocation.clearWatch(this.watch_id);
+        console.log("Stopped: " + this.watch_id);
+
+        // Save the tracking data
+        window.localStorage.setItem(this.track_id, JSON.stringify(window.tracking_data));
+        console.log(window.tracking_data);
+
+
+        // Reset watch_id and tracking_data 
+        this.watch_id = null;
+        this.track_id = null;
+        window.tracking_data = [];
+    };
+
+    this.pauseTracking = function () {
+        // Stop tracking the user
+        navigator.geolocation.clearWatch(this.watch_id);
+
+        // Tidy up the UI
+        //$("#track_id").val("").show();
+
+        //$("#startTracking_status").html("Stopped tracking workout: <strong>" + track_id + "</strong>");
     };
 
     this.getHistory = function () {
@@ -122,8 +147,6 @@ var MobileApp = function() {
             console.log(data);
             // Calculate the total distance travelled
             total_km = 0;
-
-
             for (j = 0; j < data.length; j++) {
 
                 if (j == (data.length - 1)) {
