@@ -6,30 +6,39 @@
         version   = "1.0.0">
 
     <name>Runopoly</name>
-
     <description>
         Run to win territory in your neighborhood 
     </description>
+      
+  <!-- CONTENT -->
+    <content src="index.html" />
 
 	<!--   PHONEGAP PREFERENCES  -->
     <preference name="permissions" value="none"/>
     <preference name="phonegap-version" value="3.1.0" />
     <preference name="orientation" value="portrait" />
     <preference name="target-device" value="handset" />
-    <preference name="fullscreen" value="true" />
-    <preference name="webviewbounce" value="false" />
+    <preference name="Fullscreen" value="true" />
+    <preference name="WebViewBounce" value="true" />
     <preference name="load-url-timeout" value="50000" />
 
 
     <!--   PHONEGAP FEATURES    -->
-
-    <feature name="http://api.phonegap.com/1.0/file"/>
-    <feature name="http://api.phonegap.com/1.0/geolocation"/>           
-    <feature name="http://api.phonegap.com/1.0/network"/>
-    <feature name="http://api.phonegap.com/1.0/notification"/>
+  <feature name="Geolocation">
+      <param name="ios-package" value="CDVLocation" />
+  </feature>
+  <feature name="Notification">
+    <param name="ios-package" value="CDVNotification" />
+  </feature>
+  <feature name="File">
+    <param name="ios-package" value="CDVFile" />
+  </feature>
+  <feature name="FileTransfer">
+    <param name="ios-package" value="CDVFileTransfer" />
+  </feature>
 
     <!--   ACCESS     -->
-
-    <access origin="*" subdomains="true" />
+    
+    <access origin="*" />
 
 </widget>
