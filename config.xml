@@ -24,19 +24,10 @@
 
 
     <!--   PHONEGAP FEATURES    -->
-  <feature name="Geolocation">
-      <param name="ios-package" value="CDVLocation" />
-  </feature>
-  <feature name="Notification">
-    <param name="ios-package" value="CDVNotification" />
-  </feature>
-  <feature name="File">
-    <param name="ios-package" value="CDVFile" />
-  </feature>
-  <feature name="FileTransfer">
-    <param name="ios-package" value="CDVFileTransfer" />
-  </feature>
-
+  <gap:plugin name="org.apache.cordova.core.geolocation" />
+  <gap:plugin name="org.apache.cordova.core.notification" />
+  <gap:plugin name="org.apache.cordova.core.file" />
+  
     <!--   ACCESS     -->
     
     <access origin="*" />
