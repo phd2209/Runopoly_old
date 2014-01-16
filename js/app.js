@@ -53,10 +53,7 @@ runopoly.MobileRouter = Backbone.Router.extend({
     }
 });
 
-
-document.addEventListener("deviceready", onDeviceReady, false);
-
-$(document).on('ready', function () {
+$(document).on('deviceready', function () {
     
     runopoly.templateLoader.load(['home', 'track', 'history', 'tracked'], function () {
         runopoly.router = new runopoly.MobileRouter();
@@ -75,19 +72,21 @@ $(document).on('ready', function () {
     
     /*}*/
 });
+document.addEventListener('deviceready', function () {
+    if (navigator.notification) { // Override default HTML alert with native dialog
+        window.alert = function (message) {
+            navigator.notification.alert(
+                message,    // message
+                null,       // callback
+                "Workshop", // title
+                'OK'        // buttonName
+            );
+        };
+    }
+}, false);
 
 $(document).on('click', '.button.back', function() {
     window.history.back();
     return false;
 });
 
-function onDeviceReady() {
-    document.addEventListener("pause", onPause, false);
-    document.addEventListener("resume", onResume, false);
-}
-
-function onPause() {
-}
-
-function onResume() {
-}

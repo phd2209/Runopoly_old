@@ -48,31 +48,31 @@ var MobileApp = function() {
     };
 
     this.startTracking = function () {
-        console.log("Started tracking");
+        window.alert("Started tracking");
         window.localStorage.clear();
         // Start tracking the User
         var options = { maximumAge: 3000, timeout: 5000, enableHighAccuracy: true };
         if (navigator.geolocation) this.watch_id = navigator.geolocation.watchPosition(this.onSuccess, this.onError, options);
-        console.log("started: " + this.watch_id);
+        window.alert("started: " + this.watch_id);
         this.track_id = new Date();
     };
 
     this.onSuccess = function (position) {
-        console.log(position.coords.latitude);
-        console.log(position.coords.longitude);
+        window.alert(position.coords.latitude);
+        window.alert(position.coords.longitude);
         window.tracking_data.push(position);
     };
 
     this.onError = function(error) {
-        console.log(error.code);
-        console.log(error.message);
+        window.alert(error.code);
+        window.alert(error.message);
     };
     /*
         this.watch_id = navigator.geolocation.watchPosition(
             
 
             function (position) {
-                console.log("Watchid: " + this.watch_id);
+                window.alert("Watchid: " + this.watch_id);
                 this.tracking_data.push(position);
 
                 //for (j = 0; j < this.tracking_data.length; j++) {
@@ -88,7 +88,7 @@ var MobileApp = function() {
 
             // Error
             function (error) {
-                console.log(error);
+                window.alert(error);
             },
 
             // Settings
@@ -99,14 +99,14 @@ var MobileApp = function() {
     };*/
 
     this.stopTracking = function () {
-        console.log("Stopped tracking");
+        window.alert("Stopped tracking");
         // Stop tracking the user
         navigator.geolocation.clearWatch(this.watch_id);
-        console.log("Stopped: " + this.watch_id);
+        window.alert("Stopped: " + this.watch_id);
 
         // Save the tracking data
         window.localStorage.setItem(this.track_id, JSON.stringify(window.tracking_data));
-        console.log(window.tracking_data);
+        window.alert(window.tracking_data);
 
 
         // Reset watch_id and tracking_data 
@@ -130,21 +130,21 @@ var MobileApp = function() {
         
         // Count the number of entries in localStorage and display this information to the user
         tracks_recorded = window.localStorage.length;
-        console.log("tracked runs: " +tracks_recorded);
+        window.alert("tracked runs: " +tracks_recorded);
 
         // Iterate over all of the recorded tracks, populating the list
         for (i = 0; i < tracks_recorded; i++) {
-            console.log(tracks_recorded);
+            window.alert(tracks_recorded);
             var Item = new Object();
 
             var key = window.localStorage.key(i);
-            console.log("id: "+key);
+            window.alert("id: "+key);
             Item.id = key;
             var data = window.localStorage.getItem(key);
-            console.log(data);
+            window.alert(data);
             // Turn the stringified GPS data back into a JS object            
             data = JSON.parse(data);
-            console.log(data);
+            window.alert(data);
             // Calculate the total distance travelled
             total_km = 0;
             for (j = 0; j < data.length; j++) {
@@ -157,7 +157,7 @@ var MobileApp = function() {
             }
             total_km_rounded = total_km.toFixed(2);
             Item.traveled = total_km_rounded;
-            console.log("km; " + total_km_rounded);
+            window.alert("km; " + total_km_rounded);
 
             // Calculate the total time taken for the track
             if (data[0] != null)
