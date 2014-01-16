@@ -25,7 +25,7 @@
 
     <!--   PHONEGAP FEATURES    -->
   <gap:plugin name="org.apache.cordova.core.geolocation" />
-  <gap:plugin name="org.apache.cordova.core.notification" />
+  <gap:plugin name="org.apache.cordova.core.Notification" />
   <gap:plugin name="org.apache.cordova.core.file" />
   
     <!--   ACCESS     -->
