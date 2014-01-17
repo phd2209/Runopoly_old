@@ -1,34 +1,18 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-    <widget xmlns = "http://www.w3.org/ns/widgets"
-        xmlns:gap = "http://phonegap.com/ns/1.0"
-        id        = "com.devapss.runopoly"
-        versionCode = "10" 
-        version   = "1.0.0">
-
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.devapps.runopoly" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
     <name>Runopoly</name>
-    <description>
-        Run to win territory in your neighborhood 
-    </description>
-      
-  <!-- CONTENT -->
-    <content src="index.html" />
-
-	<!--   PHONEGAP PREFERENCES  -->
-    <preference name="permissions" value="none"/>
-    <preference name="phonegap-version" value="3.1.0" />
+    <description> Run to win territory in your neighborhood</description>
+    <content src="index.html"/>
+    <feature name="http://api.phonegap.com/1.0/device" />
+    <preference name="permissions" value="none" />
+    <preference value="3.1.0" name="phonegap-version"/>
     <preference name="orientation" value="portrait" />
     <preference name="target-device" value="handset" />
-    <preference name="Fullscreen" value="true" />
-    <preference name="WebViewBounce" value="true" />
-    <preference name="load-url-timeout" value="50000" />
-
-
-    <!--   PHONEGAP FEATURES    -->
-  <gap:plugin name="org.apache.cordova.core.geolocation" />
-  <gap:plugin name="org.apache.cordova.core.file" />
-  
-    <!--   ACCESS     -->
-    
+    <preference name="fullscreen" value="true" />
+    <preference name="webviewbounce" value="true" />
+    <preference name="ios-statusbarstyle" value="black-opaque" />
+    <preference name="detect-data-types" value="true" />
+    <preference name="exit-on-suspend" value="false" />
+    <preference value="50000" name="load-url-timeout"/>
     <access origin="*" />
-
 </widget>

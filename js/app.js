@@ -1,9 +1,6 @@
-window.addEventListener('load', function () {
-    new FastClick(document.body);
-}, false);
-
 var tracking_data = [];
 var runopoly = new MobileApp();
+
 runopoly.his;
 runopoly.spinner = $("#spinner");
 runopoly.spinner.hide();
@@ -54,7 +51,19 @@ runopoly.MobileRouter = Backbone.Router.extend({
 });
 
 $(document).on('deviceready', function () {
-    
+    FastClick.attach(document.body);
+
+    if (navigator.notification) { // Override default HTML alert with native dialog
+        window.alert = function (message) {
+            navigator.notification.alert(
+                message,    // message
+                null,       // callback
+                "Runopoly", // title
+                'OK'        // buttonName
+            );
+        };
+    };
+
     runopoly.templateLoader.load(['home', 'track', 'history', 'tracked'], function () {
         runopoly.router = new runopoly.MobileRouter();
         Backbone.history.start();
@@ -63,8 +72,6 @@ $(document).on('deviceready', function () {
     
 /*
     if (navigator.network.connection.type == Connection.NONE) {
-        runopoly.slider.removeCurrentPage();
-        runopoly.router.navigate("network", { trigger: true });
     }
 
     else {
@@ -72,18 +79,6 @@ $(document).on('deviceready', function () {
     
     /*}*/
 });
-document.addEventListener('deviceready', function () {
-    if (navigator.notification) { // Override default HTML alert with native dialog
-        window.alert = function (message) {
-            navigator.notification.alert(
-                message,    // message
-                null,       // callback
-                "Workshop", // title
-                'OK'        // buttonName
-            );
-        };
-    }
-}, false);
 
 $(document).on('click', '.button.back', function() {
     window.history.back();
