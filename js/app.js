@@ -50,8 +50,14 @@ runopoly.MobileRouter = Backbone.Router.extend({
     }
 });
 
-$(document).on('deviceready', function () {
-    FastClick.attach(document.body);
+$(document).on('ready', function () {
+    if (FastClick) FastClick.attach(document.body);
+
+    runopoly.templateLoader.load(['home', 'track', 'history', 'tracked'], function () {
+        runopoly.router = new runopoly.MobileRouter();
+        Backbone.history.start();
+        runopoly.router.navigate("", { trigger: true });
+    });
 
     if (navigator.notification) { // Override default HTML alert with native dialog
         window.alert = function (message) {
@@ -64,11 +70,6 @@ $(document).on('deviceready', function () {
         };
     };
 
-    runopoly.templateLoader.load(['home', 'track', 'history', 'tracked'], function () {
-        runopoly.router = new runopoly.MobileRouter();
-        Backbone.history.start();
-        runopoly.router.navigate("", { trigger: true });
-    });
     
 /*
     if (navigator.network.connection.type == Connection.NONE) {
