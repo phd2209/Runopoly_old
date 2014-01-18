@@ -25,7 +25,8 @@
   <gap:plugin name="Geolocation" value="org.apache.cordova.core.GeoBroker" />
   <gap:plugin name="File" value="org.apache.cordova.core.FileUtils" />
   <gap:plugin name="FileTransfer" value="org.apache.cordova.core.FileTransfer" />
-  <gap:plugin name="Notification" value="org.apache.cordova.core.Notification" />
+  <gap:plugin name="Dialogs" value="org.apache.cordova.core.dialogs" />
+  <gap:plugin name="Console" value="org.apache.cordova.core.console" />
   <gap:plugin name="Vibration" value="org.apache.cordova.core.Vibration" />
 
 <!--
