@@ -20,19 +20,14 @@
   
   
   <!-- PHONEGAP FEATURES -->
-  <gap:plugin name="Device" value="org.apache.cordova.core.Device"/>
-  <gap:plugin name="NetworkStatus" value="org.apache.cordova.core.NetworkManager" />
-  <gap:plugin name="Geolocation" value="org.apache.cordova.core.GeoBroker" />
-  <gap:plugin name="File" value="org.apache.cordova.core.FileUtils" />
-  <gap:plugin name="FileTransfer" value="org.apache.cordova.core.FileTransfer" />
-  <gap:plugin name="Dialogs" value="org.apache.cordova.core.dialogs" />
-  <gap:plugin name="Console" value="org.apache.cordova.core.console" />
-  <gap:plugin name="Vibration" value="org.apache.cordova.core.Vibration" />
+  <gap:plugin name="org.apache.cordova.device"/>
+  <gap:plugin name="org.apache.cordova.network-information" />
+  <gap:plugin name="org.apache.cordova.geolocation" />
+  <gap:plugin name="org.apache.cordova.file" />
+  <gap:plugin name="org.apache.cordova.file-transfer" />
+  <gap:plugin name="org.apache.cordova.dialogs" />
+  <gap:plugin name="org.apache.cordova.console" />
 
-<!--
-  <gap:plugin name="org.apache.cordova.dialogs"/>
-  <gap:plugin name="org.apache.cordova.console"/>
--->
   <!-- ACCESS -->
   <access origin="*" />
 </widget>
