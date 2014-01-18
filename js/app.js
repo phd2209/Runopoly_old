@@ -16,13 +16,14 @@ runopoly.MobileRouter = Backbone.Router.extend({
     },
 
     home: function () {
-        // Reset cached views
+        console.log("Entered home screen");
         runopoly.myHomeView = null;
         var view = new runopoly.views.Home({ template: runopoly.templateLoader.get('home') });
         runopoly.slider.slidePageFrom(view.$el, "left");
     },
 
     track: function () {
+        console.log("entered track screen");
         runopoly.his = Backbone.history.fragment;
         var self = this;
         if (runopoly.mytrackView) {
@@ -34,6 +35,7 @@ runopoly.MobileRouter = Backbone.Router.extend({
     },
 
     history: function () {
+        console.log("entered history");
         var self = this;
         var myHistoryView = new runopoly.views.History({ template: runopoly.templateLoader.get('history') });
         runopoly.slider.slidePage(myHistoryView.$el)
@@ -51,25 +53,25 @@ runopoly.MobileRouter = Backbone.Router.extend({
 });
 
 $(document).on('ready', function () {
-    if (FastClick) FastClick.attach(document.body);
 
-    runopoly.templateLoader.load(['home', 'track', 'history', 'tracked'], function () {
-        runopoly.router = new runopoly.MobileRouter();
-        Backbone.history.start();
-        runopoly.router.navigate("", { trigger: true });
-    });
+    FastClick.attach(document.body);
 
     if (navigator.notification) { // Override default HTML alert with native dialog
         window.alert = function (message) {
             navigator.notification.alert(
                 message,    // message
                 null,       // callback
-                "Runopoly", // title
+                "Workshop", // title
                 'OK'        // buttonName
             );
         };
     };
 
+    runopoly.templateLoader.load(['home', 'track', 'history', 'tracked'], function () {
+        runopoly.router = new runopoly.MobileRouter();
+        Backbone.history.start();
+        runopoly.router.navigate("", { trigger: true });
+    });
     
 /*
     if (navigator.network.connection.type == Connection.NONE) {
