@@ -5,24 +5,33 @@
   <content src="index.html"/>
  
   <!-- PHONEGAP PREFERENCES -->
-  <preference name="permissions" value="none" />
-  <preference value="3.1.0" name="phonegap-version"/>
-  <preference name="orientation" value="portrait" />
+  <preference name="phonegap-version" value="3.1.0" />
   <preference name="target-device" value="handset" />
-  <preference name="fullscreen" value="true" />
-  <preference name="webviewbounce" value="true" />
+  <preference name="prerendered-icon" value="true" />
   <preference name="ios-statusbarstyle" value="black-opaque" />
   <preference name="detect-data-types" value="true" />
   <preference name="exit-on-suspend" value="false" />
-  <preference value="50000" name="load-url-timeout"/>
+  <preference name="fullscreen" value="true" />
+  <preference name="webviewbounce" value="true" />
+  <preference name="orientation" value="portrait" />
 
+  <!-- PLATFORMS -->
+  <gap:platform name="ios" />
+  
+  
   <!-- PHONEGAP FEATURES -->
-  <gap:plugin name="org.apache.cordova.core.geolocation"/>
-  <gap:plugin name="org.apache.cordova.core.file"/>
-  <gap:plugin name="org.apache.cordova.device"/>
+  <gap:plugin name="Device" value="org.apache.cordova.core.Device"/>
+  <gap:plugin name="NetworkStatus" value="org.apache.cordova.core.NetworkManager" />
+  <gap:plugin name="Geolocation" value="org.apache.cordova.core.GeoBroker" />
+  <gap:plugin name="File" value="org.apache.cordova.core.FileUtils" />
+  <gap:plugin name="FileTransfer" value="org.apache.cordova.core.FileTransfer" />
+  <gap:plugin name="Notification" value="org.apache.cordova.core.Notification" />
+  <gap:plugin name="Vibration" value="org.apache.cordova.core.Vibration" />
+
+<!--
   <gap:plugin name="org.apache.cordova.dialogs"/>
   <gap:plugin name="org.apache.cordova.console"/>
-  <gap:plugin name="org.apache.cordova.network-information"/>
+-->
   <!-- ACCESS -->
   <access origin="*" />
 </widget>
