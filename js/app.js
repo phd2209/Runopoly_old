@@ -55,7 +55,6 @@ runopoly.MobileRouter = Backbone.Router.extend({
 $(document).on('ready', function () {
 
     FastClick.attach(document.body);
-
     if (navigator.notification) { // Override default HTML alert with native dialog
         window.alert = function (message) {
             navigator.notification.alert(
@@ -72,15 +71,6 @@ $(document).on('ready', function () {
         Backbone.history.start();
         runopoly.router.navigate("", { trigger: true });
     });
-    
-/*
-    if (navigator.network.connection.type == Connection.NONE) {
-    }
-
-    else {
-*/
-    
-    /*}*/
 });
 
 $(document).on('click', '.button.back', function() {

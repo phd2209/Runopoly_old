@@ -6,8 +6,20 @@ runopoly.views.Home = Backbone.View.extend({
         this.render();
     },
 
-    render: function () {
+    render: function () {       
         this.$el.html(this.template());
+        if (navigator.network) {
+            if (navigator.network.connection.type == Connection.NONE) {
+                $(".network").addClass("alert-danger");
+            }
+            else {
+                $(".network").addClass("alert-succes");
+            }
+        }
+        else {
+            $(".network").addClass("alert-danger");
+        }
+
         return this;
     }
 });
