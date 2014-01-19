@@ -34,7 +34,7 @@ runopoly.views.Track = Backbone.View.extend({
 
     initialize: function () {
         var self = this;
-        this.template = runopoly.templateLoader.get('track');
+        this.template = runopoly.templateLoader.get('run');
         this.render();
     },
 
