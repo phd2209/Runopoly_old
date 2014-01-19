@@ -18,14 +18,31 @@
   <!-- PLATFORMS -->
   <gap:platform name="ios" />
   
-  
+  <!-- FEATURES -->
+  <feature name="Geolocation">
+    <param name="ios-package" value="CDVLocation" />
+  </feature>
+  <feature name="NetworkStatus">
+    <param name="ios-package" value="CDVConnection" />
+  </feature>
+  <feature name="File">
+    <param name="ios-package" value="CDVFile" />
+  </feature>
+  <feature name="FileTransfer">
+    <param name="ios-package" value="CDVFileTransfer" />
+  </feature>
+  <feature name="Notification">
+    <param name="ios-package" value="CDVNotification" />
+  </feature>
+
   <!-- PHONEGAP FEATURES -->
   <gap:plugin name="org.apache.cordova.device"/>
-  <gap:plugin name="org.apache.cordova.network-information" />
   <gap:plugin name="org.apache.cordova.geolocation" />
+  <gap:plugin name="org.apache.cordova.network-information" />
   <gap:plugin name="org.apache.cordova.file" />
+  <gap:plugin name="org.apache.cordova.file-transfer" /> 
   <gap:plugin name="org.apache.cordova.dialogs" />
-  <gap:plugin name="org.apache.cordova.console" />
+  <gap:plugin name="org.apache.cordova.console" />-->
 
   <!-- ACCESS -->
   <access origin="*" />
