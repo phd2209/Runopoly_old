@@ -24,12 +24,12 @@ runopoly.views.Home = Backbone.View.extend({
     }
 });
 
-runopoly.views.Track = Backbone.View.extend({
+runopoly.views.Run = Backbone.View.extend({
 
     events: {
-        'click .button-positive': 'start',
-        'click .button-negative': 'stop',
-        'click .button': 'pause'
+        'click #start': 'start',
+        'click #stop': 'stop',
+        'click #button': 'pause'
     },
 
     initialize: function () {

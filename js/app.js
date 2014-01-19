@@ -26,12 +26,12 @@ runopoly.MobileRouter = Backbone.Router.extend({
         console.log("entered run screen");
         //runopoly.his = Backbone.history.fragment;
         var self = this;
-        if (runopoly.mytrackView) {
-            runopoly.slider.slidePage(runopoly.mytrackView.$el);
+        if (runopoly.myrunView) {
+            runopoly.slider.slidePage(runopoly.myrunView.$el);
             return;
         }
-        runopoly.mytrackView = new runopoly.views.Track({ template: runopoly.templateLoader.get('track') });
-        runopoly.slider.slidePage(runopoly.mytrackView.$el)
+        runopoly.myrunView = new runopoly.views.Run({ template: runopoly.templateLoader.get('run') });
+        runopoly.slider.slidePage(runopoly.myrunView.$el)
     },
 
     history: function () {
