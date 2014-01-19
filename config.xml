@@ -36,7 +36,9 @@
     <param name="ios-package" value="CDVNotification" />
   </feature>
 
+  
   <!-- PHONEGAP FEATURES -->
+  <!--
   <gap:plugin name="org.apache.cordova.device"/>
   <gap:plugin name="org.apache.cordova.geolocation" />
   <gap:plugin name="org.apache.cordova.network-information" />
@@ -44,7 +46,7 @@
   <gap:plugin name="org.apache.cordova.file-transfer" /> 
   <gap:plugin name="org.apache.cordova.dialogs" />
   <gap:plugin name="org.apache.cordova.console" />-->
-
+  -->
   <!-- ACCESS -->
   <access origin="*" />
 </widget>
