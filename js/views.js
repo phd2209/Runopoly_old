@@ -6,20 +6,9 @@ runopoly.views.Home = Backbone.View.extend({
         this.render();
     },
 
-    render: function () {       
-        this.$el.html(this.template());
-        if (navigator.network) {
-            if (navigator.network.connection.type == Connection.NONE) {
-                $(".network").addClass("alert-danger");
-            }
-            else {
-                $(".network").addClass("alert-succes");
-            }
-        }
-        else {
-            $(".network").addClass("alert-danger");
-        }
-
+    render: function () {
+        console.log(this.model);
+        this.$el.html(this.template(this.model));
         return this;
     }
 });
@@ -27,9 +16,8 @@ runopoly.views.Home = Backbone.View.extend({
 runopoly.views.Run = Backbone.View.extend({
 
     events: {
-        'click #start': 'start',
-        'click #stop': 'stop',
-        'click #button': 'pause'
+        'click #start-pause': 'start',
+        'click #stop-reset': 'stop',
     },
 
     initialize: function () {

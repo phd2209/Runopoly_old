@@ -1,7 +1,10 @@
 var MobileApp = function() {
 
     this.initialize = function () {
-        this.timer = null;
+        this.startTime = 0;
+        this.stopTime = 0;
+        this.intervalID = 0;
+        this.tracking = true;
         this.track_id = "";
         this.watch_id = null;
         this.tracking_data = [];
@@ -49,27 +52,59 @@ var MobileApp = function() {
     };
 
     this.startTracking = function () {
-        //window.alert("Started tracking");
-        window.localStorage.clear();
-        // Start tracking the User
-        var options = { maximumAge: 3000, timeout: 5000, enableHighAccuracy: true };
-        if (navigator.geolocation) this.watch_id = navigator.geolocation.watchPosition(this.onSuccess, this.onError, options);
-        window.alert("started: " + this.watch_id);
-        this.track_id = new Date();
 
-        var elem = document.getElemenById("#stopwatch");
-        this.timer = new Stopwatch(elem, { delay: 10 });
-        this.timer.reset();
-        this.timer.start();
+        this.tracking = true;
+        window.localStorage.clear();
+        var self = this;
+        //Starting Geolocation tracking;
+        if (this.watch_id == null) {
+            var options = { maximumAge: 3000, timeout: 5000, enableHighAccuracy: true };
+            if (navigator.geolocation) this.watch_id = navigator.geolocation.watchPosition(this.onSuccess, this.onError, options);
+            window.alert("started: " + this.watch_id);
+            this.track_id = new Date();
+        }
+
+        //starting stopwatch;
+        if (this.intervalID) {
+            this.tracking = false;
+            this.stopTime = Date.now();
+            clearInterval(this.intervalID);
+            this.intervalID = 0;
+            $("#start-pause").text("Start");
+            return;
+        }
+        if (this.startTime > 0) {
+            var pauseTime = Date.now() - this.stopTime;
+            this.startTime = this.startTime + pauseTime;
+        } else {
+            this.startTime = Date.now();
+        }
+
+        this.intervalID = setInterval(function () {
+            var elapsedTime = Date.now() - self.startTime;
+            $("#clock").text(self.formatTime(elapsedTime));
+        }, 100);
+
+        // Update the button text
+        $("#start-pause").text("Pause");
     };
 
     this.onSuccess = function (position) {
-        window.alert("Lat: " + position.coords.latitude + ", Long: " + position.coords.longitude);
-        window.tracking_data.push(position);
+        console.log(tracking);
+        if (this.tracking) {
+            window.alert("Lat: " + position.coords.latitude + ", Long: " + position.coords.longitude);
+            window.tracking_data.push(position);
+        }
     };
 
     this.onError = function (error) {
-        window.alert("ERROR: " + error.code + " / " + error.message);
+        //window.alert("ERROR: " + error.code + " / " + error.message);
+        //switch (error.code) {
+        //    case 3:
+        //        var options = { maximumAge: 3000, timeout: 5000, enableHighAccuracy: true };
+        //        if (navigator.geolocation)  navigator.geolocation.getCurrentPosition(this.onSuccess, this.onError, options);
+        //        break;
+        //}
     };
     /*
         this.watch_id = navigator.geolocation.watchPosition(
@@ -103,26 +138,37 @@ var MobileApp = function() {
     };*/
 
     this.stopTracking = function () {
-        window.alert("Stopped tracking");
-        // Stop tracking the user
-        this.timer.stop();
+        window.alert("stopped: " + this.watch_id);
+        
+        //Stop, store, reset Gps tracking;
         navigator.geolocation.clearWatch(this.watch_id);
-        // Save the tracking data
         window.localStorage.setItem(this.track_id, JSON.stringify(window.tracking_data));
-        // Reset watch_id and tracking_data         
         this.watch_id = null;
         this.track_id = null;
         window.tracking_data = [];
+
+        //Stop and reset clock;
+        this.startTime = this.intervalID ? Date.now() : 0;
+        this.stopTime = 0;
+        clearInterval(this.intervalID);
+        this.intervalID = 0;
+        $("#clock").text("00:00");
     };
 
-    this.pauseTracking = function () {
-        // Stop tracking the user
-        navigator.geolocation.clearWatch(this.watch_id);
+    this.formatTime = function (timestamp) {
+        var d = new Date(timestamp);
 
-        // Tidy up the UI
-        //$("#track_id").val("").show();
+        var minutes = d.getMinutes();
+        if (minutes < 10) {
+            minutes = "0" + minutes;
+        }
 
-        //$("#startTracking_status").html("Stopped tracking workout: <strong>" + track_id + "</strong>");
+        var seconds = d.getSeconds();
+        if (seconds < 10) {
+            seconds = "0" + seconds;
+        }
+
+        return minutes + ":" + seconds;   
     };
 
     this.getHistory = function () {

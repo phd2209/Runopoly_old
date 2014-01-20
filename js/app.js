@@ -17,8 +17,8 @@ runopoly.MobileRouter = Backbone.Router.extend({
 
     home: function () {
         console.log("Entered home screen");
-        runopoly.myHomeView = null;
-        var view = new runopoly.views.Home({ template: runopoly.templateLoader.get('home') });
+        runopoly.homeModel = new runopoly.HomeModel();
+        var view = new runopoly.views.Home({ model: runopoly.homeModel });
         runopoly.slider.slidePageFrom(view.$el, "left");
     },
 
