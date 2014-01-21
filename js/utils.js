@@ -4,7 +4,7 @@ var MobileApp = function() {
         this.startTime = 0;
         this.stopTime = 0;
         this.intervalID = 0;
-        this.tracking = true;
+        this.tracking = 0;
         this.track_id = "";
         this.watch_id = null;
         this.tracking_data = [];
@@ -53,12 +53,14 @@ var MobileApp = function() {
 
     this.startTracking = function () {
 
-        this.tracking = true;
-        window.localStorage.clear();
+        this.tracking = 1;
         var self = this;
+        window.localStorage.clear();
+
+        
         //Starting Geolocation tracking;
         if (this.watch_id == null) {
-            var options = { maximumAge: 3000, timeout: 5000, enableHighAccuracy: true };
+            var options = { maximumAge: 1000, timeout: 5000, enableHighAccuracy: true };
             if (navigator.geolocation) this.watch_id = navigator.geolocation.watchPosition(this.onSuccess, this.onError, options);
             window.alert("started: " + this.watch_id);
             this.track_id = new Date();
@@ -66,13 +68,14 @@ var MobileApp = function() {
 
         //starting stopwatch;
         if (this.intervalID) {
-            this.tracking = false;
+            this.tracking = 0;
             this.stopTime = Date.now();
             clearInterval(this.intervalID);
             this.intervalID = 0;
             $("#start-pause").text("Start");
             return;
         }
+
         if (this.startTime > 0) {
             var pauseTime = Date.now() - this.stopTime;
             this.startTime = this.startTime + pauseTime;
@@ -90,15 +93,24 @@ var MobileApp = function() {
     };
 
     this.onSuccess = function (position) {
-        console.log(tracking);
-        if (this.tracking) {
+        console.log(self.runopoly.tracking);
+        if (self.runopoly.tracking) {
             window.alert("Lat: " + position.coords.latitude + ", Long: " + position.coords.longitude);
-            window.tracking_data.push(position);
+            self.runopoly.tracking_data.push(position);
+            for (j = 0; j < self.runopoly.tracking_data.length; j++) {
+                
+                if (j == (self.runopoly.tracking_data.length - 1)) {
+                    break;
+                }
+                total_km += this.gps_distance(self.runopoly.tracking_data[j].coords.latitude, self.runopoly.tracking_data[j].coords.longitude, self.runopoly.tracking_data[j + 1].coords.latitude, self.runopoly.tracking_data[j + 1].coords.longitude);
+            }
+            total_km_rounded = total_km.toFixed(2);
+            $("#distance").text(total_km_rounded);
         }
     };
 
     this.onError = function (error) {
-        //window.alert("ERROR: " + error.code + " / " + error.message);
+        window.alert("ERROR: " + error.code + " / " + error.message);
         //switch (error.code) {
         //    case 3:
         //        var options = { maximumAge: 3000, timeout: 5000, enableHighAccuracy: true };
@@ -106,36 +118,6 @@ var MobileApp = function() {
         //        break;
         //}
     };
-    /*
-        this.watch_id = navigator.geolocation.watchPosition(
-            
-
-            function (position) {
-                window.alert("Watchid: " + this.watch_id);
-                this.tracking_data.push(position);
-
-                //for (j = 0; j < this.tracking_data.length; j++) {
-                //
-                //    if (j == (this.tracking_data.length - 1)) {
-                //        break;
-                //    }
-                //    total_km += this.gps_distance(this.tracking_data[j].coords.latitude, this.tracking_data[j].coords.longitude, this.tracking_data[j + 1].coords.latitude, this.tracking_data[j + 1].coords.longitude);
-                //}
-                //total_km_rounded = total_km.toFixed(2);
-                //$("#distance").hhtml(total_km_rounded);
-            },
-
-            // Error
-            function (error) {
-                window.alert(error);
-            },
-
-            // Settings
-            { frequency: 3000, enableHighAccuracy: true });
-
-        // Tidy up the UI
-        this.track_id = new Date();
-    };*/
 
     this.stopTracking = function () {
         window.alert("stopped: " + this.watch_id);
@@ -153,6 +135,7 @@ var MobileApp = function() {
         clearInterval(this.intervalID);
         this.intervalID = 0;
         $("#clock").text("00:00");
+        $("#start-pause").text("Start");
     };
 
     this.formatTime = function (timestamp) {

@@ -1,4 +1,3 @@
-var tracking_data = [];
 var runopoly = new MobileApp();
 
 //runopoly.his;
