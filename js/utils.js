@@ -126,17 +126,17 @@ var MobileApp = function() {
         
         //Stop, store, reset Gps tracking;
         navigator.geolocation.clearWatch(this.watch_id);
-        window.localStorage.setItem(this.track_id, JSON.stringify(window.tracking_data));
+        window.localStorage.setItem(this.track_id, JSON.stringify(this.tracking_data));
         this.watch_id = null;
         this.track_id = null;
-        //this.tracking_data = [];
+        this.tracking_data = [];
 
         //Stop and reset clock;
         clearInterval(this.intervalID);
         this.intervalID = 0;
         this.startTime = this.intervalID ? Date.now() : 0;
         this.stopTime = 0;
-        //this.total_km = 0;
+        this.total_km = 0;
         $("#clock").text("00:00");
         $("#start-pause").text("Start");
     };
@@ -162,21 +162,17 @@ var MobileApp = function() {
         
         // Count the number of entries in localStorage and display this information to the user
         tracks_recorded = window.localStorage.length;
-        window.alert("tracked runs: " +tracks_recorded);
 
         // Iterate over all of the recorded tracks, populating the list
         for (i = 0; i < tracks_recorded; i++) {
-            window.alert(tracks_recorded);
             var Item = new Object();
 
             var key = window.localStorage.key(i);
-            window.alert("id: "+key);
             Item.id = key;
             var data = window.localStorage.getItem(key);
-            window.alert(data);
             // Turn the stringified GPS data back into a JS object            
             data = JSON.parse(data);
-            window.alert(data);
+
             // Calculate the total distance travelled
             total_km = 0;
             for (j = 0; j < data.length; j++) {
@@ -189,7 +185,6 @@ var MobileApp = function() {
             }
             total_km_rounded = total_km.toFixed(2);
             Item.traveled = total_km_rounded;
-            window.alert("km; " + total_km_rounded);
 
             // Calculate the total time taken for the track
             if (data[0] != null)
