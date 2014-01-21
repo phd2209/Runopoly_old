@@ -60,7 +60,7 @@ var MobileApp = function() {
         
         //Starting Geolocation tracking;
         if (this.watch_id == null) {
-            var options = { maximumAge: 1000, timeout: 5000, enableHighAccuracy: true };
+            var options = { maximumAge: 4000, timeout: 10000, enableHighAccuracy: true };
             if (navigator.geolocation) this.watch_id = navigator.geolocation.watchPosition(this.onSuccess, this.onError, options);
             window.alert("started: " + this.watch_id);
             this.track_id = new Date();
@@ -94,7 +94,6 @@ var MobileApp = function() {
 
     this.onSuccess = function (position) {
         if (self.runopoly.tracking) {
-            window.alert("Lat: " + position.coords.latitude + ", Long: " + position.coords.longitude);
             self.runopoly.tracking_data.push(position);
             for (j = 0; j < self.runopoly.tracking_data.length; j++) {
                 
