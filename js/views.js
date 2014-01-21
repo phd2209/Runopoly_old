@@ -44,8 +44,7 @@ runopoly.views.History = Backbone.View.extend({
     },
 
     render: function () {
-        this.$el.html(this.template(this.model));
-        console.log(this.model);
+        this.$el.html(this.template());
         return this;
     }
 });

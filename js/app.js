@@ -36,10 +36,12 @@ runopoly.MobileRouter = Backbone.Router.extend({
 
     history: function () {
         console.log("entered history screen");
-        runopoly.historymodel = new runopoly.HistoryModel();
-        var myHistoryView = new runopoly.views.History({ model: runopoly.historymodel });
+        //runopoly.historymodel = new runopoly.HistoryModel();
+
+        var myHistoryView = new runopoly.views.History({ template: runopoly.templateLoader.get('history') });
+        myHistoryView.model = runopoly.getHistory();
         runopoly.slider.slidePage(myHistoryView.$el)
-        //myHistoryView.render();
+        myHistoryView.render();
     },
 
     tracked: function (id) {
