@@ -1,6 +1,7 @@
 var MobileApp = function() {
 
     this.initialize = function () {
+        this.total_km = 0;
         this.startTime = 0;
         this.stopTime = 0;
         this.intervalID = 0;
@@ -47,7 +48,7 @@ var MobileApp = function() {
                 Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
         var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         var d = R * c;
-
+        console.log(a + "/" + c + "/" + d);
         return d;
     };
 
@@ -102,9 +103,9 @@ var MobileApp = function() {
                     break;
                 }
 
-                total_km += self.runopoly.gps_distance(self.runopoly.tracking_data[j].coords.latitude, self.runopoly.tracking_data[j].coords.longitude, self.runopoly.tracking_data[j + 1].coords.latitude, self.runopoly.tracking_data[j + 1].coords.longitude);
+                self.runopoly.total_km += self.runopoly.gps_distance(self.runopoly.tracking_data[j].coords.latitude, self.runopoly.tracking_data[j].coords.longitude, self.runopoly.tracking_data[j + 1].coords.latitude, self.runopoly.tracking_data[j + 1].coords.longitude);
             }
-            total_km_rounded = total_km.toFixed(2)*1000;
+            total_km_rounded = self.runopoly.total_km.toFixed(2);
             window.alert(total_km_rounded + " km");
             $("#distance").text(total_km_rounded);
         }
@@ -128,13 +129,14 @@ var MobileApp = function() {
         window.localStorage.setItem(this.track_id, JSON.stringify(window.tracking_data));
         this.watch_id = null;
         this.track_id = null;
-        window.tracking_data = [];
+        //this.tracking_data = [];
 
         //Stop and reset clock;
-        this.startTime = this.intervalID ? Date.now() : 0;
-        this.stopTime = 0;
         clearInterval(this.intervalID);
         this.intervalID = 0;
+        this.startTime = this.intervalID ? Date.now() : 0;
+        this.stopTime = 0;
+        //this.total_km = 0;
         $("#clock").text("00:00");
         $("#start-pause").text("Start");
     };
