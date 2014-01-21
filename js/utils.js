@@ -93,7 +93,6 @@ var MobileApp = function() {
     };
 
     this.onSuccess = function (position) {
-        console.log(self.runopoly.tracking);
         if (self.runopoly.tracking) {
             window.alert("Lat: " + position.coords.latitude + ", Long: " + position.coords.longitude);
             self.runopoly.tracking_data.push(position);
@@ -102,9 +101,10 @@ var MobileApp = function() {
                 if (j == (self.runopoly.tracking_data.length - 1)) {
                     break;
                 }
-                total_km += this.gps_distance(self.runopoly.tracking_data[j].coords.latitude, self.runopoly.tracking_data[j].coords.longitude, self.runopoly.tracking_data[j + 1].coords.latitude, self.runopoly.tracking_data[j + 1].coords.longitude);
+                total_km += self.runopoly.gps_distance(self.runopoly.tracking_data[j].coords.latitude, self.runopoly.tracking_data[j].coords.longitude, self.runopoly.tracking_data[j + 1].coords.latitude, self.runopoly.tracking_data[j + 1].coords.longitude);
             }
             total_km_rounded = total_km.toFixed(2);
+            window.alert(total_km_rounded + " km");
             $("#distance").text(total_km_rounded);
         }
     };
