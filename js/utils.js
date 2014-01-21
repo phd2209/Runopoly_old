@@ -95,14 +95,16 @@ var MobileApp = function() {
     this.onSuccess = function (position) {
         if (self.runopoly.tracking) {
             self.runopoly.tracking_data.push(position);
+
             for (j = 0; j < self.runopoly.tracking_data.length; j++) {
-                
+
                 if (j == (self.runopoly.tracking_data.length - 1)) {
                     break;
                 }
+
                 total_km += self.runopoly.gps_distance(self.runopoly.tracking_data[j].coords.latitude, self.runopoly.tracking_data[j].coords.longitude, self.runopoly.tracking_data[j + 1].coords.latitude, self.runopoly.tracking_data[j + 1].coords.longitude);
             }
-            total_km_rounded = total_km.toFixed(2);
+            total_km_rounded = total_km.toFixed(2)*1000;
             window.alert(total_km_rounded + " km");
             $("#distance").text(total_km_rounded);
         }
