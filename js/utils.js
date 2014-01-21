@@ -1,7 +1,6 @@
 var MobileApp = function() {
 
     this.initialize = function () {
-        this.total_km = 0;
         this.startTime = 0;
         this.stopTime = 0;
         this.intervalID = 0;
@@ -95,6 +94,7 @@ var MobileApp = function() {
 
     this.onSuccess = function (position) {
         if (self.runopoly.tracking) {
+            var total_km = 0;
             self.runopoly.tracking_data.push(position);
 
             for (j = 0; j < self.runopoly.tracking_data.length; j++) {
@@ -103,10 +103,9 @@ var MobileApp = function() {
                     break;
                 }
 
-                self.runopoly.total_km += self.runopoly.gps_distance(self.runopoly.tracking_data[j].coords.latitude, self.runopoly.tracking_data[j].coords.longitude, self.runopoly.tracking_data[j + 1].coords.latitude, self.runopoly.tracking_data[j + 1].coords.longitude);
+                total_km += self.runopoly.gps_distance(self.runopoly.tracking_data[j].coords.latitude, self.runopoly.tracking_data[j].coords.longitude, self.runopoly.tracking_data[j + 1].coords.latitude, self.runopoly.tracking_data[j + 1].coords.longitude);
             }
-            total_km_rounded = self.runopoly.total_km.toFixed(2);
-            window.alert(total_km_rounded + " km");
+            total_km_rounded = total_km.toFixed(2);
             $("#distance").text(total_km_rounded);
         }
     };
@@ -136,7 +135,6 @@ var MobileApp = function() {
         this.intervalID = 0;
         this.startTime = this.intervalID ? Date.now() : 0;
         this.stopTime = 0;
-        this.total_km = 0;
         $("#clock").text("00:00");
         $("#start-pause").text("Start");
     };
