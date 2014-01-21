@@ -52,45 +52,18 @@ var MobileApp = function() {
     };
 
     this.startTracking = function () {
-
         this.tracking = 1;
-        var self = this;
-        window.localStorage.clear();
+    }
 
-        
+    this.StartGPS = function () {
         //Starting Geolocation tracking;
         if (this.watch_id == null) {
             var options = { maximumAge: 4000, timeout: 10000, enableHighAccuracy: true };
             if (navigator.geolocation) this.watch_id = navigator.geolocation.watchPosition(this.onSuccess, this.onError, options);
-            window.alert("started: " + this.watch_id);
-            this.track_id = new Date();
+            //this.track_id = new Date();
         }
 
-        //starting stopwatch;
-        if (this.intervalID) {
-            this.tracking = 0;
-            this.stopTime = Date.now();
-            clearInterval(this.intervalID);
-            this.intervalID = 0;
-            $("#start-pause").text("Start");
-            return;
-        }
-
-        if (this.startTime > 0) {
-            var pauseTime = Date.now() - this.stopTime;
-            this.startTime = this.startTime + pauseTime;
-        } else {
-            this.startTime = Date.now();
-        }
-
-        this.intervalID = setInterval(function () {
-            var elapsedTime = Date.now() - self.startTime;
-            $("#clock").text(self.formatTime(elapsedTime));
-        }, 100);
-
-        // Update the button text
-        $("#start-pause").text("Pause");
-    };
+    }
 
     this.onSuccess = function (position) {
         if (self.runopoly.tracking) {
@@ -111,7 +84,7 @@ var MobileApp = function() {
     };
 
     this.onError = function (error) {
-        window.alert("ERROR: " + error.code + " / " + error.message);
+        //window.alert("ERROR: " + error.code + " / " + error.message);
         //switch (error.code) {
         //    case 3:
         //        var options = { maximumAge: 3000, timeout: 5000, enableHighAccuracy: true };
@@ -120,9 +93,47 @@ var MobileApp = function() {
         //}
     };
 
+
+    this.startTracking = function () {
+
+        this.tracking = 1;
+        var self = this;
+        //window.localStorage.clear();
+
+        //Starting Geolocation tracking;
+        //if (this.watch_id == null) {
+        //    var options = { maximumAge: 4000, timeout: 10000, enableHighAccuracy: true };
+        //    if (navigator.geolocation) this.watch_id = navigator.geolocation.watchPosition(this.onSuccess, this.onError, options);
+        //}
+
+        //starting stopwatch;
+        if (this.intervalID) {
+            this.tracking = 0;
+            this.stopTime = Date.now();
+            clearInterval(this.intervalID);
+            this.intervalID = 0;
+            $("#start-pause").text("Start");
+            return;
+        }
+
+        if (this.startTime > 0) {
+            var pauseTime = Date.now() - this.stopTime;
+            this.startTime = this.startTime + pauseTime;
+        } else {
+            this.startTime = Date.now();
+        }
+
+        this.track_id = new Date();
+        this.intervalID = setInterval(function () {
+            var elapsedTime = Date.now() - self.startTime;
+            $("#clock").text(self.formatTime(elapsedTime));
+        }, 100);
+
+        // Update the button text
+        $("#start-pause").text("Pause");
+    };
+
     this.stopTracking = function () {
-        window.alert("stopped: " + this.watch_id);
-        
         //Stop, store, reset Gps tracking;
         navigator.geolocation.clearWatch(this.watch_id);
         window.localStorage.setItem(this.track_id, JSON.stringify(this.tracking_data));

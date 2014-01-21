@@ -16,6 +16,7 @@ runopoly.MobileRouter = Backbone.Router.extend({
 
     home: function () {
         console.log("Entered home screen");
+        window.localStorage.clear();
         runopoly.homeModel = new runopoly.HomeModel();
         var view = new runopoly.views.Home({ model: runopoly.homeModel });
         runopoly.slider.slidePageFrom(view.$el, "left");
@@ -23,8 +24,8 @@ runopoly.MobileRouter = Backbone.Router.extend({
 
     run: function () {
         console.log("entered run screen");
-        //runopoly.his = Backbone.history.fragment;
-        var self = this;
+        //runopoly.his = Backbone.history.fragment
+        runopoly.StartGPS();
         if (runopoly.myrunView) {
             runopoly.slider.slidePage(runopoly.myrunView.$el);
             return;
@@ -35,16 +36,14 @@ runopoly.MobileRouter = Backbone.Router.extend({
 
     history: function () {
         console.log("entered history screen");
-        var self = this;
-        var myHistoryView = new runopoly.views.History({ template: runopoly.templateLoader.get('history') });
+        runopoly.historymodel = new runopoly.HistoryModel();
+        var myHistoryView = new runopoly.views.History({ model: runopoly.historymodel });
         runopoly.slider.slidePage(myHistoryView.$el)
-        myHistoryView.model = runopoly.getHistory();
-        myHistoryView.render();
+        //myHistoryView.render();
     },
 
     tracked: function (id) {
         console.log("entered tracked screen");
-        var self = this;
         var view = new runopoly.views.Tracked({ template: runopoly.templateLoader.get('tracked') });
         runopoly.slider.slidePage(view.$el);
         view.model = runopoly.getTrack(id);

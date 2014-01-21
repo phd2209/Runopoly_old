@@ -1,13 +1,11 @@
 runopoly.views.Home = Backbone.View.extend({
 
     initialize: function () {
-        var self = this;
         this.template = runopoly.templateLoader.get('home');
         this.render();
     },
 
     render: function () {
-        console.log(this.model);
         this.$el.html(this.template(this.model));
         return this;
     }
@@ -35,22 +33,19 @@ runopoly.views.Run = Backbone.View.extend({
     },
     stop: function () {
         runopoly.stopTracking();
-    },
-    pause: function () {
-        runopoly.pauseTracking();
     }
 });
 
-
 runopoly.views.History = Backbone.View.extend({
 
-    initialize: function (options) {
-        this.options = options || {};
+    initialize: function () {
+        this.template = runopoly.templateLoader.get('history');
         this.render();
     },
 
     render: function () {
-        this.$el.html(this.options.template(this.model));
+        this.$el.html(this.template(this.model));
+        console.log(this.model);
         return this;
     }
 });
