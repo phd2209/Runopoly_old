@@ -166,6 +166,15 @@ var MobileApp = function() {
         return minutes + ":" + seconds;   
     };
 
+    this.getAreas = function () {
+        return window.areas;
+    }
+
+    this.getArea = function (id) {
+        var result = $.grep(window.areas, function (e) { return e.id == id; });
+        return result;
+    }
+
     this.getHistory = function () {
         var historyList = [];
         

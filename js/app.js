@@ -1,5 +1,5 @@
 var runopoly = new MobileApp();
-
+var map = null;
 //runopoly.his;
 //runopoly.spinner = $("#spinner");
 //runopoly.spinner.hide();
@@ -10,13 +10,15 @@ runopoly.MobileRouter = Backbone.Router.extend({
     routes: {
         "": "home",
         "run": "run",
+        "areas": "areas",
+        "area/:id": "area",
         "history": "history",
         "history/:id": "tracked"
     },
 
     home: function () {
         console.log("Entered home screen");
-        window.localStorage.clear();
+        //window.localStorage.clear();
         runopoly.homeModel = new runopoly.HomeModel();
         var view = new runopoly.views.Home({ model: runopoly.homeModel });
         runopoly.slider.slidePageFrom(view.$el, "left");
@@ -32,6 +34,22 @@ runopoly.MobileRouter = Backbone.Router.extend({
         }
         runopoly.myrunView = new runopoly.views.Run({ template: runopoly.templateLoader.get('run') });
         runopoly.slider.slidePage(runopoly.myrunView.$el)
+    },
+
+    areas: function () {
+        console.log("entered areas screen");
+        var myAreasView = new runopoly.views.Areas({ template: runopoly.templateLoader.get('areas') });
+        myAreasView.model = runopoly.getAreas();
+        runopoly.slider.slidePage(myAreasView.$el)
+        myAreasView.render();
+    },
+
+    area: function (id) {
+        console.log("entered area screen " + id);
+        var view = new runopoly.views.Area({ template: runopoly.templateLoader.get('area'), model: runopoly.getArea(id) });
+        //view.model = runopoly.getArea(id);
+        runopoly.slider.slidePage(view.$el);
+        view.render();
     },
 
     history: function () {
@@ -95,7 +113,7 @@ function onDeviceReady() {
         };
     };
 
-    runopoly.templateLoader.load(['home', 'run', 'history', 'tracked'], function () {
+    runopoly.templateLoader.load(['home', 'run', 'history', 'tracked', 'areas', 'area'], function () {
         runopoly.router = new runopoly.MobileRouter();
         Backbone.history.start();
         runopoly.router.navigate("", { trigger: true });
