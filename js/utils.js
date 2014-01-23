@@ -51,9 +51,20 @@ var MobileApp = function() {
         return d;
     };
 
-    this.startTracking = function () {
-        this.tracking = 1;
-    }
+
+    // Used by the HomeView
+    this.CheckNetwork = function () {
+        var obj = new Object();
+        obj.networkActive = "No Connection";
+        if (navigator.network) {
+            if (navigator.network.connection.type != Connection.NONE) {
+                obj.networkActive = "Connection Ok";
+            }
+        }
+        return obj;
+    };
+
+
 
     this.StartGPS = function () {
         //Starting Geolocation tracking;
@@ -64,8 +75,15 @@ var MobileApp = function() {
         }
 
     }
+    this.StopGPS = function () {
+        if (this.watch_id != null) {
+            navigator.geolocation.clearWatch(this.watch_id);
+            this.watch_id = null;
+        }
+    }
 
     this.onSuccess = function (position) {
+        var accuracy = 0;
         if (self.runopoly.tracking) {
             var total_km = 0;
             self.runopoly.tracking_data.push(position);
@@ -80,6 +98,11 @@ var MobileApp = function() {
             }
             total_km_rounded = total_km.toFixed(2);
             $("#distance").text(total_km_rounded);
+        }
+
+        if (position.coords.accuracy <= 50 && !accuracy) {
+            $("#gps_accuracy").innerHtml("GPS OK");
+            accuracy = 1;
         }
     };
 
@@ -98,13 +121,6 @@ var MobileApp = function() {
 
         this.tracking = 1;
         var self = this;
-        //window.localStorage.clear();
-
-        //Starting Geolocation tracking;
-        //if (this.watch_id == null) {
-        //    var options = { maximumAge: 4000, timeout: 10000, enableHighAccuracy: true };
-        //    if (navigator.geolocation) this.watch_id = navigator.geolocation.watchPosition(this.onSuccess, this.onError, options);
-        //}
 
         //starting stopwatch;
         if (this.intervalID) {
@@ -135,16 +151,15 @@ var MobileApp = function() {
 
     this.stopTracking = function () {
         //Stop, store, reset Gps tracking;
-        navigator.geolocation.clearWatch(this.watch_id);
-        window.localStorage.setItem(this.track_id, JSON.stringify(this.tracking_data));
-        this.watch_id = null;
+        this.StopGPS();
+        window.localStorage.setItem(this.track_id, JSON.stringify(this.tracking_data));        
         this.track_id = null;
         this.tracking_data = [];
 
         //Stop and reset clock;
         clearInterval(this.intervalID);
         this.intervalID = 0;
-        this.startTime = this.intervalID ? Date.now() : 0;
+        this.startTime =  0;
         this.stopTime = 0;
         $("#clock").text("00:00");
         $("#start-pause").text("Start");

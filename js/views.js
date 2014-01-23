@@ -44,7 +44,7 @@ runopoly.views.History = Backbone.View.extend({
     },
 
     render: function () {
-        this.$el.html(this.template());
+        this.$el.html(this.template(this.model));
         return this;
     }
 });
@@ -81,42 +81,44 @@ runopoly.views.Area = Backbone.View.extend({
 
     initialize: function () {
         this.template = runopoly.templateLoader.get('area');
-        this.render();
-    },
 
-    render: function () {
-        this.$el.html(this.template(this.model));
+        this.myLatLng = new google.maps.LatLng(this.model[0].coords[0].latitude, this.model[0].coords[0].longitude);
 
-        var myLatLng = new google.maps.LatLng(this.model[0].coords[0].latitude, this.model[0].coords[0].longitude);
         // Google Map options
-        var myOptions = {
-            zoom: 15,
-            center: myLatLng,
+        this.myOptions = {
+            zoom: 14,
+            center: this.myLatLng,
             mapTypeId: google.maps.MapTypeId.ROADMAP
         };
-        
-        // Create the Google Map, set options
-        window.map = new google.maps.Map(document.getElementById('map_canvas'), myOptions);
-        
-        var trackCoords = [];
 
-        // Add each GPS entry to an array
-        for (i = 0; i < this.model[0].coords; i++) {
-            console.log(this.model[0].coords[i]);
-            trackCoords.push(new google.maps.LatLng(this.model[0].coords[i].latitude, this.model[0].coords[i].longitude));
+    },
+
+    id: 'map_canvas',
+
+    render: function () {
+        this.$el.replaceWith(this.template(this.model));
+
+        if ($('#map_canvas').length > 0) {
+
+            var map = new google.maps.Map(document.getElementById(this.id), this.myOptions);
+            var trackCoords = [];
+
+            // Add each GPS entry to an array
+            for (i = 0; i < this.model[0].coords.length; i++) {
+                trackCoords.push(new google.maps.LatLng(this.model[0].coords[i].latitude, this.model[0].coords[i].longitude));
+            }
+
+            // Plot the GPS entries as a line on the Google Map
+            var trackPath = new google.maps.Polyline({
+                path: trackCoords,
+                strokeColor: "#FF0000",
+                strokeOpacity: 1.0,
+                strokeWeight: 2
+            });
+        
+            // Apply the line to the map
+            trackPath.setMap(map);
         }
-
-        // Plot the GPS entries as a line on the Google Map
-        var trackPath = new google.maps.Polyline({
-            path: trackCoords,
-            strokeColor: "#FF0000",
-            strokeOpacity: 1.0,
-            strokeWeight: 2
-        });
-
-        // Apply the line to the map
-        trackPath.setMap(window.map);
-        
         return this;
     }
 });
