@@ -30,7 +30,8 @@ runopoly.MobileRouter = Backbone.Router.extend({
             runopoly.slider.slidePage(runopoly.myrunView.$el);
             return;
         }
-        runopoly.myrunView = new runopoly.views.Run({ template: runopoly.templateLoader.get('run') });
+
+        runopoly.myrunView = new runopoly.views.Run({ model: runopoly.getAreas() });
         //runopoly.myrunView.render();
         runopoly.slider.slidePage(runopoly.myrunView.$el)
     },
@@ -51,7 +52,10 @@ runopoly.MobileRouter = Backbone.Router.extend({
         console.log("entered area screen " + id);
         if (runopoly.startTime == 0 && runopoly.watch_id != null) runopoly.StopGPS();
         if (runopoly.myAreaView) {
-            runopoly.myAreaView.remove();
+            runopoly.myAreaView.model = runopoly.getArea(id);
+            runopoly.slider.slidePage(runopoly.myAreaView.$el);
+            runopoly.myAreaView.render();
+            return;
         }
         runopoly.myAreaView = new runopoly.views.Area({ model: runopoly.getArea(id) });
         runopoly.slider.slidePage(runopoly.myAreaView.$el);

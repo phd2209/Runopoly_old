@@ -1,5 +1,26 @@
 ﻿var areas = [];
 
+var area1 = new Object({
+    "id": "1", "name": "Utterslevmose", "longitude": 12.505524, "latitude": 55.716161, "radius1": 1750,
+    "radius2": 450, "rotation": 68, "color": "#000000", "weight": 2, "opacity1": 1, "fill": "#ffff00", "opacity2": 0.3
+});
+
+var area2 = new Object({
+    "id": "2", "name": "Søerne kbh.", "longitude": 12.565987, "latitude": 55.686029, "radius1": 1600,
+    "radius2": 270, "rotation": 30, "color": "#000000", "weight": 2, "opacity1": 1, "fill": "#ffff00", "opacity2": 0.3
+});
+
+var area3 = new Object({
+    "id": "3", "name": "Fælledparken", "longitude": 12.568481, "latitude": 55.701744, "radius1": 650,
+    "radius2": 440, "rotation": 0, "color": "#000000", "weight": 2, "opacity1": 1, "fill": "#ffff00", "opacity2": 0.3
+});
+
+
+areas.push(area1);
+areas.push(area2);
+areas.push(area3);
+
+/*
 var area1 = new Object({"id" : "1", "name" : "Utterslevmose", "coords": [
 { "latitude": 55.715073, "longitude": 12.487366 },
 { "latitude": 55.716789, "longitude": 12.488975 },
@@ -59,7 +80,7 @@ var area1 = new Object({"id" : "1", "name" : "Utterslevmose", "coords": [
 { "latitude": 55.714683, "longitude": 12.487141 },
 { "latitude": 55.715073, "longitude": 12.487366 }]
 });
-
+/*
 var area2 = new Object({
     "id": "2", "name": "Søerne kbh.", "coords": [
     { "latitude": 55.674287, "longitude": 12.555065 },
@@ -80,26 +101,4 @@ var area2 = new Object({
     { "latitude": 55.673815, "longitude": 12.555420 },
     { "latitude": 55.674287, "longitude": 12.555065 }]
 });
-/*
-var area2 = new Area("2", "Søerne kbh.", [
-{ "longitude": 55.674287, "latitude": 12.555065 },
-{ "longitude": 55.681698, "latitude": 12.557167 },
-{ "longitude": 55.682206, "latitude": 12.557217 },
-{ "longitude": 55.687199, "latitude": 12.562104 },
-{ "longitude": 55.691955, "latitude": 12.568970 },
-{ "longitude": 55.693963, "latitude": 12.572119 },
-{ "longitude": 55.695423, "latitude": 12.573422 },
-{ "longitude": 55.697954, "latitude": 12.578593 },
-{ "longitude": 55.696007, "latitude": 12.579891 },
-{ "longitude": 55.694175, "latitude": 12.576200 },
-{ "longitude": 55.692862, "latitude": 12.575042 },
-{ "longitude": 55.688998, "latitude": 12.569098 },
-{ "longitude": 55.685514, "latitude": 12.564592 },
-{ "longitude": 55.680784, "latitude": 12.560493 },
-{ "longitude": 55.674378, "latitude": 12.558712 },
-{ "longitude": 55.673815, "latitude": 12.555420 },
-{ "longitude": 55.674287, "latitude": 12.555065 }]);
 */
-areas.push(area1);
-areas.push(area2);
-

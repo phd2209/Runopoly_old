@@ -10,22 +10,31 @@
     <!-- time and km -->
     <div class="row">
       <div class="col-xs-6">
-      <h1 id="clock">00:00</h1>
+        <h1 class="clock" id="clock">00:00</h1>
       </div>
       <div class="col-xs-6">
-          <h1 id="distance">0.00</h1>
+          <h1 class="distance" id="distance">0.00</h1>
       </div>
     </div>
     
-    <!-- Area name -->
+    <!-- Pick Area -->
     <div class="row">
       <div class="col-xs-12">
-      </div>
+            Pick Battleground:
+            {{#if .}}
+                <ul>
+                {{#each .}}
+                <li><a class="setarea">{{name}}</a></li>
+            {{/each}}
+                </ul>
+            {{/if}}
+        </div>
     </div>
 
     <!-- km in area -->
     <div class="row">
-      <div class="col-xs-12">
+      <div id="AreaInfo" class="col-xs-12">
+          <h1 id="distanceInArea">0.00</h1>
       </div>
     </div>
 

@@ -8,7 +8,9 @@ var MobileApp = function() {
         this.track_id = "";
         this.watch_id = null;
         this.tracking_data = [];
+        this.in_area_tracking_data = [];
         this.views = {};
+        this.selectedArea = new Object();
         this.templateLoader = new this.TemplateLoader();
     };
 
@@ -51,6 +53,51 @@ var MobileApp = function() {
         return d;
     };
 
+    this.PointInEllipse = function (area, point) {
+        var result = 0;
+
+        // Set up "Constants"
+        var m1 = 111132.92;		// latitude calculation term 1
+        var m2 = -559.82;		// latitude calculation term 2
+        var m3 = 1.175;			// latitude calculation term 3
+        var m4 = -0.0023;		// latitude calculation term 4
+        var p1 = 111412.84;		// longitude calculation term 1
+        var p2 = -93.5;			// longitude calculation term 2
+        var p3 = 0.118;			// longitude calculation term 3
+
+        // Calculate the length of a degree of latitude and longitude in meters at a given latitude
+        latlen = m1 + (m2 * Math.cos(2 * area.latitude)) + (m3 * Math.cos(4 * area.latitude)) +
+				(m4 * Math.cos(6 * area.latitude));
+        longlen = (p1 * Math.cos(area.latitude)) + (p2 * Math.cos(3 * area.latitude)) +
+					(p3 * Math.cos(5 * area.latitude));
+
+        //Handle rotation of ellipse
+        var cosa = Math.cos(area.rotation);
+        var sina = Math.sin(area.rotation);
+
+        // Normalized latitude and longitude in meters
+        var dLat = (point.latitude - area.latitude) * latlen; //111111;
+        var dLon = (point.longitude - area.longitude) * longlen; //63994;
+
+        //Taken from the formula of the rotated ellipse
+        var a = Math.pow(cosa * dLon + sina * dLat, 2);
+        var b = Math.pow(sina * dLon - cosa * dLat, 2);
+
+        //We need the  radius squred according to the formula of the ellipse
+        var radius1_2 = area.radius1*area.radius1;
+        var radius2_2 = area.radius2*area.radius2;
+
+        //Rotated ellipse formula - less than or equal to one inside ellipse
+        var ellipse = (a / radius2_2) + (b / radius1_2);
+        if (ellipse != undefined && ellipse <= 1) result = 1;
+
+        console.log(point.type +" result: "+result);        
+        return result;
+    }
+
+    this.setArea = function (id) {
+        this.selectedArea = $.grep(window.areas, function (e) { return e.id == id; });
+    };
 
     // Used by the HomeView
     this.CheckNetwork = function () {
@@ -64,8 +111,6 @@ var MobileApp = function() {
         return obj;
     };
 
-
-
     this.StartGPS = function () {
         //Starting Geolocation tracking;
         if (this.watch_id == null) {
@@ -77,6 +122,7 @@ var MobileApp = function() {
     }
     this.StopGPS = function () {
         if (this.watch_id != null) {
+            console.log("Stopping GPS");
             navigator.geolocation.clearWatch(this.watch_id);
             this.watch_id = null;
         }
@@ -87,7 +133,7 @@ var MobileApp = function() {
         if (self.runopoly.tracking) {
             var total_km = 0;
             self.runopoly.tracking_data.push(position);
-
+            //if (self.runopoly.PointInEllipse(self.runopoly.area, position)) self.runopoly.this.in_area_tracking_data(position);
             for (j = 0; j < self.runopoly.tracking_data.length; j++) {
 
                 if (j == (self.runopoly.tracking_data.length - 1)) {
