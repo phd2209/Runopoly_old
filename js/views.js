@@ -16,8 +16,7 @@ runopoly.views.Run = Backbone.View.extend({
     events: {
         'click #start-pause': 'start',
         'click #stop-reset': 'stop',
-        'click #setarea a': 'selectArea'
-
+        "click #selectarea a": "selectarea",
     },
 
     initialize: function () {
@@ -28,6 +27,7 @@ runopoly.views.Run = Backbone.View.extend({
 
     render: function () {
         this.$el.html(this.template(this.model));
+        $('button').prop('disabled', true);
         return this;
     },
     start: function () {
@@ -36,10 +36,9 @@ runopoly.views.Run = Backbone.View.extend({
     stop: function () {
         runopoly.stopTracking();
     },
-    selectArea: function (ev) {
-        var ac = $(ev.target).html();
-        console.log(ac);
-        //runopolit.setArea(id);
+    selectarea: function (ev) {
+        var name = $(ev.target).html();
+        if (runopoly.setArea(name) != null) $('button').prop('disabled', false);
     }
 });
 

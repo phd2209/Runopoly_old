@@ -1,6 +1,7 @@
 var MobileApp = function() {
 
     this.initialize = function () {
+        this.areas = this.createAreas();
         this.startTime = 0;
         this.stopTime = 0;
         this.intervalID = 0;
@@ -10,9 +11,11 @@ var MobileApp = function() {
         this.tracking_data = [];
         this.in_area_tracking_data = [];
         this.views = {};
-        this.selectedArea = new Object();
+        this.selectedArea = null;
         this.templateLoader = new this.TemplateLoader();
     };
+
+
 
     this.TemplateLoader = function () {
         this.templates = {};
@@ -65,12 +68,20 @@ var MobileApp = function() {
         var p2 = -93.5;			// longitude calculation term 2
         var p3 = 0.118;			// longitude calculation term 3
 
+        //var mypoint = new google.maps.LatLng(point.latitude, point.longitude);
         // Calculate the length of a degree of latitude and longitude in meters at a given latitude
+        //var latConv = google.maps.geometry.spherical.computeDistanceBetween(mypoint, new google.maps.LatLng(area.latitude, point.longitude));
+        //var lngConv = google.maps.geometry.spherical.computeDistanceBetween(mypoint, new google.maps.LatLng(area.latitude, point.longitude));
+
+
         latlen = m1 + (m2 * Math.cos(2 * area.latitude)) + (m3 * Math.cos(4 * area.latitude)) +
 				(m4 * Math.cos(6 * area.latitude));
         longlen = (p1 * Math.cos(area.latitude)) + (p2 * Math.cos(3 * area.latitude)) +
 					(p3 * Math.cos(5 * area.latitude));
 
+
+        //console.log("latlen = " + latlen + " latconv=" + latConv);
+        //console.log("longlen = " + longlen + " longlen=" + lngConv);
         //Handle rotation of ellipse
         var cosa = Math.cos(area.rotation);
         var sina = Math.sin(area.rotation);
@@ -95,9 +106,57 @@ var MobileApp = function() {
         return result;
     }
 
-    this.setArea = function (id) {
-        this.selectedArea = $.grep(window.areas, function (e) { return e.id == id; });
-    };
+    this.createAreas = function () {
+        var areas = [];
+
+        var area1 = new Object({
+            "id": "1", "name": "Utterslevmose", "longitude": 12.505524, "latitude": 55.716161, "radius1": 1750,
+            "radius2": 450, "rotation": 68, "color": "#000000", "weight": 2, "opacity1": 1, "fill": "#ffff00", "opacity2": 0.3,
+            "owner": "Bill Gates"
+        });
+
+        var area2 = new Object({
+            "id": "2", "name": "Søerne kbh.", "longitude": 12.565987, "latitude": 55.686029, "radius1": 1600,
+            "radius2": 270, "rotation": 30, "color": "#000000", "weight": 2, "opacity1": 1, "fill": "#ffff00", "opacity2": 0.3
+        });
+
+        var area3 = new Object({
+            "id": "3", "name": "Fælledparken", "longitude": 12.568481, "latitude": 55.701744, "radius1": 650,
+            "radius2": 440, "rotation": 0, "color": "#000000", "weight": 2, "opacity1": 1, "fill": "#ffff00", "opacity2": 0.3
+        });
+
+        areas.push(area1);
+        areas.push(area2);
+        areas.push(area3);
+        return areas;
+    }
+
+    this.getAreas = function () {
+        return this.areas;
+    }
+
+    this.FindNearestArea = function (position) {
+
+        var id = 99999999;
+        var minDistance = 99999999;
+        var myposition = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+
+        for (j = 0; j < this.areas.length; j++) {
+            var center = new google.maps.LatLng(this.areas[j].latitude, this.areas[j].longitude);
+            var distance = google.maps.geometry.spherical.computeDistanceBetween(myposition, center);
+
+            if (distance < minDistance) {
+                minDistance = distance;
+                id = this.areas[j].id;
+            }
+        }
+        this.selectedArea = this.getArea(id);
+    }
+
+    this.getArea = function (id) {
+        var result = $.grep(this.areas, function (e) { return e.id == id; });
+        return result;
+    }
 
     // Used by the HomeView
     this.CheckNetwork = function () {
@@ -130,26 +189,41 @@ var MobileApp = function() {
 
     this.onSuccess = function (position) {
         var accuracy = 0;
+        self.runopoly.FindNearestArea(position);
+
+        if (self.runopoly.selectedArea) {
+            $("#area").text(self.runopoly.selectedArea[0].name);
+            $("#owner").text(self.runopoly.selectedArea[0].owner);
+
+        }
         if (self.runopoly.tracking) {
+            position.in_area = 0;
             var total_km = 0;
+            var total_km_in_area = 0;
+            if (self.runopoly.PointInEllipse(self.runopoly.selectedArea[0], position)) position.in_area = 1;
             self.runopoly.tracking_data.push(position);
-            //if (self.runopoly.PointInEllipse(self.runopoly.area, position)) self.runopoly.this.in_area_tracking_data(position);
+            
             for (j = 0; j < self.runopoly.tracking_data.length; j++) {
 
                 if (j == (self.runopoly.tracking_data.length - 1)) {
                     break;
                 }
-
                 total_km += self.runopoly.gps_distance(self.runopoly.tracking_data[j].coords.latitude, self.runopoly.tracking_data[j].coords.longitude, self.runopoly.tracking_data[j + 1].coords.latitude, self.runopoly.tracking_data[j + 1].coords.longitude);
+                if (elf.runopoly.tracking_data[j].in_area == 1 && self.runopoly.tracking_data[j + 1].in_area == 1)
+                    total_km_in_area += self.runopoly.gps_distance(self.runopoly.tracking_data[j].coords.latitude, self.runopoly.tracking_data[j].coords.longitude, self.runopoly.tracking_data[j + 1].coords.latitude, self.runopoly.tracking_data[j + 1].coords.longitude)
             }
             total_km_rounded = total_km.toFixed(2);
+            total_km_in_area_rounded = total_km_in_area.toFixed(2);
             $("#distance").text(total_km_rounded);
+            $("#distance_in_area").text(total_km_in_area_rounded);
         }
-
-        if (position.coords.accuracy <= 50 && !accuracy) {
-            $("#gps_accuracy").innerHtml("GPS OK");
+        console.log(position.coords.accuracy);
+        if (position.coords.accuracy <= 75 && accuracy == 0) {
+            $("#gps_accuracy").html("GPS OK");
+            $("#gps_accuracy").removeClass("alert-danger")
+            $("#gps_accuracy").addClass("alert-success")
             accuracy = 1;
-        }
+        } 
     };
 
     this.onError = function (error) {
@@ -207,12 +281,14 @@ var MobileApp = function() {
         this.intervalID = 0;
         this.startTime =  0;
         this.stopTime = 0;
-        $("#clock").text("00:00");
+        $("#clock").text("0:00:00");
         $("#start-pause").text("Start");
     };
 
     this.formatTime = function (timestamp) {
         var d = new Date(timestamp);
+
+        var hours = d.getHours();
 
         var minutes = d.getMinutes();
         if (minutes < 10) {
@@ -224,17 +300,8 @@ var MobileApp = function() {
             seconds = "0" + seconds;
         }
 
-        return minutes + ":" + seconds;   
+        return hours + ":" + minutes + ":" + seconds;   
     };
-
-    this.getAreas = function () {
-        return window.areas;
-    }
-
-    this.getArea = function (id) {
-        var result = $.grep(window.areas, function (e) { return e.id == id; });
-        return result;
-    }
 
     this.getHistory = function () {
         var historyList = [];

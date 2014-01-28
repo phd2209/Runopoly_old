@@ -10,48 +10,58 @@
     <!-- time and km -->
     <div class="row">
       <div class="col-xs-6">
-        <h1 class="clock" id="clock">00:00</h1>
+        <div class="display">
+            Tid: <h1 class="clock" id="clock">0:00:00</h1>
+        </div>
       </div>
       <div class="col-xs-6">
-          <h1 class="distance" id="distance">0.00</h1>
+        <div class="display">
+            Km: <h1 class="distance" id="distance">0.00</h1>
+        </div>
       </div>
     </div>
     
-    <!-- Pick Area -->
+    <!-- Area -->
     <div class="row">
       <div class="col-xs-12">
-            Pick Battleground:
-            {{#if .}}
-                <ul>
-                {{#each .}}
-                <li><a class="setarea">{{name}}</a></li>
-            {{/each}}
-                </ul>
-            {{/if}}
+          <div class="display_full">
+           Nærmeste grund: <h1 id="area">Searching...</h1>
+          </div>
         </div>
     </div>
 
-    <!-- km in area -->
+    <!-- km og ejer in area -->
     <div class="row">
-      <div id="AreaInfo" class="col-xs-12">
-          <h1 id="distanceInArea">0.00</h1>
+      <div class="col-xs-6">
+        <div class="display">
+            Nuværende ejer: <h1 id="owner"></h1>
+        </div>
+      </div>
+      <div class="col-xs-6">
+        <div class="display">
+            Km: <h1 id="distance_in_area">0.00</h1>
+        </div>
       </div>
     </div>
 
         <!-- Network access info -->
     <div class="row">
       <div class="col-xs-12">
-          <div id="gps_accuracy">Checkin GPS signal...</div>
+          <div class="alert alert-danger" id="gps_accuracy">Søger efter GPS signal..</div>
       </div>
     </div>
 
     <!-- Start and stop button -->
     <div class="row">
       <div class="col-xs-6">
-        <button class="btn btn-success btn-lg" id="start-pause">Start</button>
+        <div class="display_btn">
+            <button class="btn btn-success btn-lg btn-block" id="start-pause">Start</button>
+        </div>
       </div>
       <div class="col-xs-6">
-        <button class="btn btn-danger btn-lg" id="stop-reset">Stop</button>
+         <div class="display_btn">
+            <button class="btn btn-danger btn-lg btn-block" id="stop-reset">Stop</button>
+         </div>
       </div>
     </div>
 </div>

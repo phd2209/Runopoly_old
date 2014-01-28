@@ -32,7 +32,6 @@ runopoly.MobileRouter = Backbone.Router.extend({
         }
 
         runopoly.myrunView = new runopoly.views.Run({ model: runopoly.getAreas() });
-        //runopoly.myrunView.render();
         runopoly.slider.slidePage(runopoly.myrunView.$el)
     },
 
@@ -84,30 +83,6 @@ runopoly.MobileRouter = Backbone.Router.extend({
     }
 });
 
-
-
-/*
-$(document).on('ready', function () {
-
-    FastClick.attach(document.body);
-    if (navigator.notification) { // Override default HTML alert with native dialog
-        window.alert = function (message) {
-            navigator.notification.alert(
-                message,    // message
-                null,       // callback
-                "Workshop", // title
-                'OK'        // buttonName
-            );
-        };
-    };
-
-    runopoly.templateLoader.load(['home', 'run', 'history', 'tracked'], function () {
-        runopoly.router = new runopoly.MobileRouter();
-        Backbone.history.start();
-        runopoly.router.navigate("", { trigger: true });
-    });
-});
-*/
 $(document).on('click', '.button.back', function() {
     window.history.back();
     return false;

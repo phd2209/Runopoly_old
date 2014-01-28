@@ -1,17 +1,22 @@
-﻿.clock .distance .btn-group {
-    height: 25px;
-    border-color: #000;
-    border-width:1px;
-}
-#AreaInfo {
-        height: 50px;
+﻿.content {
+    padding: 10px 0 0 10px; 
+    background-color: #f6f2f2;
 }
 
-
-#AreaInfo {
-        height: 50px;
+.display {
+    margin: 10px 10px 10px 10px;
+    background-color:#fff;
+    height: 50px;
 }
-
-#start-pause stop-reset {
-    
+.display_full {
+    margin: 10px 10px 10px 10px;
+    background-color:#fff;
+    height: 50px;
+}
+#gps_accuracy {
+    margin: 10px 10px 10px 10px;
+}
+.display_btn {
+    margin: 10px 10px 10px 10px;
+    height: 50px;
 }
