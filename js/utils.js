@@ -209,11 +209,14 @@ var MobileApp = function() {
                     break;
                 }
                 total_km += self.runopoly.gps_distance(self.runopoly.tracking_data[j].coords.latitude, self.runopoly.tracking_data[j].coords.longitude, self.runopoly.tracking_data[j + 1].coords.latitude, self.runopoly.tracking_data[j + 1].coords.longitude);
-                if (elf.runopoly.tracking_data[j].in_area == 1 && self.runopoly.tracking_data[j + 1].in_area == 1)
+                if (self.runopoly.tracking_data[j].in_area == 1 && self.runopoly.tracking_data[j + 1].in_area == 1)
                     total_km_in_area += self.runopoly.gps_distance(self.runopoly.tracking_data[j].coords.latitude, self.runopoly.tracking_data[j].coords.longitude, self.runopoly.tracking_data[j + 1].coords.latitude, self.runopoly.tracking_data[j + 1].coords.longitude)
             }
             total_km_rounded = total_km.toFixed(2);
             total_km_in_area_rounded = total_km_in_area.toFixed(2);
+            console.log(total_km_rounded);
+            console.log(total_km_in_area_rounded);
+
             $("#distance").text(total_km_rounded);
             $("#distance_in_area").text(total_km_in_area_rounded);
         }
@@ -288,7 +291,7 @@ var MobileApp = function() {
     this.formatTime = function (timestamp) {
         var d = new Date(timestamp);
 
-        var hours = d.getHours();
+        var hours = (d.getHours()-1);
 
         var minutes = d.getMinutes();
         if (minutes < 10) {
