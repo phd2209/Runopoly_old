@@ -1,26 +1,4 @@
-﻿var areas = [];
-
-var area1 = new Object({
-    "id": "1", "name": "Utterslevmose", "longitude": 12.505524, "latitude": 55.716161, "radius1": 1750,
-    "radius2": 450, "rotation": 68, "color": "#000000", "weight": 2, "opacity1": 1, "fill": "#ffff00", "opacity2": 0.3
-});
-
-var area2 = new Object({
-    "id": "2", "name": "Søerne kbh.", "longitude": 12.565987, "latitude": 55.686029, "radius1": 1600,
-    "radius2": 270, "rotation": 30, "color": "#000000", "weight": 2, "opacity1": 1, "fill": "#ffff00", "opacity2": 0.3
-});
-
-var area3 = new Object({
-    "id": "3", "name": "Fælledparken", "longitude": 12.568481, "latitude": 55.701744, "radius1": 650,
-    "radius2": 440, "rotation": 0, "color": "#000000", "weight": 2, "opacity1": 1, "fill": "#ffff00", "opacity2": 0.3
-});
-
-
-areas.push(area1);
-areas.push(area2);
-areas.push(area3);
-
-/*
+﻿/*
 var area1 = new Object({"id" : "1", "name" : "Utterslevmose", "coords": [
 { "latitude": 55.715073, "longitude": 12.487366 },
 { "latitude": 55.716789, "longitude": 12.488975 },

@@ -1,68 +1,63 @@
-<header class="bar-title">
-    <a class="button-prev" href="#">
-        Back
+
+<header class="header">
+    <a href="#" class="header-button header-button-left header-back-button">
+        <button><</button>
     </a>
-    <h1 class="title">Run</h1>
+    <h1>RUNOPOLY</h1>
 </header>
 
 <div class="content">    
 
-    <!-- time and km -->
-    <div class="row">
-      <div class="col-xs-6">
-        <div class="display">
-            Tid: <h1 class="clock" id="clock">0:00:00</h1>
-        </div>
-      </div>
-      <div class="col-xs-6">
-        <div class="display">
-            Km: <h1 class="distance" id="distance">0.00</h1>
-        </div>
-      </div>
+    <!-- Territory -->
+     <div class="row">
+        <div class="area">
+            <p>Run to win territory in area</p>
+            <h1 id="area">?</h1>               
+        </div>          
     </div>
-    
-    <!-- Area -->
+
     <div class="row">
-      <div class="col-xs-12">
-          <div class="display_full">
-           Nærmeste grund: <h1 id="area">Searching...</h1>
-          </div>
+        <div class="area">
+            <p id="distance_area_text"></p>
+            <h1 id="distance_area"></h1>
+        </div>
+    </div>
+        
+     <!-- Network access info -->
+     <div class="row">
+        <div class="break">
+            <p style="float:left;">IN AREA</p><p style="float:right;" id="gps_accuracy">GPS SIGNAL</p>
         </div>
     </div>
 
-    <!-- km og ejer in area -->
-    <div class="row">
-      <div class="col-xs-6">
-        <div class="display">
-            Nuværende ejer: <h1 id="owner"></h1>
+     <div class="row">
+        <div class="break_blue">
+            <p style="float:left;">OVERALL</p>
         </div>
-      </div>
-      <div class="col-xs-6">
-        <div class="display">
-            Km: <h1 id="distance_in_area">0.00</h1>
-        </div>
-      </div>
     </div>
 
-        <!-- Network access info -->
+    <!-- time -->
     <div class="row">
-      <div class="col-xs-12">
-          <div class="alert alert-danger" id="gps_accuracy">Søger efter GPS signal..</div>
-      </div>
+        <div class="timer">
+            <p>Time</p>
+            <h1 class="clock" id="clock">0:00:00</h1>
+        </div>
+    </div>
+
+    <!-- Km -->
+    <div class="row">
+        <div class="km-left">
+            <p>Distance overall</p>
+            <h1 id="distance">0km000m</h1>
+        </div>
     </div>
 
     <!-- Start and stop button -->
     <div class="row">
-      <div class="col-xs-6">
-        <div class="display_btn">
-            <button class="btn btn-success btn-lg btn-block" id="start-pause">Start</button>
+        <div class="buttons">
+            <button class="topcoat-button--large--cta" id="start-pause">Start</button>
+            <button class="topcoat-button--large--cta" id="stop-reset">Stop</button>
         </div>
-      </div>
-      <div class="col-xs-6">
-         <div class="display_btn">
-            <button class="btn btn-danger btn-lg btn-block" id="stop-reset">Stop</button>
-         </div>
-      </div>
     </div>
 </div>
 

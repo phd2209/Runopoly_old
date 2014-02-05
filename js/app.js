@@ -18,8 +18,12 @@ runopoly.MobileRouter = Backbone.Router.extend({
     home: function () {
         console.log("Entered home screen");
         if (runopoly.startTime == 0 && runopoly.watch_id != null) runopoly.StopGPS();
-        var view = new runopoly.views.Home({ model: runopoly.CheckNetwork() });
-        runopoly.slider.slidePageFrom(view.$el, "left");
+        if (runopoly.homeView) {
+            runopoly.slider.slidePage(runopoly.homeView.$el);
+            return;
+        }
+        runopoly.homeView = new runopoly.views.Home({ model: runopoly.CheckNetwork() });
+        runopoly.slider.slidePageFrom(runopoly.homeView.$el, "left");
     },
 
     run: function () {
@@ -30,9 +34,8 @@ runopoly.MobileRouter = Backbone.Router.extend({
             runopoly.slider.slidePage(runopoly.myrunView.$el);
             return;
         }
-
         runopoly.myrunView = new runopoly.views.Run({ model: runopoly.getAreas() });
-        runopoly.slider.slidePage(runopoly.myrunView.$el)
+        runopoly.slider.slidePage(runopoly.myrunView.$el);
     },
 
     areas: function () {

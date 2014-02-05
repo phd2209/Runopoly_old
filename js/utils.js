@@ -9,14 +9,13 @@ var MobileApp = function() {
         this.track_id = "";
         this.watch_id = null;
         this.tracking_data = [];
-        this.in_area_tracking_data = [];
         this.views = {};
         this.selectedArea = null;
         this.templateLoader = new this.TemplateLoader();
     };
 
 
-
+    // Template loader class - loads the html templates
     this.TemplateLoader = function () {
         this.templates = {};
         this.load = function (names, callback) {
@@ -39,7 +38,7 @@ var MobileApp = function() {
         };
     };
 
-
+    //Calculates distance between two points on a map
     this.gps_distance = function (lat1, lon1, lat2, lon2) {
         // http://www.movable-type.co.uk/scripts/latlong.html
         var R = 6371; // km
@@ -52,10 +51,11 @@ var MobileApp = function() {
                 Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
         var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         var d = R * c;
-        console.log(a + "/" + c + "/" + d);
         return d;
     };
 
+
+    //Checks if a given position is located within a ellipse
     this.PointInEllipse = function (area, point) {
         var result = 0;
 
@@ -68,31 +68,25 @@ var MobileApp = function() {
         var p2 = -93.5;			// longitude calculation term 2
         var p3 = 0.118;			// longitude calculation term 3
 
-        //var mypoint = new google.maps.LatLng(point.latitude, point.longitude);
-        // Calculate the length of a degree of latitude and longitude in meters at a given latitude
-        //var latConv = google.maps.geometry.spherical.computeDistanceBetween(mypoint, new google.maps.LatLng(area.latitude, point.longitude));
-        //var lngConv = google.maps.geometry.spherical.computeDistanceBetween(mypoint, new google.maps.LatLng(area.latitude, point.longitude));
-
-
         latlen = m1 + (m2 * Math.cos(2 * area.latitude)) + (m3 * Math.cos(4 * area.latitude)) +
 				(m4 * Math.cos(6 * area.latitude));
         longlen = (p1 * Math.cos(area.latitude)) + (p2 * Math.cos(3 * area.latitude)) +
 					(p3 * Math.cos(5 * area.latitude));
 
-
-        //console.log("latlen = " + latlen + " latconv=" + latConv);
-        //console.log("longlen = " + longlen + " longlen=" + lngConv);
         //Handle rotation of ellipse
         var cosa = Math.cos(area.rotation);
         var sina = Math.sin(area.rotation);
 
         // Normalized latitude and longitude in meters
-        var dLat = (point.latitude - area.latitude) * latlen; //111111;
-        var dLon = (point.longitude - area.longitude) * longlen; //63994;
+        var dLat = (point.coords.latitude - area.latitude) * latlen; //111111;
+        var dLon = (point.coords.longitude - area.longitude) * longlen; //63994;
 
+        console.log("Latlen: " + dLat);
+        console.log("Longlen: " + dLon);
         //Taken from the formula of the rotated ellipse
         var a = Math.pow(cosa * dLon + sina * dLat, 2);
         var b = Math.pow(sina * dLon - cosa * dLat, 2);
+
 
         //We need the  radius squred according to the formula of the ellipse
         var radius1_2 = area.radius1*area.radius1;
@@ -100,12 +94,19 @@ var MobileApp = function() {
 
         //Rotated ellipse formula - less than or equal to one inside ellipse
         var ellipse = (a / radius2_2) + (b / radius1_2);
+        console.log("ellipse: " + ellipse);
+
         if (ellipse != undefined && ellipse <= 1) result = 1;
 
-        console.log(point.type +" result: "+result);        
+        console.log("Result: "+result);        
         return result;
     }
 
+    //****************************************************************************************
+    //*** Area functions
+    //****************************************************************************************
+
+    //Create all areas defines them as objects representing ellipses on a map - should be drawn from db later on
     this.createAreas = function () {
         var areas = [];
 
@@ -125,16 +126,29 @@ var MobileApp = function() {
             "radius2": 440, "rotation": 0, "color": "#000000", "weight": 2, "opacity1": 1, "fill": "#ffff00", "opacity2": 0.3
         });
 
+        var area4 = new Object({
+            "id": "4", "name": "Test", "longitude": 12.480413, "latitude": 55.715321, "radius1": 200,
+            "radius2": 100, "rotation": 0, "color": "#000000", "weight": 2, "opacity1": 1, "fill": "#ffff00", "opacity2": 0.3
+        });
+
+        var area5 = new Object({
+            "id": "5", "name": "Lundbeck", "longitude": 12.517067, "latitude": 55.657684, "radius1": 100,
+            "radius2": 50, "rotation": 0, "color": "#000000", "weight": 2, "opacity1": 1, "fill": "#ffff00", "opacity2": 0.3
+        });
         areas.push(area1);
         areas.push(area2);
         areas.push(area3);
+        areas.push(area4);
+        areas.push(area5);
         return areas;
     }
 
+    // Returns all areas created
     this.getAreas = function () {
         return this.areas;
     }
 
+    // Finds nearest area given the current position
     this.FindNearestArea = function (position) {
 
         var id = 99999999;
@@ -153,12 +167,125 @@ var MobileApp = function() {
         this.selectedArea = this.getArea(id);
     }
 
+    //gets an area based on its id
     this.getArea = function (id) {
         var result = $.grep(this.areas, function (e) { return e.id == id; });
         return result;
     }
 
-    // Used by the HomeView
+    //****************************************************************************************
+    //*** GPS functions
+    //****************************************************************************************
+
+    // Starts GPS watchPosition
+    this.StartGPS = function () {
+        //Starting Geolocation tracking;
+        if (this.watch_id == null) {
+            var options = { maximumAge: 4000, timeout: 10000, enableHighAccuracy: true };
+            if (navigator.geolocation) this.watch_id = navigator.geolocation.watchPosition(this.onSuccess, this.onError, options);
+            //this.track_id = new Date();
+        }
+
+    }
+
+    //Stops GPS watchPosition
+    this.StopGPS = function () {
+        if (this.watch_id != null) {
+            console.log("Stopping GPS");
+            navigator.geolocation.clearWatch(this.watch_id);
+            this.watch_id = null;
+        }
+    }
+
+    //Entered every few seconds with a new GPS position - calculates distance tracked
+    this.onSuccess = function (position) {
+
+        var accuracy = 0;
+        self.runopoly.FindNearestArea(position);
+        if (self.runopoly.PointInEllipse(self.runopoly.selectedArea[0], position)) position.in_area = 1;
+        else position.in_area = 0;
+
+        if (self.runopoly.selectedArea) {
+            $("#area").text(self.runopoly.selectedArea[0].name);
+            $("#distance_area").text(self.runopoly.kmSeparator(self.runopoly.gps_distance(self.runopoly.selectedArea[0].latitude, self.runopoly.selectedArea[0].longitude, position.coords.latitude, position.coords.longitude).toFixed(3), 'km', 'm'));
+
+            if (position.in_area == 0) {
+                $("#distance_area_text").text("Distance to Area");
+            }
+            else {
+                $("#distance_area_text").text("You are in the Area. Start running!!");
+            }
+        }
+
+        if (self.runopoly.tracking) {
+
+            position.in_area = 0;
+            var total_km = 0;
+            var total_km_in_area = 0;
+
+            if (self.runopoly.PointInEllipse(self.runopoly.selectedArea[0], position)) position.in_area = 1;
+
+            self.runopoly.tracking_data.push(position);
+            
+            for (j = 0; j < self.runopoly.tracking_data.length; j++) {
+
+                if (j == (self.runopoly.tracking_data.length - 1)) {
+                    break;
+                }
+
+                total_km += self.runopoly.gps_distance(self.runopoly.tracking_data[j].coords.latitude, self.runopoly.tracking_data[j].coords.longitude, self.runopoly.tracking_data[j + 1].coords.latitude, self.runopoly.tracking_data[j + 1].coords.longitude);
+
+                if (self.runopoly.tracking_data[j].in_area == 1 && self.runopoly.tracking_data[j + 1].in_area == 1)
+                    total_km_in_area += self.runopoly.gps_distance(self.runopoly.tracking_data[j].coords.latitude, self.runopoly.tracking_data[j].coords.longitude, self.runopoly.tracking_data[j + 1].coords.latitude, self.runopoly.tracking_data[j + 1].coords.longitude)
+            }
+
+            total_km_rounded = total_km.toFixed(3);
+            total_km_in_area_rounded = total_km_in_area.toFixed(3);
+
+            console.log(total_km_rounded);
+            console.log(total_km_in_area_rounded);
+
+            $("#distance").text(self.runopoly.kmSeparator(total_km_rounded,'km','m'));
+            $("#distance_area").text(self.runopoly.kmSeparator(total_km_in_area_rounded, 'km', 'm'));
+            $("#distance_area_text").text("Distance in Area");
+        }
+
+        console.log("accuracy: "+position.coords.accuracy);
+        if (position.coords.accuracy <= 75 && accuracy == 0) {
+            $("#gps_accuracy").html("GPS OK");
+            accuracy = 1;
+        } 
+    };
+
+    this.kmSeparator = function (n, km, m) {
+        var sRegExp = new RegExp("\\."); //('(-?[0-9]+)([0-9]{3})'),
+        sValue = n + '';
+        if (km === undefined) { km = 'km'; }
+        if (m === undefined) { m = 'm'; }
+        while (sRegExp.test(sValue)) {
+            sValue = sValue.replace(sRegExp, km);
+        }
+        return sValue + m;
+    };
+
+
+    //Entered if GPS fails to get a read
+    this.onError = function (error) {
+        //window.alert("ERROR: " + error.code + " / " + error.message);
+        //switch (error.code) {
+        //    case 3:
+        //        var options = { maximumAge: 3000, timeout: 5000, enableHighAccuracy: true };
+        //        if (navigator.geolocation)  navigator.geolocation.getCurrentPosition(this.onSuccess, this.onError, options);
+        //        break;
+        //}
+    };
+
+    //****************************************************************************************
+    //*** Functions used by views
+    //****************************************************************************************
+
+
+    // Checks network acccess - used by the HomeView
     this.CheckNetwork = function () {
         var obj = new Object();
         obj.networkActive = "No Connection";
@@ -170,76 +297,7 @@ var MobileApp = function() {
         return obj;
     };
 
-    this.StartGPS = function () {
-        //Starting Geolocation tracking;
-        if (this.watch_id == null) {
-            var options = { maximumAge: 4000, timeout: 10000, enableHighAccuracy: true };
-            if (navigator.geolocation) this.watch_id = navigator.geolocation.watchPosition(this.onSuccess, this.onError, options);
-            //this.track_id = new Date();
-        }
-
-    }
-    this.StopGPS = function () {
-        if (this.watch_id != null) {
-            console.log("Stopping GPS");
-            navigator.geolocation.clearWatch(this.watch_id);
-            this.watch_id = null;
-        }
-    }
-
-    this.onSuccess = function (position) {
-        var accuracy = 0;
-        self.runopoly.FindNearestArea(position);
-
-        if (self.runopoly.selectedArea) {
-            $("#area").text(self.runopoly.selectedArea[0].name);
-            $("#owner").text(self.runopoly.selectedArea[0].owner);
-
-        }
-        if (self.runopoly.tracking) {
-            position.in_area = 0;
-            var total_km = 0;
-            var total_km_in_area = 0;
-            if (self.runopoly.PointInEllipse(self.runopoly.selectedArea[0], position)) position.in_area = 1;
-            self.runopoly.tracking_data.push(position);
-            
-            for (j = 0; j < self.runopoly.tracking_data.length; j++) {
-
-                if (j == (self.runopoly.tracking_data.length - 1)) {
-                    break;
-                }
-                total_km += self.runopoly.gps_distance(self.runopoly.tracking_data[j].coords.latitude, self.runopoly.tracking_data[j].coords.longitude, self.runopoly.tracking_data[j + 1].coords.latitude, self.runopoly.tracking_data[j + 1].coords.longitude);
-                if (self.runopoly.tracking_data[j].in_area == 1 && self.runopoly.tracking_data[j + 1].in_area == 1)
-                    total_km_in_area += self.runopoly.gps_distance(self.runopoly.tracking_data[j].coords.latitude, self.runopoly.tracking_data[j].coords.longitude, self.runopoly.tracking_data[j + 1].coords.latitude, self.runopoly.tracking_data[j + 1].coords.longitude)
-            }
-            total_km_rounded = total_km.toFixed(2);
-            total_km_in_area_rounded = total_km_in_area.toFixed(2);
-            console.log(total_km_rounded);
-            console.log(total_km_in_area_rounded);
-
-            $("#distance").text(total_km_rounded);
-            $("#distance_in_area").text(total_km_in_area_rounded);
-        }
-        console.log(position.coords.accuracy);
-        if (position.coords.accuracy <= 75 && accuracy == 0) {
-            $("#gps_accuracy").html("GPS OK");
-            $("#gps_accuracy").removeClass("alert-danger")
-            $("#gps_accuracy").addClass("alert-success")
-            accuracy = 1;
-        } 
-    };
-
-    this.onError = function (error) {
-        //window.alert("ERROR: " + error.code + " / " + error.message);
-        //switch (error.code) {
-        //    case 3:
-        //        var options = { maximumAge: 3000, timeout: 5000, enableHighAccuracy: true };
-        //        if (navigator.geolocation)  navigator.geolocation.getCurrentPosition(this.onSuccess, this.onError, options);
-        //        break;
-        //}
-    };
-
-
+    // Starts tracking of a run - used by RunView
     this.startTracking = function () {
 
         this.tracking = 1;
@@ -272,6 +330,7 @@ var MobileApp = function() {
         $("#start-pause").text("Pause");
     };
 
+    // Stops tracking of a run - used by RunView
     this.stopTracking = function () {
         //Stop, store, reset Gps tracking;
         this.StopGPS();
@@ -288,6 +347,7 @@ var MobileApp = function() {
         $("#start-pause").text("Start");
     };
 
+    // Formats time used - used by RunView
     this.formatTime = function (timestamp) {
         var d = new Date(timestamp);
 
@@ -306,6 +366,7 @@ var MobileApp = function() {
         return hours + ":" + minutes + ":" + seconds;   
     };
 
+    //Creates the history of runs - used by HistoryView
     this.getHistory = function () {
         var historyList = [];
         
@@ -354,6 +415,7 @@ var MobileApp = function() {
         return historyList;
     };
 
+    //Used to diplay alerts - works both on phone and in browser
     this.alert = function(message, title) {
         if (typeof(title)==='undefined') title = "runopoly";
         if (navigator.notification) {

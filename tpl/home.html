@@ -1,49 +1,71 @@
-<header class="bar-title">
-    <h1 class="title">Home</h1>
+<header class="header">
+    <h1>Runopoly</h1>
 </header>
 
 <div class="content">
-
     <!-- Title -->
+    <h3>Runopoly</h3>
+    <h5>Løb for at vinde din løberute</h5>
+
+    <!-- Run button -->
+
     <div class="row">
-      <div class="col-xs-12">
-          <h3 class="text-center">Runopoly</h3>
-          <h5 class="text-center">"Run to win territory"</h5>
-      </div>
+        <div class="left">
+            <a href="#run">
+                <span class="topcoat-icon icon-sport-shoe" style="background-color:#F2F1E7;"></span>
+            </a>
+        </div>
+        <div class="right">
+            <a href="#run">
+                <h1>Løb en tur</h1>
+            </a>
+        </div>
     </div>
 
-    <!-- Run and standing button -->
+    <!-- standings button -->
     <div class="row">
-      <div class="col-xs-6">
-        <a href="#run" class="thumbnail">
-          <img data-src="holder.js/100%x180" alt="Go Running">
-        </a>
-      </div>
-      <div class="col-xs-6">
-        <a href="#standing" class="thumbnail">
-          <img data-src="holder.js/100%x180" alt="...">
-        </a>
-      </div>
+        <div class="left">
+            <a href="#standings">
+                <span class="topcoat-icon icon-trophy" style="background-color:#F2F1E7;"></span>
+            </a>
+        </div>
+        <div class="right">
+            <a href="#standings">
+                <h1>Løberute ejere</h1>
+            </a>
+        </div>
     </div>
 
-    <!-- Area and history button -->
+    <!-- history button -->
     <div class="row">
-      <div class="col-xs-6">
-        <a href="#areas" class="thumbnail">
-            <img data-src="holder.js/100%x180" alt="Battle grounds">
-        </a>
-      </div>
-      <div class="col-xs-6">
-       <a href="#history" class="thumbnail">
-            <img data-src="holder.js/100%x180" alt="History">
-        </a>
-      </div>
+        <div class="left">       
+            <a href="#history">   
+                <span class="topcoat-icon icon-diary" style="background-color:#F2F1E7;"></span>
+            </a>
+        </div>
+        <div class="right">
+            <a href="#history">   
+                <h1>Din historik</h1>
+            </a>
+        </div>
+    </div>
+    
+    <!-- settings button -->
+    <div class="row">
+        <div class="left">       
+            <a href="#settings">   
+                <span class="topcoat-icon icon-settings" style="background-color:#F2F1E7;"></span>
+            </a>
+        </div>
+        <div class="right">
+            <a href="#history">   
+                <h1>Indstillinger</h1>
+            </a>
+        </div>
     </div>
 
     <!-- Network access info -->
     <div class="row">
-      <div class="col-xs-12">
-          <div id="network" class="alert">{{networkActive}}</div>
-      </div>
+        <h5 id="network">{{networkActive}}</h5>
     </div>
 </div>
