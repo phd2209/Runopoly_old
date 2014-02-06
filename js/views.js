@@ -93,7 +93,7 @@ runopoly.views.Area = Backbone.View.extend({
         this.myLatLng = new google.maps.LatLng(this.model[0].latitude, this.model[0].longitude);
         // Google Map options
         this.myOptions = {
-            zoom: 14,
+            zoom: 13,
             center: this.myLatLng,
             mapTypeId: google.maps.MapTypeId.ROADMAP
         };

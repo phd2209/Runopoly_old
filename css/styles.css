@@ -36,6 +36,10 @@ ol, ul {
 	list-style: none;
 }
 
+header {
+    z-index: 10;
+}
+
 .header{
     background: #6d6e72;
     -webkit-background-size: 1px 44px;
@@ -49,6 +53,7 @@ ol, ul {
     color: #fff;
     -webkit-user-select: none;
     -webkit-touch-callout: none;
+    z-index:10;
 }
 
 .header-button{
@@ -57,6 +62,7 @@ ol, ul {
     padding: 7px 5px;
     -webkit-tap-highlight-color: rgba(0,0,0,0);
     line-height: 1em;
+    z-index:10;
 }
 
 .header-button button{
@@ -64,7 +70,7 @@ ol, ul {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
-    min-width: 50px;
+    min-width: 40px;
     height: 30px;
     line-height: 25px;
     font-weight: bold;
@@ -76,55 +82,62 @@ ol, ul {
     margin: 0;
     text-decoration: none;
     border-width: 2px 5px;
-    -webkit-border-image:  url(../img/button.png) 4 10 4 10;
-    -moz-border-image: url(../img/button.png) 4 10 4 10;
-    -ms-border-image: url(../img/button.png) 4 10 4 10;
-    -o-border-image: url(../img/button.png) 4 10 4 10;
-    background: transparent url(../img/button-active.png) no-repeat;
+    -webkit-border-image:  url(../img/backbutton.jpg) 4 10 4 10;
+    -moz-border-image: url(../img/backbutton.jpg) 4 10 4 10;
+    -ms-border-image: url(../img/backbutton.jpg) 4 10 4 10;
+    -o-border-image: url(../img/backbutton.jpg) 4 10 4 10;
+    background: transparent url(../img/backbutton.jpg) no-repeat;
     -webkit-background-size: 0 0;
     -moz-background-size: 0 0;
     -ms-background-size: 0 0;
     -o-background-size: 0 0;
     background-size: 0 0;
+    z-index:10;
 }
 
 .header-button-icon button{
     min-width: 0;
+    z-index:10;
 }
 
 .header-button-icon button img{
     vertical-align: text-bottom;
+    z-index:10;
 }
-
+/*
 .header-button.tappable-active button{
     -webkit-border-image: url(../img/button-active.png) 4 10 4 10;
     -moz-border-image: url(../img/button-active.png) 4 10 4 10;
     -ms-border-image: url(../img/button-active.png) 4 10 4 10;
     -o-border-image: url(../img/button-active.png) 4 10 4 10;
 }
-
+*/
 .header-back-button button{
     padding: 0 4px 0 0;
     border-width: 2px 4px 2px 13px;
-    -webkit-border-image: url(../img/back-button.png) 4 8 4 26;
-    -moz-border-image: url(../img/back-button.png) 4 8 4 26;
-    -ms-border-image: url(../img/back-button.png) 4 8 4 26;
-    -o-border-image: url(../img/back-button.png) 4 8 4 26;
-    background-image: url(../img/back-button-active.png);
+    -webkit-border-image: url(../img/backbutton.jpg) 4 8 4 26;
+    -moz-border-image: url(../img/backbutton.jpg) 4 8 4 26;
+    -ms-border-image: url(../img/backbutton.jpg) 4 8 4 26;
+    -o-border-image: url(../img/backbutton.jpg) 4 8 4 26;
+    background-image: url(../img/backbutton.jpg);
+    z-index:10;
 }
+/*
 .header-back-button.tappable-active button{
     -webkit-border-image: url(../img/back-button-active.png) 4 8 4 26;
     -moz-border-image: url(../img/back-button-active.png) 4 8 4 26;
     -ms-border-image: url(../img/back-button-active.png) 4 8 4 26;
     -o-border-image: url(../img/back-button-active.png) 4 8 4 26;
 }
-
+*/
 .header-button-left{
     left: 0;
+    z-index:10;
 }
 
 .header-button-right{
     right: 0;
+    z-index:10;
 }
 
 .header h1{
@@ -138,6 +151,7 @@ ol, ul {
     overflow: hidden;
     -webkit-box-flex: 1;
     -moz-box-flex: 1;
+    z-index:10;
 }
 
 .content {
@@ -153,32 +167,42 @@ ol, ul {
 }
 
 a {
-    color: #9C9990;
+    color: #353943;
 }
 
     
 
 /* Home screen */
 
+.row .home-top {
+    background: #f2f2f2;
+    margin: 0;
+    padding-top: 0;
+    width: 100%;
+    height: 35px;
+}
+
 .row .left {
-    background: #F2F1E7;
-    margin: 3px 0px 0px 5px;
+    background: #93d7ec;
+    margin-bottom: 0;
     float:left;
     height: 40px;
     width: 45px;
     padding-top: 20px;
     padding-left: 15px;
+    border-bottom: 1px solid #353943;
 }
 
 .row .right {
-    background: #F2F1E7;
-    margin: 3px 5px 0px 5px;
-    padding-top: 20px;
+    background: #93d7ec;
+    margin: 0;
+    padding-top: 25px;
     padding-left: 15px;
     float:left;
     text-align:left;
-    height: 40px;
-    width: 200px;
+    height: 35px;
+    width: 240px;
+    border-bottom: 1px solid #353943;
 }
 
 .icon-sport-shoe {
@@ -205,6 +229,13 @@ a {
 }
 .icon-settings {
     background: url("../img/iconbeast lite - png/gear.png") no-repeat;
+    background-repeat: no-repeat;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+}
+.icon-areas {
+    background: url("../img/iconbeast lite - png/dollar-sign.png") no-repeat;
     background-repeat: no-repeat;
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -261,6 +292,18 @@ a {
     color: #b0ad9a;
     border-bottom: 3px solid #676769;
 }
+.row .break-up {
+    background: #f2f2f2;
+    margin: 0;
+    padding-top: 2px;
+    padding-left: 5px;
+    padding-right: 5px;
+    width: 100%;
+    height: 18px;
+    color: #b0ad9a;
+    border-top: 3px solid #676769;
+}
+
 .row .break_blue
 {
     background: #93d7ec;
@@ -332,4 +375,18 @@ p {
     text-align: left;
     padding-left: 15px;
     font: 17px "Helvetica-neue";
+}
+
+/* Areas screen*/
+
+
+/* Area */
+
+.map_canvas {
+    position:absolute;
+    bottom:0;
+    left:0;
+    width:100%;
+    height:100%;
+    top: 44px;
 }

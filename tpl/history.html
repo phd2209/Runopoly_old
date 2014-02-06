@@ -1,16 +1,16 @@
-<header class="bar-title">
-    <a class="button-prev" href="#">
-        Back
+<header class="header">
+    <a href="#" class="header-button header-button-left header-back-button">
+        <button></button>
     </a>
-    <h1 class="title">History</h1>
+    <h1>RUNOPOLY</h1>
 </header>
 
 <div class="content">
 
 {{#if .}}
-    <ul class="list">
+    <ul class="topcoat-list__container">
         {{#each .}}
-        <li style="clear: both">
+        <li class="topcoat-list__item" style="clear: both">
             <a href="#tracked/{{id}}">
             <div>
                 <span class="item">{{id}}: Tracked <strong>{{traveled}}</strong> km in <strong>{{minutes}}m</strong> and <strong>{{seconds}}s</strong></span>

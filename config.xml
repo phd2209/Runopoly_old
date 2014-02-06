@@ -15,6 +15,10 @@
   <preference name="webviewbounce" value="true" />
   <preference name="orientation" value="portrait" />
 
+  <!-- SPLASH and ICONS -->
+  <gap:splash src="img/SplashScreen.png" gap:platform="ios" width="320" height="480" />
+  <icon src="img/icon.png" gap:platform="ios" width="57" height="57" />
+ 
   <!-- PLATFORMS -->
   <gap:platform name="ios" />
   

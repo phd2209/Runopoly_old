@@ -1,19 +1,21 @@
-<header class="bar-title">
-    <a class="button-prev" href="#">
-        Back
+<header class="header">
+    <a href="#" class="header-button header-button-left header-back-button">
+        <button></button>
     </a>
-    <h1 class="title">Areas</h1>
+    <h1>RUNOPOLY</h1>
 </header>
 
 <div class="content">
 
 {{#if .}}
-    <ul class="list">
+    <ul class="topcoat-list__container">
         {{#each .}}
-        <li style="clear: both">
+        <li class="topcoat-list__item" style="clear: both">
             <a href="#area/{{id}}">
-            <div>
-                <span class="item"><strong>{{name}}</strong></span>
+            <div class="row">
+                <div class="break-blue">
+                    <p>{{name}} Owner: {{owner}} Difficulty: {{level}}</p>
+                </div>
             </div>                
             </a>
         </li>

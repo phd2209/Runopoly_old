@@ -113,28 +113,33 @@ var MobileApp = function() {
         var area1 = new Object({
             "id": "1", "name": "Utterslevmose", "longitude": 12.505524, "latitude": 55.716161, "radius1": 1750,
             "radius2": 450, "rotation": 68, "color": "#000000", "weight": 2, "opacity1": 1, "fill": "#ffff00", "opacity2": 0.3,
-            "owner": "Bill Gates"
+            "owner": "Bill Gates", "level": 7
         });
 
         var area2 = new Object({
             "id": "2", "name": "Søerne kbh.", "longitude": 12.565987, "latitude": 55.686029, "radius1": 1600,
-            "radius2": 270, "rotation": 30, "color": "#000000", "weight": 2, "opacity1": 1, "fill": "#ffff00", "opacity2": 0.3
+            "radius2": 270, "rotation": 30, "color": "#000000", "weight": 2, "opacity1": 1, "fill": "#ffff00", "opacity2": 0.3,
+            "owner": "Dolph Lundgren", "level": 10
         });
 
         var area3 = new Object({
             "id": "3", "name": "Fælledparken", "longitude": 12.568481, "latitude": 55.701744, "radius1": 650,
-            "radius2": 440, "rotation": 0, "color": "#000000", "weight": 2, "opacity1": 1, "fill": "#ffff00", "opacity2": 0.3
+            "radius2": 440, "rotation": 0, "color": "#000000", "weight": 2, "opacity1": 1, "fill": "#ffff00", "opacity2": 0.3,
+            "owner": "Rockay", "level": 9
         });
 
         var area4 = new Object({
-            "id": "4", "name": "Test", "longitude": 12.480413, "latitude": 55.715321, "radius1": 200,
-            "radius2": 100, "rotation": 0, "color": "#000000", "weight": 2, "opacity1": 1, "fill": "#ffff00", "opacity2": 0.3
+            "id": "4", "name": "Kobbelvænget", "longitude": 12.480413, "latitude": 55.715321, "radius1": 200,
+            "radius2": 100, "rotation": 0, "color": "#000000", "weight": 2, "opacity1": 1, "fill": "#ffff00", "opacity2": 0.3,
+            "owner": "Toni Awwad", "level": 3
         });
 
         var area5 = new Object({
             "id": "5", "name": "Lundbeck", "longitude": 12.517067, "latitude": 55.657684, "radius1": 100,
-            "radius2": 50, "rotation": 0, "color": "#000000", "weight": 2, "opacity1": 1, "fill": "#ffff00", "opacity2": 0.3
+            "radius2": 50, "rotation": 0, "color": "#000000", "weight": 2, "opacity1": 1, "fill": "#ffff00", "opacity2": 0.3,
+            "owner": "CEO Lundbeck", "level": 3
         });
+
         areas.push(area1);
         areas.push(area2);
         areas.push(area3);
