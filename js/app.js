@@ -1,7 +1,7 @@
 var runopoly = new MobileApp();
 runopoly.his;
-//runopoly.spinner = $("#spinner");
-//runopoly.spinner.hide();
+runopoly.spinner = $("#spinner");
+runopoly.spinner.hide();
 runopoly.slider = new PageSlider($('#container'));
 
 runopoly.MobileRouter = Backbone.Router.extend({
@@ -24,6 +24,7 @@ runopoly.MobileRouter = Backbone.Router.extend({
         }
         runopoly.homeView = new runopoly.views.Home({ model: runopoly.CheckNetwork() });
         runopoly.slider.slidePageFrom(runopoly.homeView.$el, "left");
+        runopoly.homeView.render();
     },
 
     run: function () {
@@ -40,7 +41,30 @@ runopoly.MobileRouter = Backbone.Router.extend({
 
     areas: function () {
         console.log("entered areas screen");
+        
+        var self = this;
+        var view = new runopoly.views.Areas();
+        runopoly.slider.slidePage(view.$el);
+        runopoly.spinner.show();
+
+        var call = RunopolyAPI.api("http://o2n.dk/api/Areas");
+        $.when(call)
+            .done(function (callResp) {
+                runopoly.spinner.hide();
+                view.model = callResp;
+                view.render();
+            })
+            .fail(function () {
+                runopoly.spinner.hide();
+                self.showErrorPage();
+            })
+            .always(function () {
+                runopoly.spinner.hide();
+            });
+        
+        /*
         if (runopoly.startTime == 0 && runopoly.watch_id != null) runopoly.StopGPS();
+
         if (runopoly.myAreasView) {
             runopoly.slider.slidePage(runopoly.myAreasView.$el);
             return;
@@ -48,6 +72,7 @@ runopoly.MobileRouter = Backbone.Router.extend({
         runopoly.myAreasView = new runopoly.views.Areas({ model: runopoly.getAreas() });
         runopoly.slider.slidePage(runopoly.myAreasView.$el)
         runopoly.myAreasView.render();
+        */
     },
 
     area: function (id) {
@@ -110,5 +135,12 @@ function onDeviceReady() {
         runopoly.router.navigate("", { trigger: true });
     });
 };
-
-document.addEventListener("deviceready", onDeviceReady, false);
+var debug = false;
+if (!debug) {
+    document.addEventListener("deviceready", onDeviceReady, false);
+}
+else {
+    $(document).ready(function () {
+        onDeviceReady();
+    });
+}

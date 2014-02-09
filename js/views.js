@@ -7,6 +7,15 @@ runopoly.views.Home = Backbone.View.extend({
 
     render: function () {
         this.$el.html(this.template(this.model));
+        var winH = $(window).height();
+        var totalH = winH - 27;
+        var itemHeight = Math.round(totalH / 4);
+       
+        $('#menu li').each(function () {
+            
+            $(this).height(itemHeight+'px');
+        });
+        if (winH > 480) $('#menu li .button-header').css("margin-bottom", 30 + "px");
         return this;
     }
 });
@@ -74,7 +83,7 @@ runopoly.views.Areas = Backbone.View.extend({
 
     initialize: function () {
         this.template = runopoly.templateLoader.get('areas');
-        this.render();
+        //this.render();
     },
 
     render: function () {

@@ -28,6 +28,12 @@ article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
 	display: block;
 }
+@font-face
+{
+
+font-family: 'Merriweather Sans', sans-serif;
+src: url('../fonts/MerriweatherSans-Bold.ttf');
+}
 body {
 	line-height: 1;
     background: #f2f2f2;
@@ -39,21 +45,82 @@ ol, ul {
 header {
     z-index: 10;
 }
+h1 { 
+    /*font-family: 'Merriweather', Arial, sans-serif; font-weight: 400; */
+    font-family: 'Merriweather Sans', sans-serif; font-weight: 800;
+    font-style:italic;
+}/*  
+    
+Normal 400
+
+Grumpy wizards make toxic brew for the evil Queen and Jack.
+Bold 700
+
+Extra-Bold 800 Italic 
+    **/
+.menu {
+    list-style-type:none;
+    display:inline;
+    font-family: 'Merriweather Sans', sans-serif; font-weight: 800;
+    font-size:26px;
+    width:100%;
+    text-align:center;
+}
+.menu li {
+    width: 100%;
+    background: rgb(240, 240, 237);
+    /*border-bottom: 1px solid #333333;*/
+    box-shadow: 0 0 1px -1px #000000;
+}
+.menu li span{
+   font-size:12px;
+   font-style:italic;
+   text-transform: initial;
+   margin-top: -8px;
+    display: block;
+
+   
+}
+    .menu li .button-header {
+        position:relative;
+        top:30%;
+        display:block;
+        font-size:inherit;
+        padding:0;
+        margin:0 0 20px 0;
+        width:100%;
+        text-transform: uppercase;
+        
+    }
+.menu li:last-child
+{
+    border:none;
+}
+.menu li:active {
+    width: 100%;
+    background: #000;
+}
+.menu li a {
+   color: #353943;
+    text-decoration: NONE;
+    position:relative;
+    display:block;
+    height:100%;
+}
+ .menu li a:active {
+     color: #E5A24D;
+   }
+
+
 
 .header{
-    background: #6d6e72;
-    -webkit-background-size: 1px 44px;
-    -moz-background-size: 1px 44px;
-    -ms-background-size: 1px 44px;
-    -o-background-size: 1px 44px;
-    background-size: 1px 44px;
-    height: 44px;
-    line-height: 44px;
+    background: #E9E9E9;
+    height: 27px;
     width: 100%;
     color: #fff;
-    -webkit-user-select: none;
-    -webkit-touch-callout: none;
-    z-index:10;
+    z-index: 10;
+    -webkit-box-shadow: 0px 0px 2px 2px #CECECE;
+    position: relative;
 }
 
 .header-button{
@@ -155,8 +222,8 @@ header {
 }
 
 .content {
-    padding: 5px 0px 0px 0px;
-    margin: 2px 0px 0px 0px; 
+    /*padding: 5px 0px 0px 0px;
+    margin: 2px 0px 0px 0px; */
     background: #f2f2f2;
     height: 100%;
 }

@@ -1,4 +1,4 @@
-var MobileApp = function() {
+ï»¿var MobileApp = function() {
 
     this.initialize = function () {
         this.areas = this.createAreas();
@@ -117,19 +117,19 @@ var MobileApp = function() {
         });
 
         var area2 = new Object({
-            "id": "2", "name": "Søerne kbh.", "longitude": 12.565987, "latitude": 55.686029, "radius1": 1600,
+            "id": "2", "name": "SÃ¸erne kbh.", "longitude": 12.565987, "latitude": 55.686029, "radius1": 1600,
             "radius2": 270, "rotation": 30, "color": "#000000", "weight": 2, "opacity1": 1, "fill": "#ffff00", "opacity2": 0.3,
             "owner": "Dolph Lundgren", "level": 10
         });
 
         var area3 = new Object({
-            "id": "3", "name": "Fælledparken", "longitude": 12.568481, "latitude": 55.701744, "radius1": 650,
+            "id": "3", "name": "FÃ¦lledparken", "longitude": 12.568481, "latitude": 55.701744, "radius1": 650,
             "radius2": 440, "rotation": 0, "color": "#000000", "weight": 2, "opacity1": 1, "fill": "#ffff00", "opacity2": 0.3,
             "owner": "Rockay", "level": 9
         });
 
         var area4 = new Object({
-            "id": "4", "name": "Kobbelvænget", "longitude": 12.480413, "latitude": 55.715321, "radius1": 200,
+            "id": "4", "name": "KobbelvÃ¦nget", "longitude": 12.480413, "latitude": 55.715321, "radius1": 200,
             "radius2": 100, "rotation": 0, "color": "#000000", "weight": 2, "opacity1": 1, "fill": "#ffff00", "opacity2": 0.3,
             "owner": "Toni Awwad", "level": 3
         });
@@ -220,6 +220,7 @@ var MobileApp = function() {
             else {
                 $("#distance_area_text").text("You are in the Area. Start running!!");
             }
+
         }
 
         if (self.runopoly.tracking) {
