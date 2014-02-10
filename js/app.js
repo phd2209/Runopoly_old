@@ -152,9 +152,9 @@ function onDeviceReady() {
     FastClick.attach(document.body);
 
     // Push body if iOS version gt 7
-    if (parseFloat(window.device.version) >= 7.0) {
-        document.body.style.marginTop = "20px";
-    }
+    //if (parseFloat(window.device.version) >= 7.0) {
+    //    document.body.style.marginTop = "20px";
+    //}
     
     // Override default HTML alert with native dialog
     if (navigator.notification) { 
@@ -195,4 +195,5 @@ function onDeviceReady() {
         }
     });
 };
+
 document.addEventListener("deviceready", onDeviceReady, false);
