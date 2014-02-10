@@ -5,7 +5,7 @@
   <content src="index.html"/>
  
   <!-- PHONEGAP PREFERENCES -->
-  <preference name="phonegap-version" value="3.1.0" />
+  <preference name="phonegap-version" value="3.3.0" />
   <preference name="target-device" value="handset" />
   <preference name="prerendered-icon" value="true" />
   <preference name="ios-statusbarstyle" value="black-opaque" />
@@ -30,15 +30,17 @@
   <feature name="NetworkStatus">
     <param name="ios-package" value="CDVConnection" />
   </feature>
+  <feature name="Notification">
+    <param name="ios-package" value="CDVNotification" />
+  </feature>
+
+
   <!--
   <feature name="File">
     <param name="ios-package" value="CDVFile" />
   </feature>
   <feature name="FileTransfer">
     <param name="ios-package" value="CDVFileTransfer" />
-  </feature>
-  <feature name="Notification">
-    <param name="ios-package" value="CDVNotification" />
   </feature>
   -->
   
@@ -48,6 +50,10 @@
   -->
   <gap:plugin name="org.apache.cordova.geolocation" />
   <gap:plugin name="org.apache.cordova.network-information" />
+  <gap-plugin name="org.apache.cordova.dialogs" />
+  <gap-plugin name="org.apache.cordova.vibration" />
+  <gap-plugin name="org.apache.cordova.device" />
+  <gap-plugin name="org.apache.cordova.globalization" />
   <!--
   <gap:plugin name="org.apache.cordova.file" />
   <gap:plugin name="org.apache.cordova.file-transfer" /> 
