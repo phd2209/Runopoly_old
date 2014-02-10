@@ -1,6 +1,7 @@
 ﻿var MobileApp = function() {
 
     this.initialize = function () {
+        this.language = "";
         this.areas = this.createAreas();
         this.startTime = 0;
         this.stopTime = 0;
@@ -13,7 +14,6 @@
         this.selectedArea = null;
         this.templateLoader = new this.TemplateLoader();
     };
-
 
     // Template loader class - loads the html templates
     this.TemplateLoader = function () {

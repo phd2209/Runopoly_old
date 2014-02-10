@@ -8,6 +8,7 @@ runopoly.MobileRouter = Backbone.Router.extend({
 
     routes: {
         "": "home",
+        "register": "register",
         "run": "run",
         "areas": "areas",
         "area/:id": "area",
@@ -22,9 +23,38 @@ runopoly.MobileRouter = Backbone.Router.extend({
             runopoly.slider.slidePage(runopoly.homeView.$el);
             return;
         }
+
+        //var self = this;
+        //runopoly.homeView = new runopoly.views.Home({ model: runopoly.CheckNetwork() });
+        //runopoly.slider.slidePageFrom(runopoly.homeView.$el, "left");
+        //runopoly.spinner.show();
+        /*
+        var call = RunopolyAPI.Post("http://o2n.dk/api/Users");
+        $.when(call)
+            .done(function (callResp) {
+                runopoly.spinner.hide();
+                runopoly.homeView.model = callResp;
+                runopoly.homeView.render();
+            })
+            .fail(function () {
+                runopoly.spinner.hide();
+                self.showErrorPage();
+            })
+            .always(function () {
+                runopoly.spinner.hide();
+            });
+        */
         runopoly.homeView = new runopoly.views.Home({ model: runopoly.CheckNetwork() });
         runopoly.slider.slidePageFrom(runopoly.homeView.$el, "left");
         runopoly.homeView.render();
+    },
+
+    register: function () {
+        console.log("Entered register screen");
+        if (runopoly.startTime == 0 && runopoly.watch_id != null) runopoly.StopGPS();
+        runopoly.registerView = new runopoly.views.Register({});
+        runopoly.slider.slidePageFrom(runopoly.registerView.$el, "left");
+        runopoly.registerView.render();
     },
 
     run: function () {
@@ -47,7 +77,7 @@ runopoly.MobileRouter = Backbone.Router.extend({
         runopoly.slider.slidePage(view.$el);
         runopoly.spinner.show();
 
-        var call = RunopolyAPI.api("http://o2n.dk/api/Areas");
+        var call = RunopolyAPI.getJson("http://o2n.dk/api/Areas");
         $.when(call)
             .done(function (callResp) {
                 runopoly.spinner.hide();
@@ -117,8 +147,17 @@ $(document).on('click', '.button.back', function() {
 });
 
 function onDeviceReady() {
+
+    // Setup the fastclick to get rid of the delay
     FastClick.attach(document.body);
-    if (navigator.notification) { // Override default HTML alert with native dialog
+
+    // Push body if iOS version gt 7
+    if (parseFloat(window.device.version) >= 7.0) {
+        document.body.style.marginTop = "20px";
+    }
+    
+    // Override default HTML alert with native dialog
+    if (navigator.notification) { 
         window.alert = function (message) {
             navigator.notification.alert(
                 message,    // message
@@ -129,18 +168,31 @@ function onDeviceReady() {
         };
     };
 
-    runopoly.templateLoader.load(['home', 'run', 'history', 'tracked', 'areas', 'area'], function () {
+
+    if (navigator.globalization) {
+        navigator.globalization.getPreferredLanguage(
+            function (language) {
+                alert('language: ' + language.value + '\n');
+                runopoly.language = language.value;
+            },
+            function () { alert('Error getting language\n'); }
+          );
+    }
+
+    //Load the templates
+    runopoly.templateLoader.load(['register', 'home', 'run', 'history', 'tracked', 'areas', 'area'], function () {
         runopoly.router = new runopoly.MobileRouter();
         Backbone.history.start();
-        runopoly.router.navigate("", { trigger: true });
+
+        var user = localStorage["user"];
+        if (user != undefined || user != null) {
+            //runopoly.router.navigate("", { trigger: true });
+            runopoly.router.navigate("register", { trigger: true });
+        }
+        else {
+            runopoly.router.navigate("", { trigger: true });
+            //runopoly.router.navigate("register", { trigger: true });
+        }
     });
 };
-var debug = false;
-if (!debug) {
-    document.addEventListener("deviceready", onDeviceReady, false);
-}
-else {
-    $(document).ready(function () {
-        onDeviceReady();
-    });
-}
+document.addEventListener("deviceready", onDeviceReady, false);

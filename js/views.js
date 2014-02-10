@@ -20,6 +20,19 @@ runopoly.views.Home = Backbone.View.extend({
     }
 });
 
+runopoly.views.Register = Backbone.View.extend({
+
+    initialize: function () {
+        this.template = runopoly.templateLoader.get('register');
+        this.render();
+    },
+
+    render: function () {
+        this.$el.html(this.template());
+        return this;
+    }
+});
+
 runopoly.views.Run = Backbone.View.extend({
 
     events: {

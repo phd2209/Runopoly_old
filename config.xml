@@ -33,7 +33,9 @@
   <feature name="Notification">
     <param name="ios-package" value="CDVNotification" />
   </feature>
-
+  <feature name="Globalization">
+    <param name="ios-package" value="CDVGlobalization" />
+  </feature>
 
   <!--
   <feature name="File">
