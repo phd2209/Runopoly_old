@@ -47,20 +47,12 @@
   -->
   
   <!-- PHONEGAP FEATURES -->
-  <!--
-  <gap:plugin name="org.apache.cordova.device"/>
-  -->
+  <gap:plugin name="org.apache.cordova.device" />
   <gap:plugin name="org.apache.cordova.geolocation" />
   <gap:plugin name="org.apache.cordova.network-information" />
   <gap-plugin name="org.apache.cordova.dialogs" />
-  <gap-plugin name="org.apache.cordova.vibration" />
-  <gap-plugin name="org.apache.cordova.globalization" />
-  <!--
-  <gap:plugin name="org.apache.cordova.file" />
-  <gap:plugin name="org.apache.cordova.file-transfer" /> 
-  <gap:plugin name="org.apache.cordova.dialogs" />
-  <gap:plugin name="org.apache.cordova.console" />-->
-  -->
+  <gap:plugin name="org.apache.cordova.globalization" />
+
   <!-- ACCESS -->
   <access origin="*" />
 </widget>
