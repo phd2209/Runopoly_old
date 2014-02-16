@@ -37,14 +37,14 @@
   <feature name="Globalization">
     <param name="ios-package" value="CDVGlobalization" />
   </feature>
-  <feature name="Device">
+  <!--<feature name="Device">
       <param name="ios-package" value="CDVDevice" />
-  </feature>
+  </feature>-->
   
   
   <!-- PHONEGAP FEATURES -->
                         
-  <gap:plugin name="org.apache.cordova.device" />
+  <!--<gap:plugin name="org.apache.cordova.device" />-->
   <gap:plugin name="org.apache.cordova.geolocation" />
   <gap:plugin name="org.apache.cordova.network-information" />
   <gap-plugin name="org.apache.cordova.dialogs" />
