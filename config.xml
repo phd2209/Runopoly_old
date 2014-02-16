@@ -23,7 +23,8 @@
   <gap:platform name="ios" />
   
   <!-- FEATURES -->
-  <feature name="http://api.phonegap.com/1.0/device"/>
+  
+  
   <feature name="Geolocation">
     <param name="ios-package" value="CDVLocation" />
   </feature>
@@ -36,18 +37,14 @@
   <feature name="Globalization">
     <param name="ios-package" value="CDVGlobalization" />
   </feature>
-
-  <!--
-  <feature name="File">
-    <param name="ios-package" value="CDVFile" />
+  <feature name="Device">
+      <param name="ios-package" value="CDVDevice" />
   </feature>
-  <feature name="FileTransfer">
-    <param name="ios-package" value="CDVFileTransfer" />
-  </feature>
-  -->
+  
   
   <!-- PHONEGAP FEATURES -->
-  <!--<gap:plugin name="org.apache.cordova.device" />-->
+                        
+  <gap:plugin name="org.apache.cordova.device" />
   <gap:plugin name="org.apache.cordova.geolocation" />
   <gap:plugin name="org.apache.cordova.network-information" />
   <gap-plugin name="org.apache.cordova.dialogs" />

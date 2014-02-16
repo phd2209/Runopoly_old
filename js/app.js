@@ -1,14 +1,16 @@
 var runopoly = new MobileApp();
+
 runopoly.his;
 runopoly.spinner = $("#spinner");
 runopoly.spinner.hide();
 runopoly.slider = new PageSlider($('#container'));
+runopoly.url = "http://o2n.dk/api/";
+//runopoly.url = "http://localhost:54837/api/";
 
 runopoly.MobileRouter = Backbone.Router.extend({
 
     routes: {
         "": "home",
-        "register": "register",
         "run": "run",
         "areas": "areas",
         "area/:id": "area",
@@ -18,43 +20,74 @@ runopoly.MobileRouter = Backbone.Router.extend({
 
     home: function () {
         console.log("Entered home screen");
+        var self = this
         if (runopoly.startTime == 0 && runopoly.watch_id != null) runopoly.StopGPS();
+
+        // HomeView has allready been generated                
         if (runopoly.homeView) {
             runopoly.slider.slidePage(runopoly.homeView.$el);
             return;
         }
 
-        //var self = this;
-        //runopoly.homeView = new runopoly.views.Home({ model: runopoly.CheckNetwork() });
-        //runopoly.slider.slidePageFrom(runopoly.homeView.$el, "left");
-        //runopoly.spinner.show();
-        /*
-        var call = RunopolyAPI.Post("http://o2n.dk/api/Users");
-        $.when(call)
-            .done(function (callResp) {
-                runopoly.spinner.hide();
-                runopoly.homeView.model = callResp;
-                runopoly.homeView.render();
-            })
-            .fail(function () {
-                runopoly.spinner.hide();
-                self.showErrorPage();
-            })
-            .always(function () {
-                runopoly.spinner.hide();
-            });
-        */
-        runopoly.homeView = new runopoly.views.Home({ model: runopoly.CheckNetwork() });
+        // Start creation of homeView
+        runopoly.spinner.show();
+        runopoly.homeView = new runopoly.views.Home({template: runopoly.templateLoader.get('home') });
         runopoly.slider.slidePageFrom(runopoly.homeView.$el, "left");
-        runopoly.homeView.render();
-    },
 
-    register: function () {
-        console.log("Entered register screen");
-        if (runopoly.startTime == 0 && runopoly.watch_id != null) runopoly.StopGPS();
-        runopoly.registerView = new runopoly.views.Register({});
-        runopoly.slider.slidePageFrom(runopoly.registerView.$el, "left");
-        runopoly.registerView.render();
+        // User exists in localStorage
+        var saveduser = localStorage["user"];
+        if (saveduser != undefined || saveduser != null) {
+            var user = JSON.parse(saveduser);
+            console.log("User Allready exists with : " + user);
+            var call = RunopolyWebAPI.Put(runopoly.url + "Users", user);
+
+            $.when(call)
+                .done(function (callResp) {
+                    console.log(callResp);
+                    runopoly.spinner.hide();
+                    runopoly.homeView.model = JSON.parse(JSON.stringify(callResp));
+                    runopoly.homeView.render();
+                })
+                .fail(function () {
+                    runopoly.spinner.hide();
+                    self.showErrorPage();
+                })
+                .always(function () {
+                    runopoly.spinner.hide();
+            });
+        }
+        
+        //User is new post him to db and store him
+        else {
+            console.log("User is new - save him to db");
+
+            var user = {
+                "nick_name": "New Runner",
+                "first_name": "",
+                "last_name": "",
+                "gender": "",
+                "email": ""
+            };
+
+            var call = RunopolyWebAPI.Post(runopoly.url + "Users", user);
+
+            $.when(call)
+                .done(function (callResp) {
+                    console.log(callResp);
+                    runopoly.spinner.hide();
+                    localStorage["user"] = JSON.stringify(callResp);
+                    runopoly.homeView.model = JSON.parse(JSON.stringify(callResp));
+                    runopoly.slider.slidePageFrom(runopoly.homeView.$el, "left");
+                    runopoly.homeView.render();
+                })
+                .fail(function () {
+                    runopoly.spinner.hide();
+                    self.showErrorPage();
+                })
+                .always(function () {
+                    runopoly.spinner.hide();
+                });
+        }
     },
 
     run: function () {
@@ -71,18 +104,30 @@ runopoly.MobileRouter = Backbone.Router.extend({
 
     areas: function () {
         console.log("entered areas screen");
-        
-        var self = this;
-        var view = new runopoly.views.Areas();
-        runopoly.slider.slidePage(view.$el);
-        runopoly.spinner.show();
+        var self = this
+        if (runopoly.startTime == 0 && runopoly.watch_id != null) runopoly.StopGPS();
 
-        var call = RunopolyAPI.getJson("http://o2n.dk/api/Areas");
+        // AreasView has allready been generated    
+        if (runopoly.myAreasView) {
+            runopoly.slider.slidePage(runopoly.myAreasView.$el);
+            return;
+        }
+
+        // Start creation of AreasView
+        runopoly.spinner.show();
+        runopoly.myAreasView = new runopoly.views.Areas({template: runopoly.templateLoader.get('areas') });
+        runopoly.slider.slidePage(runopoly.myAreasView.$el)
+        var user = runopoly.homeView.model;
+        console.log(user);
+
+        var call = RunopolyWebAPI.Get(runopoly.url + "Areas", user.id);
+
         $.when(call)
             .done(function (callResp) {
+                console.log(callResp);
                 runopoly.spinner.hide();
-                view.model = callResp;
-                view.render();
+                runopoly.myAreasView.model = JSON.parse(JSON.stringify(callResp));
+                runopoly.myAreasView.render();
             })
             .fail(function () {
                 runopoly.spinner.hide();
@@ -91,23 +136,14 @@ runopoly.MobileRouter = Backbone.Router.extend({
             .always(function () {
                 runopoly.spinner.hide();
             });
-        
-        /*
-        if (runopoly.startTime == 0 && runopoly.watch_id != null) runopoly.StopGPS();
-
-        if (runopoly.myAreasView) {
-            runopoly.slider.slidePage(runopoly.myAreasView.$el);
-            return;
-        }
-        runopoly.myAreasView = new runopoly.views.Areas({ model: runopoly.getAreas() });
-        runopoly.slider.slidePage(runopoly.myAreasView.$el)
-        runopoly.myAreasView.render();
-        */
     },
 
     area: function (id) {
         console.log("entered area screen " + id);
+        var self = this
         if (runopoly.startTime == 0 && runopoly.watch_id != null) runopoly.StopGPS();
+
+        // AreaView has allready been generated
         if (runopoly.myAreaView) {
             runopoly.myAreaView.model = runopoly.getArea(id);
             runopoly.slider.slidePage(runopoly.myAreaView.$el);
@@ -146,6 +182,7 @@ $(document).on('click', '.button.back', function() {
     return false;
 });
 
+
 function onDeviceReady() {
 
     // Setup the fastclick to get rid of the delay
@@ -153,6 +190,7 @@ function onDeviceReady() {
 
     // Push body if iOS version gt 7
     //if (parseFloat(window.device.version) >= 7.0) {
+    //    aleret(window.device);
     //    document.body.style.marginTop = "20px";
     //}
     
@@ -168,7 +206,7 @@ function onDeviceReady() {
         };
     };
 
-
+    //Get the device language so that the dictionary can be pulled
     if (navigator.globalization) {
         navigator.globalization.getPreferredLanguage(
             function (language) {
@@ -180,19 +218,10 @@ function onDeviceReady() {
     }
 
     //Load the templates
-    runopoly.templateLoader.load(['register', 'home', 'run', 'history', 'tracked', 'areas', 'area'], function () {
+    runopoly.templateLoader.load(['home', 'run', 'history', 'tracked', 'areas', 'area'], function () {
         runopoly.router = new runopoly.MobileRouter();
         Backbone.history.start();
-
-        var user = localStorage["user"];
-        if (user != undefined || user != null) {
-            //runopoly.router.navigate("", { trigger: true });
-            runopoly.router.navigate("register", { trigger: true });
-        }
-        else {
-            runopoly.router.navigate("", { trigger: true });
-            //runopoly.router.navigate("register", { trigger: true });
-        }
+        runopoly.router.navigate("", { trigger: true });        
     });
 };
 

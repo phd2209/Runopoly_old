@@ -1,11 +1,12 @@
 runopoly.views.Home = Backbone.View.extend({
 
     initialize: function () {
+        console.log("Home View Initialized");
         this.template = runopoly.templateLoader.get('home');
-        this.render();
     },
 
     render: function () {
+        console.log("Home View Rendered");
         this.$el.html(this.template(this.model));
         var winH = $(window).height();
         var totalH = winH - 27;
@@ -16,19 +17,6 @@ runopoly.views.Home = Backbone.View.extend({
             $(this).height(itemHeight+'px');
         });
         if (winH > 480) $('#menu li .button-header').css("margin-bottom", 30 + "px");
-        return this;
-    }
-});
-
-runopoly.views.Register = Backbone.View.extend({
-
-    initialize: function () {
-        this.template = runopoly.templateLoader.get('register');
-        this.render();
-    },
-
-    render: function () {
-        this.$el.html(this.template());
         return this;
     }
 });
@@ -96,7 +84,7 @@ runopoly.views.Areas = Backbone.View.extend({
 
     initialize: function () {
         this.template = runopoly.templateLoader.get('areas');
-        //this.render();
+        this.render();
     },
 
     render: function () {

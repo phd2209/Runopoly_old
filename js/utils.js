@@ -11,6 +11,8 @@
         this.watch_id = null;
         this.tracking_data = [];
         this.views = {};
+        this.models = {};
+        this.collection = {};
         this.selectedArea = null;
         this.templateLoader = new this.TemplateLoader();
     };
@@ -105,7 +107,7 @@
     //****************************************************************************************
     //*** Area functions
     //****************************************************************************************
-
+    
     //Create all areas defines them as objects representing ellipses on a map - should be drawn from db later on
     this.createAreas = function () {
         var areas = [];
@@ -147,12 +149,12 @@
         areas.push(area5);
         return areas;
     }
-
+    
     // Returns all areas created
     this.getAreas = function () {
         return this.areas;
     }
-
+    
     // Finds nearest area given the current position
     this.FindNearestArea = function (position) {
 
