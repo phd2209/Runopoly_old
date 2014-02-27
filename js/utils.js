@@ -1,6 +1,6 @@
 ﻿var MobileApp = function() {
 
-    this.initialize = function () {
+    this.initialize = function () {        
         this.language = "";
         this.areas = this.createAreas();
         this.startTime = 0;
@@ -12,9 +12,17 @@
         this.tracking_data = [];
         this.views = {};
         this.models = {};
-        this.collection = {};
+        this.collections = {};
         this.selectedArea = null;
         this.templateLoader = new this.TemplateLoader();
+        this.webAPI = new webAPI();
+        this.webAPI.initialize(this.APIurl).done(function () {
+            console.log("Runopoly Web API initialized");
+        });
+        this.localStorageAPI = new localStorageAPI();
+        this.localStorageAPI.initialize().done(function () {
+            console.log("Runopoly Local API initialized");
+        });
     };
 
     // Template loader class - loads the html templates

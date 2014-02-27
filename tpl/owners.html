@@ -1,0 +1,43 @@
+﻿<header class="bar bar-nav">
+  <a class="icon icon-left-nav pull-left" href="#"></a>
+  <h1 class="title">OWNERS</h1>
+</header>
+
+<div class="content">
+
+{{#if .}}
+    <ul class="table-view">
+        {{#each .}}
+            <!--<li class="list-divider">{{name}} ({{TotalKm}} km)</li>-->
+            {{#each owners}}
+                <!--{{#if isUser}}
+                    <li style="clear: both" class="user">
+                {{else}}-->
+                    <li style="clear: both" class="table-view-cell">
+                <!--{{/if}}-->          
+                    <a class="push-right" href="#owner/{{owners.owner.id}}">
+                    <div style="float:left">
+                        <span class="maintext">{{owner.nick_name}}</span><br />
+                        <span class="subtext">{{NoRuns}} run(s) in area</span>
+                    </div>
+                    <div style="float:right;margin-right:-20px">
+                        <figure class="pie blue" data-pie="90">
+					        <div class="master"></div>
+						    <div class="slice">
+                                <div class="inner"></div>
+						    </div>
+                            <div class="cover">
+						        <div class="inner_circle">
+							        {{UserKm}} km
+						        </div>
+						    </div>
+				        </figure>                                        
+                    </div>
+                    </a>
+                </li>
+            {{/each}}
+        {{/each}}
+    </ul>
+{{/if}}
+</div>
+

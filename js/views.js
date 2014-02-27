@@ -1,4 +1,7 @@
 runopoly.views.Home = Backbone.View.extend({
+    //events: {
+    //    'click li': 'transition'
+    //},
 
     initialize: function () {
         console.log("Home View Initialized");
@@ -9,11 +12,9 @@ runopoly.views.Home = Backbone.View.extend({
         console.log("Home View Rendered");
         this.$el.html(this.template(this.model));
         var winH = $(window).height();
-        var totalH = winH - 27;
-        var itemHeight = Math.round(totalH / 4);
-       
-        $('#menu li').each(function () {
-            
+        //var totalH = winH - 27;
+        var itemHeight = Math.round(winH / 4);
+        $('#homemenu li').each(function () {            
             $(this).height(itemHeight+'px');
         });
         if (winH > 480) $('#menu li .button-header').css("margin-bottom", 30 + "px");
@@ -83,11 +84,13 @@ runopoly.views.Tracked = Backbone.View.extend({
 runopoly.views.Areas = Backbone.View.extend({
 
     initialize: function () {
+        console.log("Areas View Initialized");
         this.template = runopoly.templateLoader.get('areas');
         this.render();
     },
 
     render: function () {
+        console.log("Areas View Rendered");
         this.$el.html(this.template(this.model));
         return this;
     }
@@ -169,6 +172,45 @@ runopoly.views.Area = Backbone.View.extend({
         return this;
     }
 });
+
+
+
+runopoly.views.Owners = Backbone.View.extend({
+
+    initialize: function () {
+        this.template = runopoly.templateLoader.get('owners');
+        //this.render();
+    },
+
+    render: function () {
+        $(this.el).empty();
+        this.$el.html(this.template(this.model));
+        $.each(this.model, function (id, owners) {
+            $.each(owners.owners, function (id, own) {
+                var degree = Math.round((own.UserKm / owners.TotalKm) * 100);
+                $('figure.pie').children('.slice').children('.inner').css({
+                    '-webkit-transform': 'rotate(' + degree + 'deg)',
+                    '-moz-transform': 'rotate(' + degree + 'deg)',
+                    '-o-transform': 'rotate(' + degree + 'deg)',
+                    'transform': 'rotate(' + degree + 'deg)',
+                });
+            });
+        });
+        /*var pies = $('figure.pie');
+        $.each(pies, function () {
+            var degree = $(this).attr('data-pie');
+            $(this).children('.slice').children('.inner').css({
+                '-webkit-transform': 'rotate(' + degree + 'deg)',
+                '-moz-transform': 'rotate(' + degree + 'deg)',
+                '-o-transform': 'rotate(' + degree + 'deg)',
+                'transform': 'rotate(' + degree + 'deg)',
+            });
+        });*/
+        return this;
+    }
+});
+
+
 
 runopoly.views.Error = Backbone.View.extend({
 

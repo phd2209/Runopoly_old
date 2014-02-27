@@ -1,27 +1,32 @@
-<header class="header">
-    <a href="#" class="header-button header-button-left header-back-button">
-        <button></button>
-    </a>
-    <h1>RUNOPOLY</h1>
+<header class="bar bar-nav">
+  <a class="icon icon-left-nav pull-left" href="#"></a>
+  <h1 class="title">AREAS</h1>
 </header>
 
 <div class="content">
 
 {{#if .}}
-    <ul class="topcoat-list__container">
+    <ul class="table-view">
         {{#each .}}
-        <li class="topcoat-list__item" style="clear: both">
-            <a href="#area/{{id}}">
-            <div class="row">
-                <div class="break-blue">
-                    <p>{{name}} Owner: {{owner}} Difficulty: {{level}}</p>
-                </div>
-            </div>                
+            {{#if isUserArea}}
+                <li style="clear: both" class="table-view-cell">
+            {{else}}
+                <li style="clear: both" class="table-view-cell">
+            {{/if}}
+            <a class="push-right" href="#area/{{id}}">
+            <div>
+                <span class="maintext">{{name}}</span><br />
+                <span class="subtext">{{TotalKm}} km, {{NoRuns}} run(s), {{level}} runner(s)</span>
+                <!--
+                {{#if isUserArea}}
+                    <div class="user pct">{{UserKm}}<span class="pctdesc"> %</span><span class="total"> af total</span></div>
+                {{/if}}    
+                -->
+            </div>
             </a>
-        </li>
+            </li>
         {{/each}}
     </ul>
-    {{else}}
-    {{/if}}
+{{/if}}
 
 </div>
