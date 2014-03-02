@@ -15,10 +15,10 @@
         this.collections = {};
         this.selectedArea = null;
         this.templateLoader = new this.TemplateLoader();
-        this.webAPI = new webAPI();
-        this.webAPI.initialize(this.APIurl).done(function () {
-            console.log("Runopoly Web API initialized");
-        });
+        //this.webAPI = new webAPI();
+        //this.webAPI.initialize(this.APIurl).done(function () {
+        //    console.log("Runopoly Web API initialized");
+        //});
         this.localStorageAPI = new localStorageAPI();
         this.localStorageAPI.initialize().done(function () {
             console.log("Runopoly Local API initialized");
@@ -283,7 +283,6 @@
         }
         return sValue + m;
     };
-
 
     //Entered if GPS fails to get a read
     this.onError = function (error) {

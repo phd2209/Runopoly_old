@@ -1,9 +1,5 @@
 var runopoly = new MobileApp();
-
-runopoly.his;
-runopoly.spinner = $("#spinner");
-runopoly.spinner.hide();
-runopoly.slider = new PageSlider($('#container'));
+//runopoly.his;
 
 runopoly.MobileRouter = Backbone.Router.extend({
 
@@ -17,33 +13,13 @@ runopoly.MobileRouter = Backbone.Router.extend({
         "history": "history",
         "history/:id": "tracked"
     },
-    /*
-    initialize: function() {
-        this.listenTo(Backbone, 'page-animation', this.animate);
-    },
-    animate: function( id, href) {
-        switch (id) {
-            case "run": break;
-            case "areas": break;
-            case "winners":
-                $('#run').attr("class", "run transition  ");
-                $('#areas').attr("class", "areas transition  ");
-                $('#winners').attr("class", "winners transition  ");
-                $('#history').attr("class", "history transition  ");
-                $('#header').attr("class", "header_subpage transition ");
-                break;
-            case "history": break;
-            default: break;
-        }
 
-        $('#winners').on('webkitTransitionEnd', function (e) {
-            console.log(e);
-            console.log(runopoly);
-            window.runopoly.router.navigate(id, { trigger: true });
-        });
-        return false;
+    initialize: function () {
+        runopoly.slider = new PageSlider($('#container'));
+        runopoly.spinner = $("#spinner");
+        runopoly.spinner.hide();
     },
-    */
+
     stopGPS: function () {
         if (runopoly.startTime == 0 && runopoly.watch_id != null) runopoly.StopGPS();
         return false;
@@ -161,7 +137,7 @@ runopoly.MobileRouter = Backbone.Router.extend({
         console.log("entered winners screen");
         this.stopGPS();
 
-        // WinnersView has allready been generated    
+        // OwnersView has allready been generated    
         if (runopoly.myOwnersView) {
             runopoly.slider.slidePage(runopoly.myOwnersView.$el);
             return;
@@ -191,14 +167,38 @@ runopoly.MobileRouter = Backbone.Router.extend({
 
     history: function () {
         console.log("entered history screen");
-        if (runopoly.startTime == 0 && runopoly.watch_id != null) runopoly.StopGPS();
+        this.stopGPS();
+
+        // HistoryView has allready been generated    
         if (runopoly.myHistoryView) {
             runopoly.slider.slidePage(runopoly.myHistoryView.$el);
             return;
         }
-        //runopoly.myHistoryView = new runopoly.views.History({ model: runopoly.getHistory() });
-        runopoly.slider.slidePage(runopoly.myHistoryView.$el)
-        //runopoly.myHistoryView.render();
+
+        // Start creation of HistoryView
+        runopoly.spinner.show();
+        runopoly.myHistoryView = new runopoly.views.History({ template: runopoly.templateLoader.get('history') });
+        runopoly.slider.slidePage(runopoly.myHistoryView.$el);
+
+        runopoly.localStorageAPI.getUser().done(function (saveduser) {
+            var user = new runopoly.models.User(JSON.parse(JSON.stringify(saveduser)));
+            user.id = 17;
+            console.log(user.id);
+
+            var history = new runopoly.collections.Runs();
+
+            history.fetch({
+                data: {
+                    id: user.id
+                },
+                success: function (data) {
+                    console.log(data);
+                    runopoly.spinner.hide();
+                    runopoly.myHistoryView.model = history.toJSON();
+                    runopoly.myHistoryView.render();
+                }
+            });
+        });
     },
 
     tracked: function (id) {

@@ -179,33 +179,23 @@ runopoly.views.Owners = Backbone.View.extend({
 
     initialize: function () {
         this.template = runopoly.templateLoader.get('owners');
-        //this.render();
+        this.render();
     },
 
     render: function () {
         $(this.el).empty();
         this.$el.html(this.template(this.model));
-        $.each(this.model, function (id, owners) {
-            $.each(owners.owners, function (id, own) {
-                var degree = Math.round((own.UserKm / owners.TotalKm) * 100);
-                $('figure.pie').children('.slice').children('.inner').css({
-                    '-webkit-transform': 'rotate(' + degree + 'deg)',
-                    '-moz-transform': 'rotate(' + degree + 'deg)',
-                    '-o-transform': 'rotate(' + degree + 'deg)',
-                    'transform': 'rotate(' + degree + 'deg)',
-                });
-            });
-        });
-        /*var pies = $('figure.pie');
+        var pies = $('figure.pie');
         $.each(pies, function () {
             var degree = $(this).attr('data-pie');
+            degree = Math.round(degree * 3.6);
             $(this).children('.slice').children('.inner').css({
                 '-webkit-transform': 'rotate(' + degree + 'deg)',
                 '-moz-transform': 'rotate(' + degree + 'deg)',
                 '-o-transform': 'rotate(' + degree + 'deg)',
                 'transform': 'rotate(' + degree + 'deg)',
             });
-        });*/
+        });
         return this;
     }
 });

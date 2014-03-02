@@ -1,26 +1,26 @@
-<header class="header">
-    <a href="#" class="header-button header-button-left header-back-button">
-        <button></button>
-    </a>
-    <h1>RUNOPOLY</h1>
+<header class="bar bar-nav">
+  <a class="icon icon-left-nav pull-left" href="#"></a>
+  <h1 class="title">HISTORY</h1>
 </header>
 
 <div class="content">
-
-{{#if .}}
-    <ul class="topcoat-list__container">
-        {{#each .}}
-        <li class="topcoat-list__item" style="clear: both">
-            <a href="#tracked/{{id}}">
-            <div>
-                <span class="item">{{id}}: Tracked <strong>{{traveled}}</strong> km in <strong>{{minutes}}m</strong> and <strong>{{seconds}}s</strong></span>
-            </div>                
-            </a>
-        </li>
-        {{/each}}
-    </ul>
-    {{else}}
-    <span class="empty">No tracked runs</span>
+    {{#if .}}
+        <ul class="table-view">
+            {{#each .}}
+                <li style="clear: both" class="table-view-cell">
+                <a class="push-right" href="#tracked/{{runid}}">
+                <div class="circle">
+                    {{{formatDateTime startdate}}}
+                </div>
+                <span class="subtext">Tracked <b>{{totalkm}} km</b> in {{formatSeconds duration}}</span>
+                <div>
+                {{#each areascovered}}                                        
+                    <span class="subtext">  {{areaname}}: <b>{{areakm}} km</b></span><br />                        
+                {{/each}}
+                </div>
+                </a>                    
+                </li>
+            {{/each}}
+        </ul>
     {{/if}}
-
 </div>
