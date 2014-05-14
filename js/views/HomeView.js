@@ -4,15 +4,14 @@
         this.render();
     },
     render: function () {
-        console.log(this.template);
         this.$el.html(this.template());
         var winH = $(window).height();
         //var totalH = winH - 27;
         var itemHeight = Math.round(winH / 4);
-        $('#homemenu li').each(function () {            
+        $('.list li').each(function () {
             $(this).height(itemHeight+'px');
         });
-        if (winH > 480) $('#menu li .button-header').css("margin-bottom", 30 + "px");
+        //if (winH > 480) $('#menu li .button-header').css("margin-bottom", 30 + "px");
         return this;
     }
 });

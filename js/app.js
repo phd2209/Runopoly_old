@@ -29,13 +29,19 @@ var app = {
         app.templateLoader.load(['homeView', 'runView'], function () {
             app.router = new app.Router();
             Backbone.history.start();
-            //Backbone.emulateHTTP = true;
-            //Backbone.emulateJSON = true;
+            Backbone.emulateHTTP = true;
+            Backbone.emulateJSON = true;
         });
     }
 };
 
 $(document).ready(function () {
+
+    $(document).on('click', '.btn-back', function () {
+        window.history.back();
+        return false;
+    });
+
     app.initialize();
 });
 
