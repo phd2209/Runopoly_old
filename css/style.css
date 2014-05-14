@@ -1,0 +1,23 @@
+.list-item-title {
+    position: absolute;
+    left: 32px;
+    bottom: 14px;
+    line-height: 26px;
+}
+
+.list-item-comment {
+    position: absolute;
+    left: 32px;
+    bottom: 4px;
+    line-height: 12px;
+    font-size: 10px;
+    opacity: 0.4;
+}
+
+.list-item-action {
+    position: absolute;
+    right: 28px;
+    bottom: 8px;
+    line-height: 26px;
+    opacity: 0.4;
+}
