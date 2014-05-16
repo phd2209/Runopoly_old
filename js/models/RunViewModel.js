@@ -121,7 +121,7 @@
         var result = $.grep(app.areas.models, function (e) { return e.id == id; });
         if (result) {
             this.selectedArea = result[0];
-            this.set({ areaname: this.selectedArea.get("name") + " distance" });
+            this.set({ areaname: this.selectedArea.get("name")});
         }
     },
 

@@ -13,25 +13,21 @@
     </span>
     </div>
 </div>
-<div class="grid-menu">
-    <div class="grid-menu-2items-row centering-and-alignment">
-        <div class="grid-menu-item list__item--tappable">
-        <i class="fa fa-search"></i>
-        <div class="grid-menu-item-label">Search</div>
-        </div>
-        <div class="grid-menu-item list__item--tappable">
-        <i class="fa fa-location-arrow"></i>
-        <div class="grid-menu-item-label">Map</div>
-        </div>
+
+<div class="content">    
+{{#if .}}  
+    <!-- timer and total km -->
+    <div id="timer" class="timer">
     </div>
-    <div class="grid-menu-1items-row centering-and-alignment">
-        <div class="grid-menu-item list__item--tappable">
-        <i class="fa fa-calendar"></i>
-        <div class="grid-menu-item-label">Reservation</div>
-        </div>
-    </div>
-</div>
-<div class="margin-little">
-    <button class="button">Start</button>
-    <button class="button">Stop</button>
+    
+    <!-- inarea km and rank -->
+    <div id="km-container" class="km-container">
+    </div> 
+
+    <!-- buttons --> 
+    <div>
+        <button class="button" id="start-pause">{{button_start_text}}</button>
+        <button class="button" id="stop-reset">STOP</button>            
+    </div>        
+{{/if}}    
 </div>

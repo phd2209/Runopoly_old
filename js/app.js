@@ -26,7 +26,7 @@ var app = {
         FastClick.attach(document.body);
 
         //Load the templates
-        app.templateLoader.load(['homeView', 'runView'], function () {
+        app.templateLoader.load(['homeView', 'runView', 'runKmView', 'runTimerView'], function () {
             app.router = new app.Router();
             Backbone.history.start();
             Backbone.emulateHTTP = true;

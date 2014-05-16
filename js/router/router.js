@@ -19,16 +19,24 @@
         });
     },
 
+    stopGPS: function () {
+        if (app.run.startTime == 0 && app.run.watch_id != null) app.run.StopGPS();
+        return false;
+    },
+
+
     home: function () {
-        console.log(app.areas);
-        console.log("Entered home screen");
+        if (app.homeView) {
+            this.stopGPS();
+            app.slider.slidePageFrom(app.homeView.$el, "left");
+            return;
+        }
         app.homeView = new app.views.HomeView({ template: app.templateLoader.get('homeView') });
         app.slider.slidePageFrom(app.homeView.$el, "left");
     },
 
     run: function () {
-        console.log("entered run screen");
-        var runView = new app.views.RunView(app.run);
+        var runView = new app.views.RunView({ model: app.run });
         app.slider.slidePageFrom(runView.$el, "page-right")
     }
 });
