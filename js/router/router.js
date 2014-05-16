@@ -28,11 +28,13 @@
     home: function () {
         if (app.homeView) {
             this.stopGPS();
-            app.slider.slidePageFrom(app.homeView.$el, "left");
+            app.slider.slidePageFrom(app.homeView.$el, "page-left");
+            app.homeView.render();
             return;
         }
+
         app.homeView = new app.views.HomeView({ template: app.templateLoader.get('homeView') });
-        app.slider.slidePageFrom(app.homeView.$el, "left");
+        app.slider.slidePageFrom(app.homeView.$el, "page-left");
     },
 
     run: function () {
