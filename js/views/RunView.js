@@ -12,9 +12,15 @@
     render: function () {
         this.$el.html(this.template(this.model.toJSON()));
         this.$('#stop-reset').attr('disabled', true);
-        var runtimer = new app.views.RunTimerView({ el: this.$('#timer'), model: this.model });
-        var runkm = new app.views.RunKmView({ el: this.$('#km-container'), model: this.model });
+        this.runtimer = new app.views.RunTimerView({ el: this.$('#timer'), model: this.model });
+        this.runkm = new app.views.RunKmView({ el: this.$('#km-container'), model: this.model });
         return this;
+    },
+    onClose : function(){
+        if (this.runtimer)
+            this.runtimer.close();
+        if (this.runkm)
+            this.runkm.close();
     },
     start: function () {
         this.model.startTracking();
@@ -33,19 +39,17 @@
             startdate: this.model.track_id,
             creationdate: Date.now()
         });
-        console.log(trackedrun);
-        this.model.reset();
-        app.router.home();
-        //app.slider.slidePageFrom(app.homeView.$el, "page-left");
-        //app.homeView.render();
-        //trackedrun.save(null, {
-        //    success: function (model, response) {
-        //        app.router.navigate('/history/' + response, { trigger: true, replace: true });
-        //    },
-        //    error: function () {
-        //        alert('error');
-        //    }
-        //});
+        this.model.reset();        
+        trackedrun.save(null, {
+            success: function (model, response) {
+                app.router.navigate("", true);
+                //app.router.navigate('/history/' + response, { trigger: true, replace: true });
+            },
+            error: function () {
+                alert('could not save tracked run');
+                app.router.navigate("", true);
+            }
+        });
     },
     button_text_Changed: function () {
         var status = this.model.get('button_start_text');

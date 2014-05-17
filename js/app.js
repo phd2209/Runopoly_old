@@ -26,7 +26,7 @@ var app = {
         FastClick.attach(document.body);
 
         //Load the templates
-        app.templateLoader.load(['homeView', 'runView', 'runKmView', 'runTimerView'], function () {
+        app.templateLoader.load(['homeView', 'runView', 'runKmView', 'runTimerView', 'trackedRunListView', 'trackedRunItemView'], function () {
             app.router = new app.Router();
             Backbone.history.start();
             Backbone.emulateHTTP = true;
@@ -36,6 +36,14 @@ var app = {
 };
 
 $(document).ready(function () {
+
+    Backbone.View.prototype.close = function () {
+        if (this.onClose) {
+            this.onClose();
+        }
+        this.remove();
+        this.unbind();
+    };
 
     $(document).on('click', '.btn-back', function () {
         window.history.back();

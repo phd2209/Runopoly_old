@@ -2,7 +2,8 @@
 
     routes: {
         "": "home",
-        "run": "run"
+        "run": "run",
+        "tracked": "tracked"
     },
 
     initialize: function () {
@@ -24,22 +25,39 @@
         return false;
     },
 
+    showView: function (view) {
+        if (this.currentView)
+            this.currentView.close();
+        this.currentView = view;
+        return view.$el;
+    },
+
     home: function () {
         console.log("home view");
-        if (app.homeView) {
-            this.stopGPS();
-            app.slider.slidePageFrom(app.homeView.$el, "page-left");
-            app.homeView.render();
-            return;
-        }
 
-        app.homeView = new app.views.HomeView({ template: app.templateLoader.get('homeView') });
-        app.slider.slidePageFrom(app.homeView.$el, "page-left");
+        var homeView = new app.views.HomeView({ template: app.templateLoader.get('homeView') });
+        app.slider.slidePageFrom(app.router.showView(homeView), "page-left");
     },
 
     run: function () {
         console.log("run view");
+
         var runView = new app.views.RunView({ model: app.run, userid: app.userid });
-        app.slider.slidePageFrom(runView.$el, "page-right")
+        app.slider.slidePageFrom(app.router.showView(runView), "page-right")
+    },
+
+    tracked: function () {
+        console.log("tracked view");
+
+        var trackedRuns = new app.collections.TrackedRuns();
+        trackedRuns.fetch({
+            data: {
+                id: app.userid
+            },
+            success: function () {
+                var trackedView = new app.views.TrackedRunListView({ collection: trackedRuns});
+                app.slider.slidePageFrom(app.router.showView(trackedView), "page-right")
+            }
+        });
     }
 });
