@@ -6,6 +6,7 @@
     },
 
     initialize: function () {
+        app.userid = 17;
         app.slider = new PageSlider($('#container'));
         app.areas = new app.collections.Areas();
         app.areas.fetch({
@@ -14,7 +15,6 @@
             },
             success: function () {
                 app.run = new app.models.RunViewModel();
-                console.log(app.run);
             }
         });
     },
@@ -24,8 +24,8 @@
         return false;
     },
 
-
     home: function () {
+        console.log("home view");
         if (app.homeView) {
             this.stopGPS();
             app.slider.slidePageFrom(app.homeView.$el, "page-left");
@@ -38,7 +38,8 @@
     },
 
     run: function () {
-        var runView = new app.views.RunView({ model: app.run });
+        console.log("run view");
+        var runView = new app.views.RunView({ model: app.run, userid: app.userid });
         app.slider.slidePageFrom(runView.$el, "page-right")
     }
 });
