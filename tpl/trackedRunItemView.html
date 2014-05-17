@@ -1,0 +1,23 @@
+<li class="list__item list__item--tappable list__item__line-height">
+    <a href="#history/{{id}}">
+        <div class="line darkred"></div>
+        <span class="headline">{{areaname}}</span>
+        <div class="details">
+            <span class="data">{{arearuns}}</span>
+            <span class="data">{{areakm}}</span>
+            {{#if_eq areaname "Total"}} 
+                <span class="data">{{formatSeconds duration}}</span>
+            {{else}}
+                <span class="data">{{duration}}</span>
+            {{/if_eq}}
+            <br />
+            <span class="desc">No. runs</span>
+            <span class="desc">Km</span>
+            {{#if_eq areaname "Total"}} 
+                <span class="desc">Time</span>
+            {{else}}
+                <span class="desc">Pct</span>
+            {{/if_eq}}
+        </div>
+    </a>
+</li>
