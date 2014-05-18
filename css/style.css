@@ -1,8 +1,33 @@
+.panel-account {
+    position: relative;
+    margin: 5px 5px 5px 5px;
+    background: #fff;
+}
+
+.panel-account-text {
+    position: absolute;
+    top: 0px;
+    left: 70px;
+    white-space: nowrap;
+}
+
+.panel-account-text input {
+    width: 220px;
+    height: 35px;
+}
+
+.list__item__line-height {
+    line-height: 50px;
+}
+
 .list-item-title {
     position: absolute;
     left: 32px;
     bottom: 14px;
     line-height: 26px;
+}
+.list__item--tappable {
+    min-height: 60px;
 }
 
 .list-item-comment {
