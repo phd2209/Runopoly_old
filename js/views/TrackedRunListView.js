@@ -5,11 +5,11 @@
     },
     render: function () {
         that = this;
-        this.$el.empty();
-        this.$el.append(this.template());
-        console.log(this);
+        $(this.el).empty();
+        this.$el.html(this.template());        
         this.collection.each(function (model) {
-            that.$(".tracked-runs").append(new app.views.TrackedRunItemView({ model: model.toJSON() }));
+            console.log(model);
+            that.$(".tracked-runs").append(new app.views.TrackedRunItemView({ model: model.toJSON() }).render().el);
         });
         return this;
     }

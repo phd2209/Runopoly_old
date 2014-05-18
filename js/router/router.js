@@ -48,6 +48,7 @@
 
     tracked: function () {
         console.log("tracked view");
+        this.stopGPS();
 
         var trackedRuns = new app.collections.TrackedRuns();
         trackedRuns.fetch({
