@@ -1,6 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.projects.runopoly" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
     <name>Runopoly</name>
+    <description>Run to win areas nearby</description>
     <feature name="http://api.phonegap.com/1.0/device" />
 
   <!-- PHONEGAP PREFERENCES -->
