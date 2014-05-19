@@ -22,9 +22,8 @@
 
 .list-item-title {
     position: absolute;
-    left: 32px;
-    bottom: 14px;
-    line-height: 26px;
+    bottom: 28px;
+    line-height: 20px;
 }
 .list__item--tappable {
     min-height: 60px;
@@ -32,17 +31,17 @@
 
 .list-item-comment {
     position: absolute;
-    left: 32px;
-    bottom: 4px;
+    left: 20px;
+    bottom: 8px;
     line-height: 12px;
-    font-size: 10px;
+    font-size: 12px;
     opacity: 0.4;
 }
 
 .list-item-action {
     position: absolute;
     right: 28px;
-    bottom: 8px;
+    bottom: 17px;
     line-height: 26px;
     opacity: 0.4;
 }
@@ -52,6 +51,11 @@
     height: 100%;
     display: block;
     text-decoration: none;
+}
+
+.tracked-runs {
+    overflow: scroll;
+    -webkit-overflow-scrolling: touch;
 }
 
 .button {

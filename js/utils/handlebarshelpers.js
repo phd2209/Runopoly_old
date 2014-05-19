@@ -15,7 +15,6 @@ Handlebars.registerHelper("formatTime", function (timestamp) {
     }
     return hours + ":" + minutes + ":" + seconds;   
 });
-
 Handlebars.registerHelper("formatSeconds", function (seconds) {
     var hours = (seconds > 3600 ? Math.floor(seconds / 3600) : 0)
     seconds = seconds - hours * 3600;
@@ -32,10 +31,10 @@ Handlebars.registerHelper("formatSeconds", function (seconds) {
     }
     return hours + ":" + minutes + ":" + seconds;
 });
-
 Handlebars.registerHelper("formatDateTime", function (datetime) {    
     var dd = (new Date(datetime)).getDate();
     var mm = (new Date(datetime)).getMonth();
+    var yy = (new Date(datetime)).getFullYear();
     switch (mm) {
         case 0:
             x = "Jan";
@@ -74,11 +73,16 @@ Handlebars.registerHelper("formatDateTime", function (datetime) {
             x = "Dec";
             break;
     }
-    return x + "<br /><b>" + dd + '</b>';
+    return dd + "-" + x + "-" + yy;
 });
 Handlebars.registerHelper('if_eq', function (a, b, opts) {
     if (a == b) // Or === depending on your needs
         return opts.fn(this);
     else
         return opts.inverse(this);
+});
+Handlebars.registerHelper("GetTimeFromDateTime", function (datetime) {
+    var hours = (new Date(datetime)).getUTCHours();
+    var minutes = (new Date(datetime)).getUTCMinutes();
+    return hours + ":" + minutes;
 });
