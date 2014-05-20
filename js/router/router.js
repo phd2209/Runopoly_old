@@ -24,6 +24,14 @@
         if (app.run.startTime == 0 && app.run.watch_id != null) app.run.StopGPS();
         return false;
     },
+    keepAlive: function() {
+        if (navigator.plugins.insomnia)
+            navigator.plugins.insomnia.keepAwake()
+    },
+    allowSleep: function() {
+        if (navigator.plugins.insomnia)
+            navigator.plugins.insomnia.allowSleepAgain()
+    },
 
     showView: function (view) {
         if (this.currentView)
@@ -34,14 +42,14 @@
 
     home: function () {
         console.log("home view");
-
+        this.allowSleep();
         var homeView = new app.views.HomeView({ template: app.templateLoader.get('homeView') });
         app.slider.slidePageFrom(app.router.showView(homeView), "page-left");
     },
 
     run: function () {
         console.log("run view");
-
+        this.keepAlive();
         var runView = new app.views.RunView({ model: app.run, userid: app.userid });
         app.slider.slidePageFrom(app.router.showView(runView), "page-right")
     },
@@ -49,7 +57,7 @@
     tracked: function () {
         console.log("tracked view");
         this.stopGPS();
-
+        this.allowSleep();
         var trackedRuns = new app.collections.TrackedRuns();
         trackedRuns.fetch({
             data: {

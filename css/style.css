@@ -54,7 +54,7 @@
 }
 
 .tracked-runs {
-    overflow: scroll;
+    overflow:auto;
     -webkit-overflow-scrolling: touch;
 }
 
