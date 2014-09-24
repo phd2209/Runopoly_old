@@ -20,10 +20,8 @@
 
   <!-- PHONEGAP FEATURES -->
 
-  <!--<gap:plugin name="org.apache.cordova.device" />-->
   <gap:plugin name="org.apache.cordova.geolocation" />
   <gap:plugin name="org.apache.cordova.network-information" />
-  <gap-plugin name="org.apache.cordova.dialogs" />
   <gap:plugin name="org.apache.cordova.globalization" />
   <gap:plugin name="nl.x-services.plugins.insomnia" />
   
