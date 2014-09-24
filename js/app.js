@@ -13,11 +13,11 @@ var app = {
     // Bind any events that are required on startup. Common events are:
     // 'load', 'deviceready', 'offline', and 'online'.
     bindEvents: function () {
-        if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry)/)) {
+        //if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry)/)) {
             document.addEventListener('deviceready', this.onDeviceReady, false);
-        } else {
-            this.onDeviceReady();
-        }
+        //} else {
+        //    this.onDeviceReady();
+        //}
     },
 
     onDeviceReady: function() {
@@ -25,18 +25,55 @@ var app = {
         // Setup the Fastclick to get rid of the click delay
         FastClick.attach(document.body);
 
+        console.log("Name: " + device.name + 
+                    "Device PhoneGap: " + device.phonegap +
+                    "Device Platform: " + device.platform +
+                    "Device UUID: " + device.uuid +
+                    "Device Version: " + device.version);
+
+
+        // Push body if iOS version gt 7
+        if (parseFloat(device.version) >= 7.0) {
+            document.body.style.marginTop = "20px";
+        }
+
+        // Override default HTML alert with native dialog
+        console.log(navigator.notification)
+        if (navigator.notification) {
+            window.alert = function (message) {
+                navigator.notification.alert(
+                    message,    // message
+                    null,       // callback
+                    "Runopoly", // title
+                    'OK'        // buttonName
+                );
+            };
+        };
+
+        //Get the device language so that the dictionary can be pulled
+        console.log(navigator.globalization)
+        if (navigator.globalization) {
+            navigator.globalization.getPreferredLanguage(
+                function (language) {
+                    console.log('language: ' + language.value + '\n');
+                    app.language = language.value;
+                },
+                function () { alert('Error getting language\n'); }
+              );
+        }
+
         //Load the templates
-        app.templateLoader.load(['homeView', 'runView', 'runKmView', 'runTimerView', 'trackedRunListView', 'trackedRunItemView'], function () {
+        app.templateLoader.load(['homeView', 'runView', 'runKmView', 'runTimerView', 'leadersView', 'leaderDetailsView', 'AreasView', 'AreaDetailsView'], function () {
             app.router = new app.Router();
-            Backbone.history.start();
             Backbone.emulateHTTP = true;
             Backbone.emulateJSON = true;
+            Backbone.history.start();
         });
     }
 };
 
-$(document).ready(function () {
 
+$(document).ready(function () {
     Backbone.View.prototype.close = function () {
         if (this.onClose) {
             this.onClose();
@@ -49,7 +86,5 @@ $(document).ready(function () {
         window.history.back();
         return false;
     });
-
     app.initialize();
 });
-

@@ -1,41 +1,41 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8" />
         <meta name="format-detection" content="telephone=no" />
-        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, target-densitydpi=device-dpi" />
-        <link rel="stylesheet" href="css/onsenui.css">  
-        <link rel="stylesheet" href="css/topcoat-mobile-onsen-ios7.css">
-        <link rel="stylesheet" href="css/onsen-css-components-default.css" />
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height" />
         <link rel="stylesheet" href="css/pageslider.css" />
         <link rel="stylesheet" href="css/style.css" />
         <title>Runopoly</title>
     </head>
     <body>
         <div id="container"></div>
-        <script type="text/javascript" src="phonegap.js"></script>
-        <script src="lib/jquery-1.10.2.min.js"></script>
+        <script src="cordova.js"></script>
+        <script src="lib/jquery.min.js"></script>
         <script src="lib/underscore-min.js"></script>
         <script src="lib/backbone-min.js"></script>
-        <script src="lib/fastclick-0.6.11.js"></script>
+        <script src="lib/fastclick.js"></script>
         <script src="lib/handlebars-v1.3.0.js"></script>
         <script src="lib/pageslider.js"></script>
-        <script src="lib/Insomnia.js"></script>
-        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpZvm6W9ymw1XuwcznqySoPamxcN4Ev64&sensor=false&libraries=geometry"></script>  
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpZvm6W9ymw1XuwcznqySoPamxcN4Ev64&sensor=false&libraries=geometry"></script>
+        <script src="js/utils/FakeDataLayer.js"></script>  
         <script src="js/app.js"></script>
-        <script src="js/router/router.js"></script>
+        <script src="lib/TemplateLoader.js"></script>
+        <script src="js/router.js"></script>
         <script src="js/views/HomeView.js"></script>
         <script src="js/views/RunView.js"></script>
         <script src="js/views/RunKmView.js"></script>
-        <script src="js/models/RunViewModel.js"></script>
         <script src="js/views/RunTimerView.js"></script>
+        <script src="js/views/LeadersView.js"></script>
+        <script src="js/views/LeaderDetailsView.js"></script>
+        <script src="js/views/AreasView.js"></script>
+        <script src="js/views/AreaDetailsView.js"></script>
         <script src="js/models/AreaViewModel.js"></script>
-        <script src="js/collections/Areas.js"></script>
+        <script src="js/models/RunViewModel.js"></script>
+        <script src="js/models/LeadersViewModel.js"></script>
         <script src="js/models/TrackedRun.js"></script>
-        <script src="js/collections/TrackedRuns.js"></script>
-        <script src="js/views/TrackedRunListView.js"></script>
-        <script src="js/views/TrackedRunItemView.js"></script>     
-        <script src="js/utils/TemplateLoader.js"></script>
+        <script src="js/collections/Areas.js"></script>
+        <script src="js/collections/Leaders.js"></script>
         <script src="js/utils/handlebarshelpers.js"></script>
     </body>
 </html>

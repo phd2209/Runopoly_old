@@ -1,7 +1,7 @@
 ﻿app.views.HomeView = Backbone.View.extend({
     initialize: function () {
         this.template = app.templateLoader.get('homeView');
-        this.render();
+        //this.render();
     },
     render: function () {
         this.$el.html(this.template());

@@ -7,8 +7,8 @@
     startdate: null,
     tracking_data: [],
     intervalID: 0,
-    maximumAge: 4 * 1000,
-    timeout: 10 * 1000,
+    maximumAge: 3000,
+    timeout: 10000,
     enableHighAccuracy: true,
     selectedArea: null,
     defaults: {
@@ -17,6 +17,7 @@
         button_start_text: "start",
         totalkm: "0.0",
         areakm: "0.0",
+        arearank: "0",
         tracking_data: [],
         duration: 0
     },
@@ -93,7 +94,8 @@
 
     //Entered if GPS fails to get a read
     onError: function (error) {
-        //window.alert("ERROR: " + error.code + " / " + error.message);
+        console.log("ERROR: " + error.code + " / " + error.message);
+        window.alert("ERROR: " + error.code + " / " + error.message);
         //switch (error.code) {
         //    case 3:
         //        var options = { maximumAge: 3000, timeout: 5000, enableHighAccuracy: true };
@@ -141,8 +143,199 @@
         return d;
     },
 
-    //Checks if a given position is located within a ellipse
+    sign: function(x) { 
+        return x > 0 ? 1 : x < 0 ? -1 : 0; 
+    },
+
     PointInEllipse: function (area, point) {
+
+        console.log(point.coords.latitude);
+        console.log(point.coords.longitude);
+
+        var xvec = _.pluck(area.get("coords"), "latitude");
+        var yvec = _.pluck(area.get("coords"), "longitude");
+
+        var pnt = [];
+        pnt.push(point.coords.latitude);
+        pnt.push(point.coords.longitude);
+
+        var Nx = xvec.length;
+        var Ny = yvec.length;
+
+        if (Nx != Ny){
+            //Dummy return code 
+            P = 999;
+            console.log("Input vectors MUST have same dimension(s)");
+            return P;
+        }
+
+        xvec.push(xvec[0]); //Adding the first X-coordinate sample as the last sample 
+        yvec.push(yvec[0]); //Adding the first Y-coordinate sample as the last sample         
+        
+        /////////////////////////////////////////////////////////////////////
+        //WHILE loop that loops through the complete set of polygon points,//
+        //and then some ...                                                //
+        /////////////////////////////////////////////////////////////////////
+        var k = 0, N = 0, V = 0, S = 0, E = 0, P = 0, korig = 0;  
+
+        while (k < Nx+1) {
+            k++; 
+              
+            ///////////////////////////////////
+            // CASE: CROSSING OF EITHER AXIS //         
+            ///////////////////////////////////
+            if (((xvec[k] < pnt[0] && pnt[0] < xvec[k - 1]) || (xvec[k - 1] < pnt[0] && pnt[0] < xvec[k])) || ((yvec[k] < pnt[1]) && pnt[1] < yvec[k - 1]) || (yvec[k - 1] < pnt[1] && pnt[1] < yvec[k])) {
+
+                if ((xvec[k] != xvec[k - 1]) && (yvec[k] != yvec[k - 1])) {
+                    a = (yvec[k] - yvec[k - 1]) / (xvec[k] - xvec[k - 1]);
+                    b = yvec[k] - a * (xvec[k] - pnt[0]);
+                    x = (pnt[1] - b) / a + pnt[0];
+
+                    //Conditions for assigning corners
+                    if ((yvec[k] < b && b < yvec[k - 1]) || (yvec[k - 1] < b && b < yvec[k])) {
+                        if (b > pnt[1]) {
+                            N++;
+                        }
+                        else if (b < pnt[1]) {
+                            S++;
+                        }
+                    }
+                }
+
+                if ((xvec[k] < x && x < xvec[k - 1]) || (xvec[k - 1] < x && x < xvec[k])) {
+                    if (x > pnt[0]) {
+                        E++;
+                    }
+                    else if (x < pnt[0]) {
+                        V++;
+                    }
+                }
+                else if (xvec[k] == xvec[k - 1]) {
+                    if (xvec[k] > pnt[0]) {
+                        E++;
+                    }
+                    else if (xvec[k] < pnt[0]) {
+                        V++;
+                    }
+                }
+                else if (yvec[k] == yvec[k - 1]) {
+                    if (yvec[k] > pnt[1]) {
+                        N++;
+                    }
+                    else if (yvec[k] < pnt[1]) {
+                        S++;
+                    }
+                }
+            }
+            ///////////////////////////////////////////////
+            // CASE: Vertex is intersected by point axis //         
+            ///////////////////////////////////////////////
+            if ((xvec[k] == pnt[0]) || (yvec[k] == pnt[1]) && (!(xvec[k] == pnt[0] && yvec[k] == pnt[1]))) 
+            {                
+                korig = 0;
+                if (k > Nx) {
+                    korig = k;
+                    k = k - Nx;
+                }
+
+                var m1 = 1, m2 = 1, L1 = 0, L2 = 0, L3 = 0, L4 = 0;
+                                
+                while ((L1 == 0 && L2 == 0) && (L3 == 0 && L4 == 0)) {                        
+                    if ((k-m1) < 1) { 
+                        m1 = (k-Nx);
+                    }                        
+                    if ((k+m2) > Nx) { 
+                        m2 = (1-k);
+                    }                        
+                    if (xvec[k] == pnt[0]) { 
+                        if ((xvec[k-m1] > pnt[0] || xvec[k-m1] < pnt[0]) && (L1 == 0)) {
+                            L1 = this.sign(xvec[k-m1]-pnt[0]);
+                        }
+                        else {
+                            m1++;
+                        }
+                        if ((xvec[k+m2] > pnt[0] || xvec[k+m2] < pnt[0]) && (L2 == 0)) {
+                            L2 = this.sign(xvec[k+m2]-pnt[0]);
+                        }
+                        else {
+                            m2++;
+                        }
+                    }
+                        
+                    if (yvec[k] == pnt[1]) {
+                        if ((yvec[k-m1] > pnt[1] || yvec[k-m1] < pnt[1]) && (L3 == 0)) {
+                            L3 = this.sign(yvec[k-m1]-pnt[1]);
+                        }
+                        else {
+                            m1++;
+                        }
+                        if ((yvec[k+m2] > pnt[1] || yvec[k+m2] < pnt[1]) && (L4 == 0)) {
+                            L4 = sign(yvec[k+m2]-pnt[1]);
+                        }
+                        else {
+                            m2++;
+                        }
+                    }
+                }
+                
+                if ((L1 + L2) == 0) {
+                    if (yvec[k] > pnt[1]) {
+                        N++;
+                    }
+                    else if (yvec[k] < pnt[1]) {
+                        S++; 
+                    }
+                }
+                
+                if ((L3 + L4) == 0) {  
+                    if (xvec[k] > pnt[0]) {
+                        E++;
+                    }
+                    else if (xvec[k] < pnt[0]) {
+                        V++; 
+                    }
+                }
+                
+                if (korig != 0) {
+                    k = korig;
+                }
+            }
+            ////////////////////////////////////////////
+            // CASE: Point is a vertex in the polygon //         
+            ////////////////////////////////////////////
+            if (xvec[k] == pnt[0] && yvec[k] == pnt[1]) {
+                P = 4;
+            }
+        }  
+
+        //////////////////////////////////////////////////
+        //Investigating the content of the corner vector//
+        //////////////////////////////////////////////////  
+
+        var cvs = (V % 2) + (E % 2) + (S % 2) + (N % 2);
+        console.log("CVS: " + cvs);
+
+        if ((cvs > 0) || (P == 4)) {
+            P = 1;
+        }
+        else {
+            P = 0;
+        }
+
+        console.log(P);
+        return P;
+
+        /*
+        var Garea = new google.maps.Polygon(area.coords);
+        var Gpoint = new google.maps.LatLng(point.coords.latitude, point.coords.longitude);
+        console.log("containsLocation = " + google.maps.geometry.poly.containsLocation(Gpoint, Garea));
+        console.log("isLocationOnEgde = " + google.maps.geometry.poly.isLocationOnEdge(Gpoint, Garea));
+        return google.maps.geometry.poly.containsLocation(Gpoint, Garea);
+        */
+    },
+
+    //Checks if a given position is located within a ellipse
+    PointInEllipse_old: function (area, point) {
         var result = 0;
 
         // Set up "Constants"
@@ -238,6 +431,7 @@
 
     //Resets all important variables for the model
     reset: function () {
+        console.log("Resting RunViewModel");
         this.intervalID = 0;
         this.Areas = null;
         this.tracking_data = [];
@@ -252,6 +446,7 @@
         this.set({ inarea: false });
         this.set({ totalkm: "0.0" });
         this.set({ areakm: "0.0" });
+        this.set({ arearank: "0" });
         this.set({ duration: 0 });
     }
 });

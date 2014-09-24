@@ -1,0 +1,21 @@
+﻿<header>
+    <button class="left btn-back">
+        <div class="label">Back</div>
+    </button>
+    <h1>Areas</h1>
+</header>
+
+<div class="content">
+    {{#if .}}
+    <ul class="list__container">
+        {{#each .}}
+
+        <li class="list__item__areas">
+            <a href="#areas/{{id}}">
+                <span class="list-item-title">{{name}}</span>
+            </a>
+        </li>
+        {{/each}}
+    </ul>
+    {{/if}}
+</div>

@@ -3,7 +3,7 @@
         this.template = app.templateLoader.get('runView');
         this.model.on("change:button_start_text", this.button_text_Changed, this);
         this.options = options || {};
-        this.render();
+        //this.render();
     },
     events: {
         'click #start-pause': 'start',
@@ -40,16 +40,16 @@
             creationdate: Date.now()
         });
         this.model.reset();        
-        trackedrun.save(null, {
-            success: function (model, response) {
-                app.router.navigate("", true);
+        //trackedrun.save(null, {
+        //    success: function (model, response) {
+        //        app.router.navigate("", true);
                 //app.router.navigate('/history/' + response, { trigger: true, replace: true });
-            },
-            error: function () {
-                alert('could not save tracked run');
-                app.router.navigate("", true);
-            }
-        });
+       //     },
+       //     error: function () {
+       //         alert('could not save tracked run');
+       //         app.router.navigate("", true);
+       //     }
+        //});
     },
     button_text_Changed: function () {
         var status = this.model.get('button_start_text');

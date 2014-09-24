@@ -5,7 +5,7 @@
     <feature name="http://api.phonegap.com/1.0/device" />
 
   <!-- PHONEGAP PREFERENCES -->
-  <preference name="phonegap-version" value="3.3.0" />
+  <preference name="phonegap-version" value="3.5.0" />
   <preference name="target-device" value="handset" />
   <preference name="prerendered-icon" value="true" />
   <preference name="ios-statusbarstyle" value="black-opaque" />
@@ -26,7 +26,7 @@
   <gap-plugin name="org.apache.cordova.dialogs" />
   <gap:plugin name="org.apache.cordova.globalization" />
   <gap:plugin name="nl.x-services.plugins.insomnia" />
-
+  
   <!-- ACCESS -->
   <access origin="*" />
     

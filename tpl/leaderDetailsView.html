@@ -1,0 +1,25 @@
+﻿<header>
+    <button class="left btn-back">
+        <div class="label">Back</div>
+    </button>
+    <h1>Leaders</h1>
+</header>
+
+<div class="content">
+{{#if .}}    
+    <ul class="list__container">
+        {{#each .}}
+
+        <li class="list__item__leaders">
+            <div style="float:left">
+                <span class="list-item-title">{{nick_name}} {{NoRuns}} run(s) in area</span>
+            </div>
+            <div style="float:right;">
+                    {{UserKm}} km ({{RunPct}}%)
+            </div>
+        </li>
+        {{/each}}
+    </ul>
+{{/if}}
+</div>
+
