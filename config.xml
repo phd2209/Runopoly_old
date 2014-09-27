@@ -14,7 +14,10 @@
   <preference name="fullscreen" value="true" />
   <preference name="webviewbounce" value="true" />
   <preference name="orientation" value="portrait" />
-
+  <preference name="StatusBarOverlaysWebView" value="false" />
+  <preference name="StatusBarBackgroundColor" value="#000000" />
+  <preference name="StatusBarStyle" value="lightcontent" />
+  
   <!-- PLATFORMS -->
   <gap:platform name="ios" />
 
@@ -24,6 +27,7 @@
   <gap:plugin name="org.apache.cordova.network-information" />
   <gap:plugin name="org.apache.cordova.globalization" />
   <gap:plugin name="nl.x-services.plugins.insomnia" />
+  <gap:plugin name="org.apache.cordova.statusbar" />
   
   <!-- ACCESS -->
   <access origin="*" />
