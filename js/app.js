@@ -25,20 +25,20 @@ var app = {
         // Setup the Fastclick to get rid of the click delay
         FastClick.attach(document.body);
 
-        console.log("Name: " + device.name + 
-                    "Device PhoneGap: " + device.phonegap +
-                    "Device Platform: " + device.platform +
-                    "Device UUID: " + device.uuid +
-                    "Device Version: " + device.version);
+        //console.log("Name: " + device.name + 
+        //            "Device PhoneGap: " + device.phonegap +
+        //            "Device Platform: " + device.platform +
+        //            "Device UUID: " + device.uuid +
+        //            "Device Version: " + device.version);
 
 
         // Push body if iOS version gt 7
-        if (parseFloat(device.version) >= 7.0) {
-            document.body.style.marginTop = "20px";
-        }
+        //if (parseFloat(device.version) >= 7.0) {
+        //    document.body.style.marginTop = "20px";
+        //}
 
         // Override default HTML alert with native dialog
-        console.log(navigator.notification)
+        //console.log(navigator.notification)
         if (navigator.notification) {
             window.alert = function (message) {
                 navigator.notification.alert(
@@ -51,16 +51,16 @@ var app = {
         };
 
         //Get the device language so that the dictionary can be pulled
-        console.log(navigator.globalization)
-        if (navigator.globalization) {
-            navigator.globalization.getPreferredLanguage(
-                function (language) {
-                    console.log('language: ' + language.value + '\n');
-                    app.language = language.value;
-                },
-                function () { alert('Error getting language\n'); }
-              );
-        }
+        //console.log(navigator.globalization)
+        //if (navigator.globalization) {
+        //    navigator.globalization.getPreferredLanguage(
+        //        function (language) {
+        //            console.log('language: ' + language.value + '\n');
+        //            app.language = language.value;
+        //        },
+        //        function () { alert('Error getting language\n'); }
+        //      );
+        //}
 
         //Load the templates
         app.templateLoader.load(['homeView', 'runView', 'runKmView', 'runTimerView', 'leadersView', 'leaderDetailsView', 'AreasView', 'AreaDetailsView'], function () {
@@ -73,7 +73,8 @@ var app = {
 };
 
 
-$(document).ready(function () {
+//$(document).ready(function () {
+$(document).on('deviceready', function() {
     Backbone.View.prototype.close = function () {
         if (this.onClose) {
             this.onClose();
