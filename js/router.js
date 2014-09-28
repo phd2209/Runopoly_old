@@ -42,11 +42,11 @@
 
     keepAlive: function () {
         // prevent device from sleeping
-        //window.plugins.insomnia.keepAwake();
+        window.plugins.insomnia.keepAwake();
     },
     allowSleep: function() {
         // allow device to sleep
-        //window.plugins.insomnia.allowSleepAgain();
+        window.plugins.insomnia.allowSleepAgain();
     },
 
     showView: function (view) {
