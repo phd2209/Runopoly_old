@@ -62,8 +62,8 @@
         //Change status bar
         StatusBar.show();
         StatusBar.styleLightContent();
-        StatusBar.overlaysWebView(false);
-        StatusBar.backgroundColorByHexString("#FFF");
+        StatusBar.overlaysWebView(false);        
+        StatusBar.backgroundColorByHexString("#282a30");
 
         this.allowSleep();
         var homeView = new app.views.HomeView({ template: app.templateLoader.get('homeView') });
@@ -78,7 +78,7 @@
         StatusBar.show();
         StatusBar.styleDefault();
         StatusBar.overlaysWebView(false);
-        StatusBar.backgroundColorByHexString("#282a30");
+        StatusBar.backgroundColorByHexString("#FFF");
 
         // Start GPS and make sure screen does not go to sleep
         this.keepAlive();
