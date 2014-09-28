@@ -25,6 +25,10 @@ var app = {
         // Setup the Fastclick to get rid of the click delay
         FastClick.attach(document.body);
 
+        StatusBar.show();
+        StatusBar.overlaysWebView(false);
+        StatusBar.backgroundColorByHexString("#C8DB2F");
+
         // Push body if iOS version gt 7
         //if (parseFloat(device.version) >= 7.0) {
         //    document.body.style.marginTop = "20px";
