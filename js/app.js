@@ -24,11 +24,10 @@ var app = {
 
         // Setup the Fastclick to get rid of the click delay
         FastClick.attach(document.body);
-
         StatusBar.show();
         StatusBar.styleDefault();
         StatusBar.overlaysWebView(false);
-        StatusBar.backgroundColorByHexString("#DDD");
+        StatusBar.backgroundColorByHexString("#FFF");
 
         // Override default HTML alert with native dialog
         //console.log(navigator.notification)

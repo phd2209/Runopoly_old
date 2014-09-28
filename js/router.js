@@ -58,6 +58,13 @@
 
     home: function () {
         console.log("home view");
+
+        //Change status bar
+        StatusBar.show();
+        StatusBar.styleLightContent();
+        StatusBar.overlaysWebView(false);
+        StatusBar.backgroundColorByHexString("#FFF");
+
         this.allowSleep();
         var homeView = new app.views.HomeView({ template: app.templateLoader.get('homeView') });
         homeView.render();
@@ -66,6 +73,12 @@
 
     run: function () {
         console.log("run view");
+
+        //Change status bar
+        StatusBar.show();
+        StatusBar.styleDefault();
+        StatusBar.overlaysWebView(false);
+        StatusBar.backgroundColorByHexString("#282a30");
 
         // Start GPS and make sure screen does not go to sleep
         this.keepAlive();
@@ -78,6 +91,11 @@
 
     areas: function () {
         console.log("areas view");
+
+        StatusBar.show();
+        StatusBar.styleDefault();
+        StatusBar.overlaysWebView(false);
+        StatusBar.backgroundColorByHexString("#FFF");
 
         //Stop GPS and make sure that screen can go to sleep
         //this.stopGPS();
@@ -116,6 +134,12 @@
 
     leaders: function () {
         console.log("leaders view");
+
+        StatusBar.show();
+        StatusBar.styleDefault();
+        StatusBar.overlaysWebView(false);
+        StatusBar.backgroundColorByHexString("#FFF");
+
 
         //Stop GPS and make sure that screen can go to sleep
         //this.stopGPS();
