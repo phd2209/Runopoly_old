@@ -62,7 +62,7 @@
         //Change status bar
         StatusBar.show();
         StatusBar.styleLightContent();
-        StatusBar.overlaysWebView(false);        
+        StatusBar.overlaysWebView(false);
         StatusBar.backgroundColorByHexString("#282a30");
 
         this.allowSleep();
@@ -96,7 +96,7 @@
         StatusBar.styleDefault();
         StatusBar.overlaysWebView(false);
         StatusBar.backgroundColorByHexString("#FFF");
-
+        
         //Stop GPS and make sure that screen can go to sleep
         //this.stopGPS();
         this.allowSleep();
@@ -127,6 +127,12 @@
     area: function(id){
 
         console.log("area: " + id);
+
+        StatusBar.show();
+        StatusBar.styleDefault();
+        StatusBar.overlaysWebView(false);
+        StatusBar.backgroundColorByHexString("#FFF");
+
         var AreadetailsView = new app.views.AreaDetailsView({ model: app.areas.get(id) });
         app.slider.slidePageFrom(AreadetailsView.$el, "page-right")
         AreadetailsView.render();
@@ -134,12 +140,10 @@
 
     leaders: function () {
         console.log("leaders view");
-
         StatusBar.show();
         StatusBar.styleDefault();
         StatusBar.overlaysWebView(false);
         StatusBar.backgroundColorByHexString("#FFF");
-
 
         //Stop GPS and make sure that screen can go to sleep
         //this.stopGPS();
