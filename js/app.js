@@ -26,13 +26,9 @@ var app = {
         FastClick.attach(document.body);
 
         StatusBar.show();
+        StatusBar.styleDefault();
         StatusBar.overlaysWebView(false);
-        StatusBar.backgroundColorByHexString("#C8DB2F");
-
-        // Push body if iOS version gt 7
-        //if (parseFloat(device.version) >= 7.0) {
-        //    document.body.style.marginTop = "20px";
-        //}
+        StatusBar.backgroundColorByHexString("#DDD");
 
         // Override default HTML alert with native dialog
         //console.log(navigator.notification)
@@ -48,7 +44,6 @@ var app = {
         };
 
         //Get the device language so that the dictionary can be pulled
-        console.log(navigator.globalization)
         if (navigator.globalization) {
             navigator.globalization.getPreferredLanguage(
                 function (language) {
