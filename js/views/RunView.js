@@ -39,7 +39,10 @@
             startdate: this.model.track_id,
             creationdate: Date.now()
         });
-        this.model.reset();        
+
+        window.localStorage.setItem(this.model.track_id, JSON.stringify(trackedrun));
+        this.model.reset();
+
         //trackedrun.save(null, {
         //    success: function (model, response) {
         //        app.router.navigate("", true);

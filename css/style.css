@@ -7,6 +7,8 @@
 }
 .content {
     margin-top: 46px;
+    width:100%;
+    height:100%;
 }
 
 input {
@@ -98,7 +100,7 @@ list__item__areas {
     text-decoration: none;
     line-height: 55px;
 }
-
+/*
 .map_canvas {
     position:absolute;
     bottom:0;
@@ -106,7 +108,7 @@ list__item__areas {
     width:100%;
     height:100%;
     top: 45px;
-}
+}*/
 
 
 /*

@@ -16,7 +16,6 @@
         };
 
         var id = "map_canvas";
-        console.log(document.getElementById(id));
         this.map = new google.maps.Map(document.getElementById(id), this.myOptions);
     },
 

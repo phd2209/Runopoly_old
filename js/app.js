@@ -1,3 +1,18 @@
+//Google chrome dev
+// Comment out below + comment out 2 lines "if (window.plugins)" in router.js
+/*
+var StatusBar = {
+    show: function () {
+        console.log("Showing Statusbar");
+    },
+    styleLightContent: function () { },
+    styleDefault: function () { },
+    overlaysWebView: function(bool) {},
+    backgroundColorByHexString: function(color) {
+        console.log(color);
+    }
+};
+*/
 var app = {
     
     views: {},
@@ -74,5 +89,6 @@ $(document).on('deviceready', function() {
         window.history.back();
         return false;
     });
+
     app.initialize();
 });
