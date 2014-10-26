@@ -1,19 +1,16 @@
-﻿<div class="bar bar-header bar-light">
-    <a class="button icon-left ion-chevron-left button-clear button-dark btn-back">Back</a>
+﻿<div id="areas-bar" class="bar bar-header">
+    <a class="button icon-left ion-chevron-left button-clear button-dark btn-back"></a>
     <h1 class="title">Areas</h1>
 </div>
 
 <div class="content">
     {{#if .}}
-    <ul class="list__container">
+    <div class="list">
         {{#each .}}
-
-        <li class="list__item__areas">
-            <a href="#areas/{{id}}">
+            <a class="item" href="#areas/{{id}}">
                 <span class="list-item-title">{{name}}</span>
             </a>
-        </li>
         {{/each}}
-    </ul>
+    </div>
     {{/if}}
 </div>

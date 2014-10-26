@@ -1,5 +1,4 @@
-﻿app.collections.Areas = Backbone.Collection.extend({
-    model: app.models.AreaViewModel,
-    /*url: 'http://o2n.dk/api/Areas',
-    url: 'http://localhost:54837/api/Areas'*/
+﻿app.collections.Areas = Backbone.Firebase.Collection.extend({
+    model: app.models.Area,
+    firebase: new Firebase("https://flickering-heat-6861.firebaseio.com/areas")
 });

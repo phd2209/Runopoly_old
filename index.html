@@ -11,15 +11,16 @@
     </head>
     <body>
         <div id="container"></div>
-        <script src="cordova.js"></script>    
+        <script src="cordova.js"></script>  
         <script src="lib/jquery.min.js"></script>
         <script src="lib/underscore-min.js"></script>
         <script src="lib/backbone-min.js"></script>
+        <script src='https://cdn.firebase.com/js/client/1.1.1/firebase.js'></script>
+        <script src="https://cdn.firebase.com/libs/backfire/0.3.0/backbone-firebase.min.js"></script>
         <script src="lib/fastclick.js"></script>
         <script src="lib/handlebars-v1.3.0.js"></script>
         <script src="lib/pageslider.js"></script>
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpZvm6W9ymw1XuwcznqySoPamxcN4Ev64&sensor=false&libraries=geometry"></script>
-        <script src="js/utils/FakeDataLayer.js"></script>  
         <script src="js/app.js"></script>
         <script src="lib/TemplateLoader.js"></script>
         <script src="js/router.js"></script>
@@ -31,12 +32,18 @@
         <script src="js/views/LeaderDetailsView.js"></script>
         <script src="js/views/AreasView.js"></script>
         <script src="js/views/AreaDetailsView.js"></script>
-        <script src="js/models/AreaViewModel.js"></script>
-        <script src="js/models/RunViewModel.js"></script>
-        <script src="js/models/LeadersViewModel.js"></script>
+        <script src="js/views/HistoryView.js"></script>
+        <script src="js/views/RegisterView.js"></script>
+        <script src="js/views/LoginView.js"></script>
+        <script src="js/models/Area.js"></script>
+        <script src="js/models/Run.js"></script>
+        <script src="js/models/Leader.js"></script>
         <script src="js/models/TrackedRun.js"></script>
+        <script src="js/models/User.js"></script>
         <script src="js/collections/Areas.js"></script>
         <script src="js/collections/Leaders.js"></script>
+        <script src="js/collections/TrackedRuns.js"></script>
+        <script src="js/collections/RunDetails.js"></script>
         <script src="js/utils/handlebarshelpers.js"></script>
     </body>
 </html>

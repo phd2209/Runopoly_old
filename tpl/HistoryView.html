@@ -1,0 +1,26 @@
+﻿<div id="history-bar" class="bar bar-header">
+    <a class="button icon-left ion-chevron-left button-clear button-dark btn-back"></a>
+    <h1 class="title">History</h1>
+</div>
+
+<div class="content">
+{{#if .}}
+    <div class="list">
+        {{#each .}}
+        <div class="item item-divider">
+            {{areaname}}
+        </div>
+        <a class="item" href="#history/{{id}}">
+            <h2>
+            {{areaname}}
+            </h2>
+            <span class="item-note">
+                {{id}}
+            </span>
+            <p>Total: {{totalkm}} km   In area: {{areakm}} km.</p>
+        </a>
+        {{/each}}
+    </div>
+{{/if}}
+</div>
+

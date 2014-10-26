@@ -1,7 +1,6 @@
 //Google chrome dev
 // Comment out below + comment out 2 lines "if (window.plugins)" in router.js
-/*
-var StatusBar = {
+/*var StatusBar = {
     show: function () {
         console.log("Showing Statusbar");
     },
@@ -11,8 +10,8 @@ var StatusBar = {
     backgroundColorByHexString: function(color) {
         console.log(color);
     }
-};
-*/
+};*/
+
 var app = {
     
     views: {},
@@ -65,10 +64,8 @@ var app = {
         }
 
         //Load the templates
-        app.templateLoader.load(['homeView', 'runView', 'runKmView', 'runTimerView', 'leadersView', 'leaderDetailsView', 'AreasView', 'AreaDetailsView'], function () {
+        app.templateLoader.load(['homeView', 'runView', 'runKmView', 'runTimerView', 'leadersView', 'leaderDetailsView', 'AreasView', 'AreaDetailsView', "HistoryView", "Register", "login"], function () {
             app.router = new app.Router();
-            Backbone.emulateHTTP = true;
-            Backbone.emulateJSON = true;
             Backbone.history.start();
         });
     }

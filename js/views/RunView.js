@@ -3,7 +3,6 @@
         this.template = app.templateLoader.get('runView');
         this.model.on("change:button_start_text", this.button_text_Changed, this);
         this.options = options || {};
-        //this.render();
     },
     events: {
         'click #start-pause': 'start',
@@ -29,30 +28,22 @@
     stop: function () {
         this.model.stopTracking();
         var trackedrun = new app.models.TrackedRun({
-            runid: 0,
+            id: this.model.track_id.toISOString().substring(0,16),
             userid: this.options.userid,
+            username: app.user.get('username'), 
             areaid: this.model.selectedArea.get("id"),
+            areaname: this.model.selectedArea.get("name"),
             totalkm: this.model.get("totalkm"),
-            areakm: this.model.get("areakm"),
-            duration: this.model.get("duration"),
-            tracking_data: this.model.get("tracking_data"),
-            startdate: this.model.track_id,
-            creationdate: Date.now()
+            areakm: this.model.get("areakm")
         });
-
-        window.localStorage.setItem(this.model.track_id, JSON.stringify(trackedrun));
+        var details = new app.models.TrackedRun({
+            id: this.model.track_id.toISOString().substring(0, 16),
+            tracking_data: this.model.get("tracking_data")
+        });
+        app.runs.add(trackedrun);
+        app.rundetails.add(details);
         this.model.reset();
-
-        //trackedrun.save(null, {
-        //    success: function (model, response) {
-        //        app.router.navigate("", true);
-                //app.router.navigate('/history/' + response, { trigger: true, replace: true });
-       //     },
-       //     error: function () {
-       //         alert('could not save tracked run');
-       //         app.router.navigate("", true);
-       //     }
-        //});
+        app.router.navigate("history", { trigger: true });
     },
     button_text_Changed: function () {
         var status = this.model.get('button_start_text');
@@ -62,5 +53,4 @@
         else
             this.$('#stop-reset').attr('disabled', true);
     },
-
 });

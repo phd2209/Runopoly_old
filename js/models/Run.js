@@ -1,4 +1,4 @@
-﻿app.models.RunViewModel = Backbone.Model.extend({
+﻿app.models.Run = Backbone.Model.extend({
     startTime: 0,
     stopTime: 0,
     tracking: 0,
@@ -23,7 +23,6 @@
     },
 
     initialize: function () {
-        console.log("RunViewModel initialized");
         _.bindAll(this, 'onSuccess')
         _.bindAll(this, 'onError')         
         this.StartGPS();
@@ -431,7 +430,6 @@
 
     //Resets all important variables for the model
     reset: function () {
-        console.log("Resting RunViewModel");
         this.intervalID = 0;
         this.Areas = null;
         this.tracking_data = [];

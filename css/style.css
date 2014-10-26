@@ -15,11 +15,27 @@ input {
     -webkit-user-select: auto !important;
 }
 
+#history-bar {
+    background: #c3dcf7;
+    color: #fff;
+    font: 20px "Helvetica-neue";
+    text-transform: uppercase;
+}
+
+#areas-bar {
+    background: #a8bbd5;
+    color: #fff;
+    font: 20px "Helvetica-neue";
+    text-transform: uppercase;
+}
+
+
 /*
     
 HomeView
     
 */
+
 
 
 .list__container {
@@ -30,6 +46,7 @@ HomeView
 ul li:nth-child(1) a {    background: #282a30; }
 ul li:nth-child(2) a {    background: #697b96; }
 ul li:nth-child(3) a {    background: #a8bbd5; }
+ul li:nth-child(4) a {    background: #c3dcf7; }
 
 .list__item {
     border: none;

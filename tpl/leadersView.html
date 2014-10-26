@@ -5,36 +5,16 @@
 
 <div class="content">
 {{#if .}}    
-    <ul class="list__container">
-        {{#each .}}
-        {{#if isUserArea}}
-        <li class="list__item__leaders">       
-            <a href="#leaders/{{id}}">
-                <span class="list-item-title">{{name}} ({{TotalKm}} km)</span>
-            </a>
-        </li>
-        {{/if}}
-        <!--{{#each owners}}
-            {{#if isUser}}
-                <li style="clear: both" class="table-view-cell isUser">
-            {{else}}
-                <li style="clear: both" class="table-view-cell">
-            {{/if}}
-                <a class="push-right" href="#owner/{{owners.owner.id}}">
-                <div style="float:left">
-                    <span class="maintext">{{owner.nick_name}}</span><br />
-                    <span class="subtext">{{NoRuns}} run(s) in area</span>
-                </div>
-                <div style="float:right;margin-right:-20px">
-                    <div class="inner_circle">
-                        {{UserKm}} km
-                    </div>
-                </div>
-                </a>
-            </li>
-        {{/each}}-->
+    <div class="list">
+        {{#each .}}   
+        <div class="item item-divider">
+            {{areaname}}
+        </div>
+        <a class="item" href="#leaders/{{id}}">
+            <span class="list-item-title">{{name}} ({{TotalKm}} km)</span>
+        </a>
         {{/each}}
-    </ul>
+    </div>
 {{/if}}
 </div>
 

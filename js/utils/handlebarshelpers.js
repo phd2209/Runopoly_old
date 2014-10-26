@@ -1,4 +1,25 @@
-﻿// Formats time used - used by RunView
+﻿(function () {
+
+    var id = 0,
+        cache = [];
+    var ids = {};
+    Handlebars.registerHelper("groupData", function (run) {
+        var dataKey = id++;
+        ids[run.areaid] = true;
+        if (cache[run.areaid] == undefined)
+            cache[run.areaid] = { id: data.areaid, data: [run] };
+        else
+            cache[run.areaid].data.push(run);
+        if (dataKey == context.data.length - 1) {
+            context.cache = [];
+            for (var i in ids) {
+                context.cache.push(cache[i])
+            }
+        }
+    });
+})();
+
+// Formats time used - used by RunView
 Handlebars.registerHelper("formatTime", function (timestamp) {
     if (!timestamp) return "0:00:00";
     var d = new Date(timestamp);
@@ -15,6 +36,22 @@ Handlebars.registerHelper("formatTime", function (timestamp) {
     }
     return hours + ":" + minutes + ":" + seconds;   
 });
+Handlebars.registerHelper("prettifyDate", function (timestamp) {
+    return new Date(timestamp).toString('yyyy-MM-dd')
+});
+/*
+Handlebars.registerHelper("foreach", function (arr, options) {
+    if (options.inverse && !arr.length)
+        return options.inverse(this);
+
+    return arr.map(function (item, index) {
+        item.$index = index;
+        item.$first = index === 0;
+        item.$last = index === arr.length - 1;
+        return options.fn(item);
+    }).join('');
+});
+*/
 Handlebars.registerHelper("formatSeconds", function (seconds) {
     var hours = (seconds > 3600 ? Math.floor(seconds / 3600) : 0)
     seconds = seconds - hours * 3600;
